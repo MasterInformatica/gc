@@ -25,22 +25,23 @@ if __name__ == "__main__":
     #intervalo0 = [0, 2*math.pi]
     #intervalo1 = [0, 2*math.pi]
     #iii
-    x0, y0 = t,1/(2*t)
-    x1, y1 = sp.cosh(t),sp.sinh(t)
-    intervalo0 = [1/10,10]
-    intervalo1 = [0,1]
-
-
-
+    #x0, y0 = t,1/(2*t)
+    #x1, y1 = sp.cosh(t),sp.sinh(t)
+    #intervalo0 = [1/10,10]
+    #intervalo1 = [0,1]
+    #iv
+    x0, y0 = t,t**2
+    x1 = -(0.5)*sp.sqrt(3.0)*(sp.log(t)**2)+(0.5)*sp.log(t)+1
+    y1 = (0.5)*(sp.log(t)**2)+(0.5)*sp.sqrt(3.0)*sp.log(t)-1
+    intervalo0 = [-2,2]
+    intervalo1 = [1/10,10]
     # Porcentaje para calcular el numero de 0's
     porcentaje = 0.10
     # Numero de puntos a tomar en el intervalo
-    puntos_intervalo = 1000
+    puntos_intervalo = 150
     # eps: Error al comparar los puntos
     eps = 10**(-9)
-
-
-
+    
 # calcula la signatura de c(t)=(x(t), y(t)) en funcion de t
 # Devuelve el par ( K(s), dK/ds )
 def sig(x, y, t):
@@ -96,7 +97,7 @@ for i in range(puntos_intervalo):
 acierto = num_ceros/puntos_intervalo*100
 if acierto > 100:
     acierto = 100
-
+print acierto
 if num_ceros >= puntos_intervalo*porcentaje:
     print "Las dos curvas son equivalentes un",acierto,"%"
 else:
