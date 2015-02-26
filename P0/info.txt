@@ -1,0 +1,13 @@
+CORRECCIÓN:
+	En la práctica se decía que la condición inicial podía ser un punto
+	interior del intervalo y eso no lo tenéis en cuenta.
+	En la pregunta b) no justificáis la respuesta.
+	En la pregunta c), el ejemplo es innecesariamente complicado.
+
+	Saludos,
+	Antonio	
+---------------------------------------------------------------------------
+
+Lo cual significa que la práctica no está superada y no tenemos derecho a
+defenderla porque solo se puede defender lo que se ha entregado, no lo que
+se sabe.
