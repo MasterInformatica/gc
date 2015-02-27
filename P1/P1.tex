@@ -1,0 +1,41 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{enumitem}
+
+\title{Práctica 1. \\ Geometría computacional}
+\author{Luis María Costero Valero \\ Jesús Doménech Arellano \\ Jennifer Hernández Bécares}
+\date{Febrero 2015}
+
+\begin{document}
+
+\maketitle
+
+\begin{enumerate}
+\item Estúdiese si las siguientes curvas son equivalentes utilizando el algoritmo o de manera directa. 
+\begin{enumerate}
+\item $\gamma(t)=(t-1,t),I=(0,1)$ \\ $\bar{\gamma}(t)=(2t-5,3-t),\bar{I}=(-1,0)$ \\
+Ambas signaturas son (0,0), por tanto podemos asegurar (a mano y mediante el algoritmo) que las curvas son equivalentes.
+\item $\gamma(t)=(2\cos t,3\sin t),I=(0,2\pi)$ \\ $\bar{\gamma}(t)=(3\cos t,2\sin t),\bar{I}=(0,2\pi)$ \\
+El algoritmo nos devuelve que las curvas son equivalentes. 
+\item $\gamma(t)=(t,\frac{1}{2t}),I=(1/10, 10)$ \\ $\bar{\gamma}(t)=(\cosh t,\sinh t),\bar{I}=(0,1)$ \\
+\item $\gamma(t)=(t,t^{2}),I=(-2,2)$ \\
+REVISAR. Las curvas no son equivalentes en el intervalo dado. 
+$\bar{\gamma}(t)=(-\frac{1}{2}\sqrt{3}\log(t)^{2}+\frac{1}{2}\log(t)+1,\frac{1}{2}\log(t)^{2}+\frac{1}{2}\sqrt{3}\log(t)-1),\bar{I}=(1/10,10)$ \\
+REVISAR. Sale not a number
+\end{enumerate}
+
+\item Estúdiese si la signatura de una curva puede tener alguna de las siguientes gráficas, dando ejemplos o argumentando si no es posible:
+\begin{enumerate}[label=\roman*]
+\item Si tomamos la curva $\gamma(t)=(\cos t, \sin t)$ $I=(0,2\pi)$, la signatura toma el valor $(1,0)$, que tiene la forma que se pedía. Para cualquier otra circunferencia, también se toma la forma $($cte$,0)$.   
+\item segunda
+\item tercera
+\item cuarta
+\end{enumerate}
+
+\item ¿Qué sucede con la signatura de una curva si la curva es simétrica respecto de una recta?
+
+\item Si se invierte la orientación de recorrido de una curva, ¿qué ocurre con su signatura?
+\end{enumerate}
+
+\end{document}
