@@ -1,41 +1,138 @@
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
-\usepackage{enumitem}
+\documentclass[12pt,a4paper]{article}
 
-\title{Práctica 1. \\ Geometría computacional}
-\author{Luis María Costero Valero \\ Jesús Doménech Arellano \\ Jennifer Hernández Bécares}
+\usepackage[utf8]{inputenc} \usepackage[T1]{fontenc} \usepackage{graphicx}
+\usepackage{longtable} \usepackage{tabularx} \usepackage{float}
+\usepackage{wrapfig} \usepackage{soul} \usepackage{amssymb}
+\usepackage{hyperref} \usepackage{caption} \usepackage{subcaption}
+\usepackage{pdfpages} \usepackage{sidecap}
+
+
+\parindent 0in \usepackage[spanish]{babel}
+\setlength{\parskip}{0.5\baselineskip} \usepackage{fullpage}
+\usepackage{multirow} \usepackage{multicol} \usepackage{framed}
+\usepackage{listings} \usepackage{enumerate}
+
+\usepackage{appendix} \usepackage{setspace}
+
+
+%% DEFINICIONES
+\newcommand{\TODO}[1]{{\huge \color{red} \textbf{TODO: }#1 }}
+\newcommand{\todo}[1]{{\large \color{red} \textbf{TODO: }#1 }}
+
+
+\title{Práctica 1. \\ Geometría computacional} 
+
+\author{Luis María Costero Valero (lcostero@ucm.es)\\ Jesús Doménech
+  Arellano (jdomenec@ucm.es) \\ Jennifer Hernández Bécares (jennhern@ucm.es)}
 \date{Febrero 2015}
 
 \begin{document}
-
 \maketitle
+\onehalfspace
 
 \begin{enumerate}
-\item Estúdiese si las siguientes curvas son equivalentes utilizando el algoritmo o de manera directa. 
-\begin{enumerate}
-\item $\gamma(t)=(t-1,t),I=(0,1)$ \\ $\bar{\gamma}(t)=(2t-5,3-t),\bar{I}=(-1,0)$ \\
-Ambas signaturas son (0,0), por tanto podemos asegurar (a mano y mediante el algoritmo) que las curvas son equivalentes.
-\item $\gamma(t)=(2\cos t,3\sin t),I=(0,2\pi)$ \\ $\bar{\gamma}(t)=(3\cos t,2\sin t),\bar{I}=(0,2\pi)$ \\
-El algoritmo nos devuelve que las curvas son equivalentes. 
-\item $\gamma(t)=(t,\frac{1}{2t}),I=(1/10, 10)$ \\ $\bar{\gamma}(t)=(\cosh t,\sinh t),\bar{I}=(0,1)$ \\
-\item $\gamma(t)=(t,t^{2}),I=(-2,2)$ \\
-REVISAR. Las curvas no son equivalentes en el intervalo dado. 
-$\bar{\gamma}(t)=(-\frac{1}{2}\sqrt{3}\log(t)^{2}+\frac{1}{2}\log(t)+1,\frac{1}{2}\log(t)^{2}+\frac{1}{2}\sqrt{3}\log(t)-1),\bar{I}=(1/10,10)$ \\
-REVISAR. Sale not a number
+\item Estúdiese si las siguientes curvas son equivalentes utilizando el
+  algoritmo o de manera directa.
+  \begin{enumerate}
+  \item $\gamma(t)=(t-1,t),I=(0,1)$ \\
+    $\bar{\gamma}(t)=(2t-5,3-t),\bar{I}=(-1,0)$ \\ Ambas signaturas son
+    (0,0), por tanto podemos asegurar (a mano y mediante el algoritmo) que
+    las curvas son equivalentes.
+  \item $\gamma(t)=(2\cos t,3\sin t),I=(0,2\pi)$ \\
+    $\bar{\gamma}(t)=(3\cos t,2\sin t),\bar{I}=(0,2\pi)$ \\ El algoritmo
+    nos devuelve que las curvas son equivalentes.
+  \item $\gamma(t)=(t,\frac{1}{2t}),I=(1/10, 10)$ \\
+    $\bar{\gamma}(t)=(\cosh
+    t,\sinh t),\bar{I}=(0,1)$ \\
+  \item $\gamma(t)=(t,t^{2}),I=(-2,2)$ \\ REVISAR. Las curvas no son
+    equivalentes en el intervalo dado.
+    $\bar{\gamma}(t)=(-\frac{1}{2}\sqrt{3}\log(t)^{2}+\frac{1}{2}\log(t)+1,\frac{1}{2}\log(t)^{2}+\frac{1}{2}\sqrt{3}\log(t)-1),\bar{I}=(1/10,10)$
+    \\ REVISAR. Sale not a number
+  \end{enumerate}
+
+\item Estúdiese si la signatura de una curva puede tener alguna de las
+  siguientes gráficas, dando ejemplos o argumentando si no es posible:
+  \begin{enumerate}
+  \item[i.]\textbf{$sig(t)=(k_{0},0), k_{0}\in \mathbb{R}$ }. Consideramos
+    la curva $\gamma(t)=(\cos t, \sin t)$ $I=(0,2\pi)$, la signatura toma
+    el valor $(1,0)$, que tiene la forma que se pedía en el enunciado. Para
+    cualquier otra circunferencia, también se verifica que la signatura
+    toma la forma $($cte$,0)$.
+  \item[ii.]\textbf{$sig(t)=(k_{0}, k_{s}),\,\,
+      k_{0},k_{s}\in\mathbb{R},\,\, k_{s}\ne0$}.Vamos
+    a comprobar que no es posible este caso. Sea $\gamma(t)$ una curva con
+    curvatura $K=k_{0}$. Se tiene que
+    $\frac{dK}{ds} = \frac{dK}{dt} \frac{1}{||\gamma'||} =
+    \frac{dk_{0}}{dt} \frac{1}{||\gamma'||} = 0 * \frac{1}{||\gamma'||} =
+    0$. Luego $sig_{\gamma}(t) = (k_{0}, 0) \ne (k_{0}, k_{s})$.
+  \item[iii.]\textbf{$sig(t)=(f(t),f(t))$}. Sea $\gamma$ una curva
+    p.p.a. con signatura $sig_{\gamma}(t)=(f(t),f(t))$. Por la definición
+    de signatura se tiene $K_{\gamma}=f$ y $\frac{dK_{\gamma}}{ds}=f$. Por
+    estar parametrizada por la longitud del arco
+    $\frac{1}{||\gamma'||} = 1$, luego
+    $f = \frac{dK_{\gamma}}{ds} = \frac{dK_{\gamma}}{dt}
+    \frac{1}{||\gamma'||} = \frac{dK_{\gamma}}{dt} = \frac{df}{dt}$.
+    Resolviendo la ecuación $f=e^{t}=K_{\gamma}$, y por el teorema
+    fundamental de curvas se sabe que va a existir una curva regular con
+    esta curvatura, y por tanto con esta signatura.
+  \item[iv.]\textbf{$sig(t)=(k_{0}, f(t)),\,\, k_{0}\in\mathbb{R}$}. Sea
+    una curva $\gamma$ tal que su survatura es $K_{\gamma} = k_{0}$.
+    $\frac{dK_{\gamma}}{ds} = \frac{dK_{\gamma}}{dt} \frac{1}{||\gamma'||}
+    = \frac{dk_{0}}{dt} \frac{1}{||\gamma'||} = 0$.
+    Por lo que es imposible que exista una curva con signatura igual a la
+    del enunciado.
+  \end{enumerate}
+
+\item ¿Qué sucede con la signatura de una curva si la curva es simétrica
+  respecto de una recta? \\
+  ---------------------------------------------------------------------------\\
+  \todo{La idea de Jesús puede tener sentido. No hay que olvidar de poner
+    tanto la $\gamma$ como la curvatura y la diferencial en función de
+    (a+b-t) en vez de (t) para que se vayan anunlando signos por el
+    camino. Con eso creo que debería bastar para que salga simétrica
+    respecto al eje OY}
+  ---------------------------------------------------------------------------\\
+  Una curva cualquiera mantiene la signatura a por movimientos rigidos
+  directos (rotaiones y traslaciones), ouego se puede mover para que sea
+  simétrica respecto del eje X, es decir gamma(barra)=(g1,g2)=(g1, -g2).
+  Se calcula la signautra de gamma(barra) y sale lo que sea. Jesús dice que
+  sale de signo contrario.
+
+  %% 4
+\item Si se invierte la orientación de recorrido de una curva, ¿qué ocurre
+  con su signatura?\\
+  ---------------------------------------------------------------------------\\
+%  \todo{OJO, si se pone que $\bar{\gamma}(t) = \gamma(a+b-t)$ entonces creo
+%    que sale la segunda coordenada de la signatura igual. Probar a poner
+%    tanto la K, como la diferenciales en función de a+b-t, al derivar ese t
+%    anulará al signo contrario de la curvatura, y quedará la segunda
+%    cordenada igual.}
+  \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
+    para que queden bonitas. Igualmente hay algunos pasos de los que no
+    estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
+  ---------------------------------------------------------------------------
+  
+  Sea la curva $\gamma(t),\,\, t\in[a,b]\subset\mathbb{R}$, con curvatura
+  $$K_{\gamma}(t)=\frac{det(\gamma'(t), \gamma''(t))}{||\gamma(t)'||^{3}};\,\,\,\,
+  \frac{dK_{\gamma}(s)}{ds} = \frac{dK_{\gamma}(t)}{dt}
+  \frac{1}{||\gamma'(t)||} = K_{\gamma}'(t) * \frac{1}{||\gamma'||} $$
+  Consideramos la misma curva recorrida en sentido contrario definida por
+  $$\bar{\gamma}(t) = \gamma(b+a-t),\,\, t\in[a,b]\subset\mathbb{R}$$
+  Entonces $\bar{\gamma}'(t)=-\gamma'(a+b-t)$ y
+  $\bar{\gamma}''(t) = \gamma''(a+b-t)$.\\ Por la definición de curvatura,
+  $K_{\bar{\gamma}}(t) = \frac{det(\bar{\gamma}'(t),
+    \bar{\gamma}''(t))}{||\gamma'(t)||^{3}} = \frac{det(-\gamma'(a+b-t),
+    \gamma''(a+b-t))}{||\gamma'(a+b-t)||^{3}} = \frac{- det(\gamma'(a+b-t),
+    \gamma''(a+b-t))}{||\gamma'(a+b-t)||^{3}} = -K_{\gamma}(a+b-t)$.\\
+  Además,
+  $\frac{dK_{\bar{\gamma}}(s)}{ds} = \frac{dK_{\bar{\gamma}}(t)}{dt}
+  \frac{1}{||\bar{\gamma}'(t)||} = \frac{d(-K_{\gamma}(a+b-t))}{dt}
+  \frac{1}{||\gamma'(a+b-t)||} = -\frac{dK_{\gamma}(a+b-t)}{dt}
+  \frac{1}{||\gamma(a+b-t)'||} = K_{\gamma}'(b+a-t) *
+  \frac{1}{||\gamma(a+b-t)'||}$.\\
+
+  Luego las signaturas verifican que $sig_{\bar{\gamma}}(I) = (K_{\bar{\gamma}}(I),
+  \frac{dK_{\bar{\gamma}}(I)}{ds}) = (- K_{\gamma}(I),
+  \frac{dK_{\gamma}(I)}{ds})$ \\
 \end{enumerate}
-
-\item Estúdiese si la signatura de una curva puede tener alguna de las siguientes gráficas, dando ejemplos o argumentando si no es posible:
-\begin{enumerate}[label=\roman*]
-\item Si tomamos la curva $\gamma(t)=(\cos t, \sin t)$ $I=(0,2\pi)$, la signatura toma el valor $(1,0)$, que tiene la forma que se pedía. Para cualquier otra circunferencia, también se toma la forma $($cte$,0)$.   
-\item segunda
-\item tercera
-\item cuarta
-\end{enumerate}
-
-\item ¿Qué sucede con la signatura de una curva si la curva es simétrica respecto de una recta?
-
-\item Si se invierte la orientación de recorrido de una curva, ¿qué ocurre con su signatura?
-\end{enumerate}
-
 \end{document}
