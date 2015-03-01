@@ -37,17 +37,33 @@
   \item $\gamma(t)=(t-1,t),I=(0,1)$ \\
     $\bar{\gamma}(t)=(2t-5,3-t),\bar{I}=(-1,0)$ \\ Ambas signaturas son
     (0,0), por tanto podemos asegurar (a mano y mediante el algoritmo) que
-    las curvas son equivalentes.
+    las curvas son equivalentes. \\
   \item $\gamma(t)=(2\cos t,3\sin t),I=(0,2\pi)$ \\
-    $\bar{\gamma}(t)=(3\cos t,2\sin t),\bar{I}=(0,2\pi)$ \\ El algoritmo
-    nos devuelve que las curvas son equivalentes.
+    $\bar{\gamma}(t)=(3\cos t,2\sin t),\bar{I}=(0,2\pi)$ \\ 
+    Se trata de dos elipses una sobre el eje $x$ y la otra sobre el
+    eje $y$.\\
+    Al ejecutar el programa obtenemos que las curvas son
+    equivalentes, tal y como esperábamos. 
   \item $\gamma(t)=(t,\frac{1}{2t}),I=(1/10, 10)$ \\
-    $\bar{\gamma}(t)=(\cosh
-    t,\sinh t),\bar{I}=(0,1)$ \\
-  \item $\gamma(t)=(t,t^{2}),I=(-2,2)$ \\ REVISAR. Las curvas no son
-    equivalentes en el intervalo dado.
+    $\bar{\gamma}(t)=(\cosh t,\sinh t),\bar{I}=(0,1)$ \\
+    Aplicando el algoritmo obtenemos las siguientes signaturas:\\
+    $sig_{\gamma}(t)) = (\frac{8}{t^{3}(4 + t^{-4})^{\frac{3}{2}}},
+    \frac{t^{4}(-192t^{4} + 48)}{(4t^{4} + 1)^{3}})$ \\
+    $sig_{\bar{\gamma}}(t) = (\frac{-1}{(\cosh
+      2t)^{\frac{3}{2}}},\frac{12\sinh 2t}{3\cosh 2t + \cosh 6t})$ \\
+    Cuyas imágenes no coinciden en los intervalos $I$ e $\bar{I}$. Tal
+    y como indica el programa.
+  \item $\gamma(t)=(t,t^{2}),I=(-2,2)$ 
     $\bar{\gamma}(t)=(-\frac{1}{2}\sqrt{3}\log(t)^{2}+\frac{1}{2}\log(t)+1,\frac{1}{2}\log(t)^{2}+\frac{1}{2}\sqrt{3}\log(t)-1),\bar{I}=(1/10,10)$
-    \\ REVISAR. Sale not a number
+    \\Igual que en el apartado anterior, aplicando el algoritmo
+    obtenemos las siguientes signaturas:\\
+    \\$sig_{\gamma}(t) = (\frac{2}{(4t^{2} + 1)^{\frac{3}{2}}},
+    \frac{-24t}{(4t^{2} + 1)^3})$
+\\$sig_{\bar{\gamma}}(t) = (\frac{2}{t(\frac{4\log^2 t +
+    1}{t^2})^{\frac{1}{2}}(4\log^2 t + 1)}, \frac{-96\log t}{256\log^6
+  t + 192\log^4 t + 48\log^2 t + 4})$
+\\Cuyas imágenes no coinciden en los intervalos $I$ e $\bar{I}$. Tal
+    y como indica el programa.
   \end{enumerate}
 
 \item Estúdiese si la signatura de una curva puede tener alguna de las
