@@ -12,7 +12,7 @@
 \usepackage{multirow} \usepackage{multicol} \usepackage{framed}
 \usepackage{listings} \usepackage{enumerate}
 
-\usepackage{appendix} \usepackage{setspace}
+\usepackage{appendix} \usepackage{setspace} \usepackage{amsmath}
 
 
 %% DEFINICIONES
@@ -101,19 +101,69 @@
 
 \item ¿Qué sucede con la signatura de una curva si la curva es simétrica
   respecto de una recta? \\
+  % ---------------------------------------------------------------------------\\
+  % \todo{La idea de Jesús puede tener sentido. No hay que olvidar de poner
+  %   tanto la $\gamma$ como la curvatura y la diferencial en función de
+  %   (a+b-t) en vez de (t) para que se vayan anunlando signos por el
+  %   camino. Con eso creo que debería bastar para que salga simétrica
+  %   respecto al eje OX}
+  % ---------------------------------------------------------------------------\\
+  % Una curva cualquiera mantiene la signatura a por movimientos rigidos
+  % directos (rotaiones y traslaciones), ouego se puede mover para que sea
+  % simétrica respecto del eje X, es decir gamma(barra)=(g1,g2)=(g1, -g2).
+  % Se calcula la signautra de gamma(barra) y sale lo que sea. Jesús dice que
+  % sale de signo contrario.\\
+  % ---------------------------------------------------------------------------\\
   ---------------------------------------------------------------------------\\
-  \todo{La idea de Jesús puede tener sentido. No hay que olvidar de poner
-    tanto la $\gamma$ como la curvatura y la diferencial en función de
-    (a+b-t) en vez de (t) para que se vayan anunlando signos por el
-    camino. Con eso creo que debería bastar para que salga simétrica
-    respecto al eje OY}
+  \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
+    para que queden bonitas. Igualmente hay algunos pasos de los que no
+    estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
   ---------------------------------------------------------------------------\\
-  Una curva cualquiera mantiene la signatura a por movimientos rigidos
-  directos (rotaiones y traslaciones), ouego se puede mover para que sea
-  simétrica respecto del eje X, es decir gamma(barra)=(g1,g2)=(g1, -g2).
-  Se calcula la signautra de gamma(barra) y sale lo que sea. Jesús dice que
-  sale de signo contrario.
+  Sea una curva cualquiera simétrica respecto a una recta. Mediante
+  movimientos rígidos directos se puede transformar en una curva
+  $\gamma(t),\,\, t\in[a,b]\subset\mathbb{R}$, simétrica respecto al eje
+  OX. Puesto que la curva se ha transformado mediante movimientos rígidos,
+  la imagen de la signatura de la curva orignal coincidirá con la imagen de
+  la signatura de $\gamma(t)$.
 
+  Por ser $\gamma(t)$ simétrica respecto al eje OX, se puede escribir como
+  sigue:
+  $$\gamma(t)=\left\{
+    \begin{array}{ll}
+      \bar{\gamma}(t)=(\gamma_{1}(t), \gamma_{2}(t)) & \mbox{si } t\in[a, \frac{a+b}{2}] \\
+      \hat{\gamma}(t)=(\gamma_{1}(a+b-t), -\gamma_{2}(a+b-t)) & \mbox{si }
+                                                                t\in[
+                                                                \frac{a+b}{2},
+                                                                b]\\
+    \end{array}
+  \right.$$
+  y además, se tiene que $img(sig_{\gamma}) = img(sig_{\bar{\gamma}}) \cup
+  img(sig_{\hat{\gamma}})$.\\
+
+  $K_{\hat{\gamma}}(t) = \frac{det(\hat{\gamma}'(t),
+    \hat{\gamma}''(t))}{||\hat{\gamma}'(t)||^{3}} = 
+  \begin{vmatrix}
+    -\gamma_{1}'(a+b-t) & \gamma_{1}''(a+b-t) \\
+    \gamma_{2}'(a+b-t) & -\gamma_{2}''(a+b-t) 
+  \end{vmatrix} * \frac{1}{||\gamma'(a+b-t)||^{3}} =\\ =K_{\gamma}(a+b-t).$
+
+  Además, $\frac{dK_{\hat{\gamma}}(s)}{ds} =
+  \frac{dK_{\hat{\gamma}}(t)}{dt} \frac{1}{||\hat{\gamma}'(t)||} =
+  \frac{dK_{\gamma}(a+b-t)}{dt} \frac{1}{||\gamma'(a+b-t)||} = -
+  \frac{dK_\gamma(s)}{ds}$\\
+
+  Por lo que resulta que\\
+  $sig_{\gamma}([a,b]) = sig_{\gamma}([a,
+  \frac{a+b}{2}]) \cup sig_{\hat{\gamma}}([\frac{a+b}{2}, b]) = \\=
+  (K_{\gamma}(t), \frac{dK_{\gamma}(s)}{ds})|_{t\in[a, \frac{a+b}{2}]} \cup
+  (K_{\gamma}(a+b-t), - \frac{dK_{\gamma}(s)}{ds})|_{t\in[\frac{a+b}{2},
+    b]} =\\= (K_{\gamma}(t), \frac{dK_{\gamma}(s)}{ds}) \cup
+  (K_{\gamma}(t), - \frac{dK_{\gamma}(s)}{ds}), t\in[a, \frac{a+b}{2}]$
+  
+  Luego la signatura es simétrica respecto al eje OX.\\
+
+
+  
   %% 4
 \item Si se invierte la orientación de recorrido de una curva, ¿qué ocurre
   con su signatura?\\
@@ -149,6 +199,7 @@
 
   Luego las signaturas verifican que $sig_{\bar{\gamma}}(I) = (K_{\bar{\gamma}}(I),
   \frac{dK_{\bar{\gamma}}(I)}{ds}) = (- K_{\gamma}(I),
-  \frac{dK_{\gamma}(I)}{ds})$ \\
+  \frac{dK_{\gamma}(I)}{ds})$, es decir, son simétricas respecto
+  al eje OY.
 \end{enumerate}
 \end{document}
