@@ -28,7 +28,7 @@
 
 \begin{document}
 \maketitle
-\onehalfspace
+\doublespace
 
 \begin{enumerate}
 \item Estúdiese si las siguientes curvas son equivalentes utilizando el
@@ -47,21 +47,21 @@
   \item $\gamma(t)=(t,\frac{1}{2t}),I=(1/10, 10)$ \\
     $\bar{\gamma}(t)=(\cosh t,\sinh t),\bar{I}=(0,1)$ \\
     Aplicando el algoritmo obtenemos las siguientes signaturas:\\
-    $sig_{\gamma}(t)) = (\frac{8}{t^{3}(4 + t^{-4})^{\frac{3}{2}}},
-    \frac{t^{4}(-192t^{4} + 48)}{(4t^{4} + 1)^{3}})$ \\
-    $sig_{\bar{\gamma}}(t) = (\frac{-1}{(\cosh
-      2t)^{\frac{3}{2}}},\frac{12\sinh 2t}{3\cosh 2t + \cosh 6t})$ \\
+    $sig_{\gamma}(t)) = \left(\frac{8}{t^{3}(4 + t^{-4})^{\frac{3}{2}}},
+    \frac{t^{4}(-192t^{4} + 48)}{(4t^{4} + 1)^{3}}\right)$ \\
+    $sig_{\bar{\gamma}}(t) = \left(\frac{-1}{(\cosh
+      2t)^{\frac{3}{2}}},\frac{12\sinh 2t}{3\cosh 2t + \cosh 6t}\right)$ \\
     Cuyas imágenes no coinciden en los intervalos $I$ e $\bar{I}$. Tal
     y como indica el programa.
   \item $\gamma(t)=(t,t^{2}),I=(-2,2)$ 
     $\bar{\gamma}(t)=(-\frac{1}{2}\sqrt{3}\log(t)^{2}+\frac{1}{2}\log(t)+1,\frac{1}{2}\log(t)^{2}+\frac{1}{2}\sqrt{3}\log(t)-1),\bar{I}=(1/10,10)$
     \\Igual que en el apartado anterior, aplicando el algoritmo
     obtenemos las siguientes signaturas:\\
-    \\$sig_{\gamma}(t) = (\frac{2}{(4t^{2} + 1)^{\frac{3}{2}}},
-    \frac{-24t}{(4t^{2} + 1)^3})$
-\\$sig_{\bar{\gamma}}(t) = (\frac{2}{t(\frac{4\log^2 t +
+    \\$sig_{\gamma}(t) = \left(\frac{2}{(4t^{2} + 1)^{\frac{3}{2}}},
+    \frac{-24t}{(4t^{2} + 1)^3}\right)$
+    \\$sig_{\bar{\gamma}}(t) = \left(\frac{2}{t(\frac{4\log^2 t +
     1}{t^2})^{\frac{1}{2}}(4\log^2 t + 1)}, \frac{-96\log t}{256\log^6
-  t + 192\log^4 t + 48\log^2 t + 4})$
+  t + 192\log^4 t + 48\log^2 t + 4}\right)$
 \\Cuyas imágenes no coinciden en los intervalos $I$ e $\bar{I}$. Tal
     y como indica el programa.
   \end{enumerate}
@@ -114,20 +114,16 @@
   % Se calcula la signautra de gamma(barra) y sale lo que sea. Jesús dice que
   % sale de signo contrario.\\
   % ---------------------------------------------------------------------------\\
-  ---------------------------------------------------------------------------\\
-  \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
-    para que queden bonitas. Igualmente hay algunos pasos de los que no
-    estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
-  ---------------------------------------------------------------------------\\
-  Sea una curva cualquiera simétrica respecto a una recta. Mediante
-  movimientos rígidos directos se puede transformar en una curva
-  $\gamma(t),\,\, t\in[a,b]\subset\mathbb{R}$, simétrica respecto al eje
-  OX. Puesto que la curva se ha transformado mediante movimientos rígidos,
-  la imagen de la signatura de la curva orignal coincidirá con la imagen de
-  la signatura de $\gamma(t)$.
+  % ---------------------------------------------------------------------------\\
+  % \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
+  %   para que queden bonitas. Igualmente hay algunos pasos de los que no
+  %   estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
+  % ---------------------------------------------------------------------------\\
+  Sea una curva cualquiera simétrica respecto a una recta. La curva se
+  puede transformar en una curva
+  $\gamma(t),\,\, t\in[a,b]\subset\mathbb{R}$, simétrica respecto al eje OX
+  tal que verifica:
 
-  Por ser $\gamma(t)$ simétrica respecto al eje OX, se puede escribir como
-  sigue:
   $$\gamma(t)=\left\{
     \begin{array}{ll}
       \bar{\gamma}(t)=(\gamma_{1}(t), \gamma_{2}(t)) & \mbox{si } t\in[a, \frac{a+b}{2}] \\
@@ -137,20 +133,25 @@
                                                                 b]\\
     \end{array}
   \right.$$
-  y además, se tiene que $img(sig_{\gamma}) = img(sig_{\bar{\gamma}}) \cup
-  img(sig_{\hat{\gamma}})$.\\
+
+  Puesto que la curva se ha transformado mediante movimientos rígidos
+  directos, la imagen de la signatura de la curva orignal coincidirá con la
+  imagen de la signatura de $\gamma(t)$, y además, se tiene que
+  $img(sig_{\gamma}) = img(sig_{\bar{\gamma}}) \cup
+  img(sig_{\hat{\gamma}})$.
 
   $K_{\hat{\gamma}}(t) = \frac{det(\hat{\gamma}'(t),
     \hat{\gamma}''(t))}{||\hat{\gamma}'(t)||^{3}} = 
   \begin{vmatrix}
     -\gamma_{1}'(a+b-t) & \gamma_{1}''(a+b-t) \\
     \gamma_{2}'(a+b-t) & -\gamma_{2}''(a+b-t) 
-  \end{vmatrix} * \frac{1}{||\gamma'(a+b-t)||^{3}} =\\ =K_{\gamma}(a+b-t).$
+  \end{vmatrix} \frac{1}{||\gamma'(a+b-t)||^{3}} =K_{\gamma}(a+b-t).$
 
-  Además, $\frac{dK_{\hat{\gamma}}(s)}{ds} =
+  Por otro lado, tenemos que:\\
+  $$\frac{dK_{\hat{\gamma}}(s)}{ds} =
   \frac{dK_{\hat{\gamma}}(t)}{dt} \frac{1}{||\hat{\gamma}'(t)||} =
   \frac{dK_{\gamma}(a+b-t)}{dt} \frac{1}{||\gamma'(a+b-t)||} = -
-  \frac{dK_\gamma(s)}{ds}$\\
+  \frac{dK_\gamma(s)}{ds}$$
 
   Por lo que resulta que\\
   $sig_{\gamma}([a,b]) = sig_{\gamma}([a,
@@ -163,21 +164,20 @@
   Luego la signatura es simétrica respecto al eje OX.\\
 
 
-  
+  \newpage{}
   %% 4
 \item Si se invierte la orientación de recorrido de una curva, ¿qué ocurre
   con su signatura?\\
-  ---------------------------------------------------------------------------\\
-%  \todo{OJO, si se pone que $\bar{\gamma}(t) = \gamma(a+b-t)$ entonces creo
-%    que sale la segunda coordenada de la signatura igual. Probar a poner
-%    tanto la K, como la diferenciales en función de a+b-t, al derivar ese t
-%    anulará al signo contrario de la curvatura, y quedará la segunda
-%    cordenada igual.}
-  \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
-    para que queden bonitas. Igualmente hay algunos pasos de los que no
-    estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
-  ---------------------------------------------------------------------------
-  
+%   ---------------------------------------------------------------------------\\
+% %  \todo{OJO, si se pone que $\bar{\gamma}(t) = \gamma(a+b-t)$ entonces creo
+% %    que sale la segunda coordenada de la signatura igual. Probar a poner
+% %    tanto la K, como la diferenciales en función de a+b-t, al derivar ese t
+% %    anulará al signo contrario de la curvatura, y quedará la segunda
+% %    cordenada igual.}
+%   \todo{REVISAR: El formato es un poco feo, habría que colocar las cosas
+%     para que queden bonitas. Igualmente hay algunos pasos de los que no
+%     estoy del todo convencido, habría que revisar estos. \tiny --- Luisma ---}\\
+%   ---------------------------------------------------------------------------
   Sea la curva $\gamma(t),\,\, t\in[a,b]\subset\mathbb{R}$, con curvatura
   $$K_{\gamma}(t)=\frac{det(\gamma'(t), \gamma''(t))}{||\gamma(t)'||^{3}};\,\,\,\,
   \frac{dK_{\gamma}(s)}{ds} = \frac{dK_{\gamma}(t)}{dt}
@@ -185,15 +185,15 @@
   Consideramos la misma curva recorrida en sentido contrario definida por
   $$\bar{\gamma}(t) = \gamma(b+a-t),\,\, t\in[a,b]\subset\mathbb{R}$$
   Entonces $\bar{\gamma}'(t)=-\gamma'(a+b-t)$ y
-  $\bar{\gamma}''(t) = \gamma''(a+b-t)$.\\ Por la definición de curvatura,
+  $\bar{\gamma}''(t) = \gamma''(a+b-t)$.\\ Por la definición de curvatura\\
   $K_{\bar{\gamma}}(t) = \frac{det(\bar{\gamma}'(t),
     \bar{\gamma}''(t))}{||\gamma'(t)||^{3}} = \frac{det(-\gamma'(a+b-t),
-    \gamma''(a+b-t))}{||\gamma'(a+b-t)||^{3}} = \frac{- det(\gamma'(a+b-t),
+    \gamma''(a+b-t))}{||\gamma'(a+b-t)||^{3}} =\\= \frac{- det(\gamma'(a+b-t),
     \gamma''(a+b-t))}{||\gamma'(a+b-t)||^{3}} = -K_{\gamma}(a+b-t)$.\\
-  Además,
+  Además,\\
   $\frac{dK_{\bar{\gamma}}(s)}{ds} = \frac{dK_{\bar{\gamma}}(t)}{dt}
   \frac{1}{||\bar{\gamma}'(t)||} = \frac{d(-K_{\gamma}(a+b-t))}{dt}
-  \frac{1}{||\gamma'(a+b-t)||} = -\frac{dK_{\gamma}(a+b-t)}{dt}
+  \frac{1}{||\gamma'(a+b-t)||} = \\=-\frac{dK_{\gamma}(a+b-t)}{dt}
   \frac{1}{||\gamma(a+b-t)'||} = K_{\gamma}'(b+a-t) *
   \frac{1}{||\gamma(a+b-t)'||}$.\\
 
