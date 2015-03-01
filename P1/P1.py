@@ -14,31 +14,36 @@ t = sp.symbols('t')
 if __name__ == "__main__":
     #curvas: 
     #  Gamma=c(t)=(x(t), y(t))
-    #i
-    #x0, y0 = t-1,t
-    #x1, y1 = 2*t-5,3-t
-    #intervalo0 = [0, 1]
-    #intervalo1 = [-1, 0]
-    #ii
+    
+    #a
+    x0, y0 = t-1,t
+    x1, y1 = 2*t-5,3-t
+    intervalo0 = [0, 1]
+    intervalo1 = [-1, 0]
+    
+    #b
     #x0, y0 = 2*sp.cos(t), 3*sp.sin(t)
     #x1, y1 = 3*sp.cos(t), 2*sp.sin(t)
     #intervalo0 = [0, 2*math.pi]
     #intervalo1 = [0, 2*math.pi]
-    #iii
+    
+    #c
     #x0, y0 = t,1/(2*t)
     #x1, y1 = sp.cosh(t),sp.sinh(t)
     #intervalo0 = [1/10,10]
     #intervalo1 = [0,1]
-    #iv
-    x0, y0 = t,t**2
-    x1 = -(0.5)*sp.sqrt(3.0)*(sp.log(t)**2)+(0.5)*sp.log(t)+1
-    y1 = (0.5)*(sp.log(t)**2)+(0.5)*sp.sqrt(3.0)*sp.log(t)-1
-    intervalo0 = [-2,2]
-    intervalo1 = [1/10,10]
+    
+    #d
+    #x0, y0 = t,t**2
+    #x1 = -(0.5)*sp.sqrt(3.0)*(sp.log(t)**2)+(0.5)*sp.log(t)+1
+    #y1 = (0.5)*(sp.log(t)**2)+(0.5)*sp.sqrt(3.0)*sp.log(t)-1
+    #intervalo0 = [-2,2]
+    #intervalo1 = [1/10,10]
+    
     # Porcentaje para calcular el numero de 0's
     porcentaje = 0.10
     # Numero de puntos a tomar en el intervalo
-    puntos_intervalo = 150
+    puntos_intervalo = 100
     # eps: Error al comparar los puntos
     eps = 10**(-9)
     
@@ -50,23 +55,25 @@ def sig(x, y, t):
     dy = sp.diff(y,t)
 
     #segundas derivadas
-    d2x = sp.diff(dx, t)
-    d2y = sp.diff(dy, t)
+    d2x = sp.diff(dx, t).simplify()
+    d2y = sp.diff(dy, t).simplify()
 
     determinante = (dx * d2y) - (dy * d2x)
     norma = sp.sqrt(dx**2 + dy**2)
 
     K = determinante / norma**3
+    K = K.simplify()
     dKdt = sp.diff(K, t)
     dKds = (1 / norma) * dKdt
+    dKds = dKds.simplify()
 
-    return (K.simplify(), dKds.simplify())
+    return (K, dKds)
 
 #obtenemos las signaturas y las convertimos a numpy
 sig0 = sig(x0, y0, t)
 sig1 = sig(x1, y1, t)
-print sig0
-print sig1
+print "sig0(t) =",sig0
+print "sig1(t) =",sig1
 #plot_parametric(sig0, (t,intervalo0[0],intervalo0[1]))
 #plot_parametric(sig1, (t,intervalo1[0],intervalo1[1]))
 
@@ -76,7 +83,7 @@ num_sig1 = lambdify(t, sig1, [{'ImmutableMatrix': np.array}, 'numpy'])
 #puntos a evaluar
 paso0 = math.fabs((intervalo0[1] - intervalo0[0]) )/ puntos_intervalo
 paso1 = math.fabs((intervalo1[1] - intervalo1[0]) )/ puntos_intervalo
-print paso0,paso1
+
 puntos0 = np.arange(intervalo0[0], intervalo0[1]+paso0, paso0)
 puntos1 = np.arange(intervalo1[0], intervalo1[1]+paso1, paso1)
 
@@ -97,7 +104,7 @@ for i in range(puntos_intervalo):
 acierto = num_ceros/puntos_intervalo*100
 if acierto > 100:
     acierto = 100
-print acierto
+
 if num_ceros >= puntos_intervalo*porcentaje:
     print "Las dos curvas son equivalentes un",acierto,"%"
 else:
