@@ -16,10 +16,10 @@ if __name__ == "__main__":
     #  Gamma=c(t)=(x(t), y(t))
     
     #a
-    x0, y0 = t-1,t
-    x1, y1 = 2*t-5,3-t
-    intervalo0 = [0, 1]
-    intervalo1 = [-1, 0]
+    #x0, y0 = t-1,t
+    #x1, y1 = 2*t-5,3-t
+    #intervalo0 = [0, 1]
+    #intervalo1 = [-1, 0]
     
     #b
     #x0, y0 = 2*sp.cos(t), 3*sp.sin(t)
@@ -34,18 +34,18 @@ if __name__ == "__main__":
     #intervalo1 = [0,1]
     
     #d
-    #x0, y0 = t,t**2
-    #x1 = -(0.5)*sp.sqrt(3.0)*(sp.log(t)**2)+(0.5)*sp.log(t)+1
-    #y1 = (0.5)*(sp.log(t)**2)+(0.5)*sp.sqrt(3.0)*sp.log(t)-1
-    #intervalo0 = [-2,2]
-    #intervalo1 = [1/10,10]
+    x0, y0 = t,t**2
+    x1 = -(0.5)*sp.sqrt(3.0)*(sp.log(t)**2)+(0.5)*sp.log(t)+1
+    y1 = (0.5)*(sp.log(t)**2)+(0.5)*sp.sqrt(3.0)*sp.log(t)-1
+    intervalo0 = [-2,2]
+    intervalo1 = [0.1,10]
     
     # Porcentaje para calcular el numero de 0's
     porcentaje = 0.10
     # Numero de puntos a tomar en el intervalo
     puntos_intervalo = 100
     # eps: Error al comparar los puntos
-    eps = 10**(-9)
+    eps = 0.001
     
 # calcula la signatura de c(t)=(x(t), y(t)) en funcion de t
 # Devuelve el par ( K(s), dK/ds )
@@ -80,11 +80,13 @@ print "sig1(t) =",sig1
 num_sig0 = lambdify(t, sig0, [{'ImmutableMatrix': np.array}, 'numpy'])
 num_sig1 = lambdify(t, sig1, [{'ImmutableMatrix': np.array}, 'numpy'])
 
+
 #puntos a evaluar
 paso0 = math.fabs((intervalo0[1] - intervalo0[0]) )/ puntos_intervalo
 paso1 = math.fabs((intervalo1[1] - intervalo1[0]) )/ puntos_intervalo
 
 puntos0 = np.arange(intervalo0[0], intervalo0[1]+paso0, paso0)
+
 puntos1 = np.arange(intervalo1[0], intervalo1[1]+paso1, paso1)
 
 evaluacion0=[]; evaluacion1=[];
@@ -94,18 +96,22 @@ for i in range(puntos_intervalo):
     evaluacion1.append(num_sig1(puntos1[i]))
 
 distancias = cdist(evaluacion0, evaluacion1, 'euclidean')
-
-num_ceros = 0
+num_ceros = (distancias < eps).sum()
 for i in range(puntos_intervalo):
     for j in range(i,puntos_intervalo):
-        if math.fabs(distancias[i][j]) <= eps:
-            num_ceros += 1
-     
-acierto = num_ceros/puntos_intervalo*100
+        print distancias[j][i],eps
+        if distancias[j][i] < eps:
+            num_ceros = num_ceros +1
+print "h"
+print distancias[0][0]
+print distancias[4][2],distancias[2][4]
+acierto = num_ceros*1.0/puntos_intervalo*100
+print num_ceros
+print acierto     
 if acierto > 100:
     acierto = 100
 
-if num_ceros >= puntos_intervalo*porcentaje:
+if num_ceros >= puntos_intervalo*porcentaje*1.0:
     print "Las dos curvas son equivalentes un",acierto,"%"
 else:
     print "Las dos curvas NO son equivalentes"
