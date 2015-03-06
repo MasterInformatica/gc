@@ -16,18 +16,19 @@ import matplotlib.pyplot as plt
 
 from mayavi import mlab
 ddU = lambda (u,v,du,dv): 0
+
 def rhs_eqs(Y, _):
     global ddU
     u,v,du,dv = Y
     return [du,dv,ddU(u,v,du,dv)[0][0], ddU(u,v,du,dv)[0][1]]
 
-def plot_geodesic(E,F,G,init_cond,u_limits,v_limits,t_limits):
+# calcula y dibuja una geodesica con init_cond
+def plot_geodesic(E,F,G,init_cond,u_limits,v_limits,t_limits): 
     global ddU
-    I = sp.Matrix([[E, F], [F, G]])
     delta = 0.005
-    interval = np.arange(t[0], t[1]+delta, delta)
-    #fin de la entrada
+    interval = np.arange(t_limits[0], t_limits[1]+delta, delta)
 
+    I = sp.Matrix([[E, F], [F, G]])
     dIu = I.diff(u)
     dIv = I.diff(v)
 
@@ -48,7 +49,18 @@ def plot_geodesic(E,F,G,init_cond,u_limits,v_limits,t_limits):
 
     return solu
 
+def calculaff(X): #Calcula primera forma fundamental
+    #    u,v = sp.symbols('u v')
+    dXu = X.diff(u)
+    dXv = X.diff(v)
+    E = dXu.dot(dXu)
+    F = dXu.dot(dXv)
+    G = dXv.dot(dXv)
 
+    return E,F,G
+
+def plot_surface(X,solu):
+    return
 
 if __name__ == '__main__':
     u,v,du,dv = sp.symbols('u v du dv') 
@@ -57,6 +69,14 @@ if __name__ == '__main__':
     #  Caso (a). Entrada x(u,v), intervalo_u, intervalo_v
     ##########################################
     caso = 0
+    r, a = 2.0, 5.0
+
+    x = (r*sp.cos(u)+a)*sp.cos(v)
+    y = (r*sp.cos(u)+a)*sp.sin(v)
+    z = r*sp.sin(u)
+
+    # X(u,v) = (x(u,v),y(u,v),z(u,v))
+    X = sp.Matrix([x,y,z])
 
     u_limits = [0,2.0*np.pi]
     v_limits = [0,2.0*np.pi]
@@ -66,19 +86,19 @@ if __name__ == '__main__':
     du0, dv0 = 1.0, 1.0
     init_cond = [u0, v0, du0, dv0]
 
-    E,F,G = calculoff()
+    E,F,G = calculaff(X)
     
     # Fin entrada caso (a)
 
     ########################################## 
     #  Caso (b). Entrada I, u0, v0, du0, dv0 #
     ##########################################
-    caso = 1
+    #caso = 1
 
-    r, a = 2.0, 5.0 #radios del toro
-    E = r**2
-    F = 0.0
-    G = (r*sp.cos(u)+a)**2
+    #r, a = 2.0, 5.0 #radios del toro
+    #E = r**2
+    #F = 0.0
+    #G = (r*sp.cos(u)+a)**2
 
     u_limits = [0,2.0*np.pi]
     v_limits = [0,2.0*np.pi]
@@ -101,8 +121,8 @@ if __name__ == '__main__':
         plot_surface(X,solu)
 
 
- 
-    # X = lambdify((u,v), ((r*sp.cos(u)+a)*sp.cos(v), (r*sp.cos(u)+a)*sp.sin(v), r*sp.sin(u)),[{'ImmutableMatrix': np.array}, 'numpy'])
+    
+
 
     # x_coord =[]
     # y_coord =[]

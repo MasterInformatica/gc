@@ -99,12 +99,12 @@ distancias = cdist(evaluacion0, evaluacion1, 'euclidean')
 num_ceros = (distancias < eps).sum()
 for i in range(puntos_intervalo):
     for j in range(i,puntos_intervalo):
-        print distancias[j][i],eps
         if distancias[j][i] < eps:
             num_ceros = num_ceros +1
 print "h"
 print distancias[0][0]
 print distancias[4][2],distancias[2][4]
+print distancias.size
 acierto = num_ceros*1.0/puntos_intervalo*100
 print num_ceros
 print acierto     
