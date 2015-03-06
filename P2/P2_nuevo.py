@@ -28,21 +28,21 @@ if __name__ == '__main__':
     ## Caso (b). Entrada I, u0, v0, du0, dv0
     r, a = 2.0, 5.0 #radios del toro
     
-    #    E = r**2
-    #    F = 0.0
-    #    G = (r*sp.cos(u)+a)**2
+    E = r**2
+    F = 0.0
+    G = (r*sp.cos(u)+a)**2
 
-    E=1.0/v**2
-    G=1.0/v**2
-    F=0
+    #E=1.0/v**2
+    #G=1.0/v**2
+    #F=0
     I = sp.Matrix([[E, F], [F, G]])
     
-    u0, v0 = 0.1, 1
-    du0, dv0 = 1.0, 1.0
+    u0, v0 = np.pi, 0.0
+    du0, dv0 = 0.0, 1.0
     init_cond = [u0, v0, du0, dv0]
 
-    t = [0, 15*np.pi]
-    delta = 0.1
+    t = [0, 50*np.pi]
+    delta = 0.05
     interval = np.arange(t[0], t[1]+delta, delta)
     #fin de la entrada
 
@@ -58,12 +58,11 @@ if __name__ == '__main__':
 
  
     ddU = lambdify((u, v, du, dv), (A - B)*I.inv(), [{'ImmutableMatrix': np.array}, 'numpy'])
-
     
     solu = odeint(rhs_eqs, init_cond, interval)
-
-    
-    plt.plot(solu[0], solu[1]);
+    x_coord2 = [x for [x,y,dx,dy] in solu]
+    y_coord2 = [y for [x,y,dx,dy] in solu]
+    plt.plot(x_coord2,y_coord2);
     plt.axis('equal')
     plt.show()
 
