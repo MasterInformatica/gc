@@ -23,6 +23,9 @@ x_curve =  np.cosh(t) * np.cos(t)
 y_curve =  np.cosh(t) * np.sin(t)
 z_curve =  np.sinh(t) 
 
+print x
+
+
 mlab.plot3d(x_curve, y_curve, z_curve)
 mlab.mesh(x,y,z, colormap='spring')
 mlab.show()

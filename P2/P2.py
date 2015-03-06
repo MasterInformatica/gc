@@ -17,28 +17,23 @@ from sympy.plotting import plot_parametric
 from scipy.spatial.distance import cdist
 
 
-t,u,v,dvdt,dudt = sp.symbols('t u v dvdt dudt')
-u0,v0,du0,dv0 = 5,0,0,2
-init_cond = [u0,v0,du0,dv0]
 if __name__ == "__main__":
     X = sp.Matrix([u,v,0])
     E = 5.0**2
     F = 0
     G = (5.0*sp.cos(u)+2)**2
     I = sp.Matrix([[E, F],[ F, G]])
-    print I
+
     dIdu= I.diff(u)
     dIdv= I.diff(v)
-#    dudt= u_t.diff(t)
- #   dvdt= v_t.diff(t)
+
+
     U = sp.Matrix([[u],[v]])
     dUdt = sp.Matrix([[dudt],[dvdt]])
-    print "dUdt",dUdt
-    print "U", U
+
     A = sp.Matrix([0.5*dUdt.transpose()*dIdu*dUdt,0.5*dUdt.transpose()*dIdv*dUdt])
     B = dUdt.transpose()*(dIdu*dvdt+dIdv*dvdt)
-    print "A",A
-    print "B",B
+
     ddUddt = lambdify((u,v,dudt,dvdt),((A.transpose()-B)*I.inv()), [{'ImmutableMatrix': np.array}, 'numpy'])
     print ddUddt(1,2,2,2)[0] #TODO ARREGLAR!
             
