@@ -2,6 +2,8 @@
 # Jesus Javier Domenech Arellano (jdomenec@ucm.es)
 # Jennifer Hernandez Becares (jennhern@ucm.es)
 
+from __future__ import division
+
 import numpy as np #para crear arrays de puntos
 from scipy.integrate import odeint #resolutor de edo
 import matplotlib.pyplot as plt #para imprimir la grafica
@@ -13,7 +15,6 @@ from sympy.interactive import printing
 from sympy.plotting import plot_parametric
 
 from scipy.spatial.distance import cdist
-printing.init_printing(use_latex=True)
 
 
 t,u,v,dvdt,dudt = sp.symbols('t u v dvdt dudt')

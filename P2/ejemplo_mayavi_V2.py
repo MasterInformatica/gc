@@ -62,13 +62,13 @@ U = sp.Matrix([[u],[v]])
 dUdt = sp.Matrix([[dudt],[dvdt]])
 
 A = sp.Matrix([0.5*dUdt.transpose()*dIdu*dUdt,0.5*dUdt.transpose()*dIdv*dUdt])
-B = dUdt.transpose()*(dIdu*dvdt+dIdv*dvdt)
+B = dUdt.transpose()*(dIdu*dudt+dIdv*dvdt)
 
 ddUddt = lambdify((u,v,dudt,dvdt),((A.transpose()-B)*I.inv()), [{'ImmutableMatrix': np.array}, 'numpy'])
 print ddUddt(1,2,2,2)[0] #TODO ARREGLAR!
 
 
-def rhs_eqs(Y,t):
+def rhs_eqs(Y,_):
     u,v,du,dv = Y
     return [du,dv,ddUddt(u,v,du,dv)[0][0],ddUddt(u,v,du,dv)[0][1]]
 
@@ -79,7 +79,7 @@ solu = odeint(rhs_eqs,init_cond,interval)
 #Pintamos la curva
 curve_x = [a for [a,b, dx, dy] in solu]
 curve_y = [b for [a,b, dx, dy] in solu]
-
+curve_z = interval
 
 
 # Para pintar una curva tambien
@@ -87,7 +87,7 @@ curve_y = [b for [a,b, dx, dy] in solu]
 #y_curve =  np.cosh(t) * np.sin(t)
 #z_curve =  np.sinh(t) 
 
-mlab.plot3d(curve_y,curve_z,curve_x)
+mlab.plot3d(curve_x,curve_y,curve_z)
 mlab.mesh(x,y,z, colormap='spring')
 mlab.show()
 
