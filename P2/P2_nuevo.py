@@ -82,10 +82,10 @@ if __name__ == '__main__':
     v_limits = [0,2.0*np.pi]
 
     t0 = 10
-    t_limits = [0,90.0*np.pi]
+    t_limits = [0,30*np.pi]
 
-    u0, v0 = 1.5, 2.8
-    du0, dv0 = 1.6, 0.3
+    u0, v0 = 0, 0
+    du0, dv0 = 1., 0
     init_cond = [u0, v0, du0, dv0]
 
     E, F, G = calcfff(X)
