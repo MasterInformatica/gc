@@ -100,10 +100,34 @@ def plot_geodesic(E,F,G,init_cond,u_limits,v_limits,t_limits):
 
     ddU = lambdify((u, v, du, dv), (A - B)*I.inv(), [{'ImmutableMatrix': np.array}, 'numpy'])
     
-    solu = odeint(rhs_eqs, init_cond, interval)
+    #solu = odeint(rhs_eqs, init_cond, interval)
+
+    t0 = 0
+
+    if t0 == t_limits[0]: #el punto es el limite inferior
+        interval = np.arange(t0, t_limits[1]+delta, delta)
+        solu = odeint(rhs_eqs, init_cond, interval)
+    elif t0 == t_limits[1]: #el pto es el limite superior
+        interval = np.arange(t0, t_limits[0]-delta, -delta)
+        solu = odeint(rhs_eqs, init_cond, interval)
+    else: #se encuentra en el interior
+        interval1 = np.arange(t0, t_limits[0]-delta, -delta)
+        interval2 = np.arange(t0, t_limits[1]+delta, delta)
+
+        solu1 = odeint(rhs_eqs, init_cond, interval1)
+        solu2 = odeint(rhs_eqs, init_cond, interval2)
+
+        solu = np.concatenate((solu1, solu2))
+
+
     x_coord2 = [(x%(u_limits[1]-u_limits[0])+u_limits[0]) for [x,y,dx,dy] in solu]
     y_coord2 = [(y%(v_limits[1]-v_limits[0])+v_limits[0]) for [x,y,dx,dy] in solu]
+
+    x_coord2 = [x for [x,y,dx,dy] in solu]
+    y_coord2 = [y for [x,y,dx,dy] in solu]
+    
     fig = plt.plot(x_coord2,y_coord2,',')
+    plt.axis([-20.0, 20.0, 0.0, 20.0])
     plt.show()
 
     return solu
@@ -176,16 +200,16 @@ if __name__ == '__main__':
     # F = 0.0
     # G = (r*sp.cos(u)+a)**2
 
-    #E=1.0/v**2
-    #G=1.0/v**2
-    #F=0
+    E=1.0/v**2
+    G=1.0/v**2
+    F=0
     
     # Fin entrada caso (b)
     #---------------------------------------------------------------------------
 
-    u_limits = [0,2.0*np.pi]
-    v_limits = [0,2.0*np.pi]
-    t_limits = [0, 16*np.pi]
+    u_limits = [-99999.99999,99999.9999]
+    v_limits = [0.00001, 99999.99999]
+    t_limits = [-100.0, 100.0]
 
     if not init_cond_plot:
         u0, v0 = np.pi, 0.0

@@ -80,10 +80,12 @@ if __name__ == '__main__':
     
     u_limits = [0,2.0*np.pi]
     v_limits = [0,2.0*np.pi]
-    t_limits = [0,16.0*np.pi]
 
-    u0, v0 = np.pi, 0.0
-    du0, dv0 = 0.0, 1.0
+    t0 = 10
+    t_limits = [0,90.0*np.pi]
+
+    u0, v0 = 1.5, 2.8
+    du0, dv0 = 1.6, 0.3
     init_cond = [u0, v0, du0, dv0]
 
     E, F, G = calcfff(X)
@@ -101,6 +103,8 @@ if __name__ == '__main__':
 
     # u_limits = [0,2.0*np.pi]
     # v_limits = [0,2.0*np.pi]
+
+    # t0 = 1
     # t_limits = [0, 32*np.pi]
 
     # u0, v0 = np.pi, 0.0
@@ -131,17 +135,30 @@ if __name__ == '__main__':
 
 
     #Puntos del intervalo
-    delta = 0.05
-    interval = np.arange(t_limits[0], t_limits[1]+delta, delta)
-                          
-    #solucion del sistema
-    solu = odeint(rhs_eqs, init_cond, interval)
+    delta = 0.005
+    solu = None
+
+    if t0 == t_limits[0]: #el punto es el limite inferior
+        interval = np.arange(t0, t_limits[1]+delta, delta)
+        solu = odeint(rhs_eqs, init_cond, interval)
+    elif t0 == t_limits[1]: #el pto es el limite superior
+        interval = np.arange(t0, t_limits[0]-delta, -delta)
+        solu = odeint(rhs_eqs, init_cond, interval)
+    else: #se encuentra en el interior
+        interval1 = np.arange(t0, t_limits[0]-delta, -delta)
+        interval2 = np.arange(t0, t_limits[1]+delta, delta)
+
+        solu1 = odeint(rhs_eqs, init_cond, interval1)
+        solu2 = odeint(rhs_eqs, init_cond, interval2)
+
+        solu = np.concatenate((solu1, solu2))
+
 
     #mostramos la solucion en el intervalo de definicion
     x_coord2 = [x%(u_limits[1]-u_limits[0])+u_limits[0] for [x,y,dx,dy] in solu]
     y_coord2 = [y%(v_limits[1]-v_limits[0])+v_limits[0] for [x,y,dx,dy] in solu]
 
-    plt.plot(x_coord2,y_coord2)
+    plt.plot(x_coord2,y_coord2, ',')
     plt.axis('equal')
     plt.show()
 
