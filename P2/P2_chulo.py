@@ -60,7 +60,7 @@ class GenInitConds:
             self.fin = False
             self.una = False
 
-        if self.una: self.ax.set_title('Bot' + u'Ã³' + 'n izq. para poner puntos y moverlos, derecho para cerrar y terminar')
+        if self.una: 
             self.du0 = self.du0 + float(evt.xdata)
             self.dv0 = self.dv0 + float(evt.ydata)
             self.fin = True
