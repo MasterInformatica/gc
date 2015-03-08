@@ -105,7 +105,7 @@ la práctica.
  $$\left(u'' v''\right) = \left[ \frac{1}{2}
         \left(
            \left(u' v'\right)
-           \left(\begin{array} 
+           \left(\begin{array}
              00\  0 \\ 
              0\  0 
            \end{array}\right)
@@ -134,14 +134,47 @@ la práctica.
              -\frac{-2}{v^{3}} \  0 \\ 
              0\  \frac{-2}{v^{3}} 
            \end{array}\right)v'\right)\right]
-       \left(\begin{array} 
-             vv^{2}\  0 \\ 
+       \left(\begin{array}{c} 
+             v^{2}\  0 \\ 
              0\  v^{2} 
            \end{array}\right) $$\\ \\
        $$\left(u'' v''\right) =
-       \left(\frac{2u'v'}{v}\ \ \frac{2v'v'}{v}\right)$$\ \
-       Resolviendo este problema con las condiciones iniciales:
-       $$ U(t_{0}) = U_{0} \ \ \ U'(t_{0}) = U'_{0}$$
+       \left(\frac{2u'v'}{v}\ \ \frac{v'^2-u'^2}{v}\right)$$\ \
+       %Resolviendo este problema con las condiciones iniciales:
+       %$$ U(t_{0}) = U_{0} \ \ \ U'(t_{0}) = U'_{0}$$
+       
+       Tenemos, por tanto, las siguientes ecuaciones: \\
+       \begin{equation}
+         u''=2u'v'
+       \end{equation}
+       \begin{equation}
+         v''=\frac{v'^2-u'^2}{v}
+       \end{equation}
+
+       Supongamos primero que $u'=0$. En este caso, la primera de las ecuaciones se satisface ($u''=0$) y las geodésicas tendrán la forma $u=cte$. \\
+
+       Supongamos ahora que $u'\neq0$. Resolvemos para ello la segunda de las ecuaciones. Definimos $x=\frac{du}{dv}$. Así, $u'=xv'$. Derivando esta nueva ecuación mediante la regla de la cadena tenemos:
+       \begin{equation}
+         u''=\frac{dx}{dv}v'^2+xv''
+       \end{equation}
+       Sustituimos ahora (1) y (2) en la recién obtenida ecuación (3): \\
+       \begin{equation*}
+         \frac{2u'v'}{v}=\frac{dx}{dv}v'^2+x\frac{v'^2-u'^2}{v} 
+       \end{equation*}
+       Sustituimos el valor de $u'$ en la ecuación:
+       \begin{equation*}
+         \frac{dx}{dv}v'^2=\frac{2u'v'}{v}-x\frac{v'^2-x^2v'^2}{v}
+       \end{equation*}
+       Operando, tenemos finalmente:
+       \begin{equation*}
+         \frac{dx}{dv}=\frac{x+x^3}{v}
+       \end{equation*}
+
+       Despejando e integrando, sustituyendo la x por su valor ($u'/v'$) y volviendo a integrar, llegamos a la siguiente ecuación de la geodésica:
+       \begin{equation*}
+         (u-a)^2+v^2=(\frac{1}{b})^2
+       \end{equation*}
+       donde $a\in\mathbb{R}$, $b\in\mathbb{R}$ son constantes. Así, y teniendo en cuenta que $v>0$, las geodésicas serán semicírculos centrados en el punto $(a,0)$ y de radio $\frac{1}{b}$.
   \end{itemize}
 
 \end{enumerate}
