@@ -89,10 +89,60 @@ la práctica.
 \item Modelo de plano hiperbólico dado por el semiplano de
   Poincaré. Considérese la primera forma fundamental en el semiplano
   $v>0$ dada por $E = G = \frac{1}{v^{2}}$ y $G = 0$. Dibújense sus
-  geodésicas. 
+  geodésicas. Opcional: ¿Sabrías encontrar expresiones analíticas de
+  las mismas?
   \begin{center}
     \includegraphics[width=0.8\textwidth]{./img/poincare.png}
   \end{center}
+  \begin{itemize}
+     \item Opcional:
+       Partiremos del sistema de ecuaciones obtenido en clase:
+       $$U''^{T} = \left[ \frac{1}{2}
+        \left( \begin{array}
+           U'^{T}I_{u}U' \\
+           U'^{T}I_{v}U'
+           \end{array}\right)^{T}-U'^{T}\left(I_{u}u'+I_{v}v'\right)\right]I^{-1} $$\\ \\
+ $$\left(u'' v''\right) = \left[ \frac{1}{2}
+        \left(
+           \left(u' v'\right)
+           \left(\begin{array} 
+             00\  0 \\ 
+             0\  0 
+           \end{array}\right)
+           \left(\begin{array} 
+             uu' \\
+             v' 
+           \end{array}\right)\ \ \ \left(u' v'\right)
+           \left(\begin{array} 
+             -\frac{-2}{v^{3}} \  0 \\ 
+             0\  \frac{-2}{v^{3}} 
+           \end{array}\right)
+           \left(\begin{array} 
+             uu' \\ 
+             v' 
+           \right)
+        \end{array}\right)\right)
+           $$$$-
+           \left(u' v'\right)
+           \left(
+           \left(\begin{array} 
+             00\  0 \\ 
+             0\  0 
+           \end{array}\right)u'
+           +
+           \left(\begin{array} 
+             -\frac{-2}{v^{3}} \  0 \\ 
+             0\  \frac{-2}{v^{3}} 
+           \end{array}\right)v'\right)\right]
+       \left(\begin{array} 
+             vv^{2}\  0 \\ 
+             0\  v^{2} 
+           \end{array}\right) $$\\ \\
+       $$\left(u'' v''\right) =
+       \left(\frac{2u'v'}{v}\ \ \frac{2v'v'}{v}\right)$$\ \
+       Resolviendo este problema con las condiciones iniciales:
+       $$ U(t_{0}) = U_{0} \ \ \ U'(t_{0}) = U'_{0}$$
+  \end{itemize}
 
 \end{enumerate}
 \end{document}
