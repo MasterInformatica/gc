@@ -13,7 +13,7 @@
 \usepackage{listings} \usepackage{enumerate}
 
 \usepackage{appendix} \usepackage{setspace} \usepackage{amsmath}
-
+\usepackage{mathtools}
 
 %% DEFINICIONES
 \newcommand{\TODO}[1]{{\huge \color{red} \textbf{TODO: }#1 }}
@@ -97,47 +97,58 @@ la práctica.
   \begin{itemize}
      \item Opcional:
        Partiremos del sistema de ecuaciones obtenido en clase:
-       $$U''^{T} = \left[ \frac{1}{2}
-        \left( \begin{array}{c}
-           U'^{T}I_{u}U' \\
-           U'^{T}I_{v}U'
-           \end{array}\right)^{T}-U'^{T}\left(I_{u}u'+I_{v}v'\right)\right]I^{-1} $$\\ \\
- $$\left(u'' v''\right) = \left[ \frac{1}{2}
-        \left(
-           \left(u' v'\right)
-           \left(\begin{array}{cc}
-             0 & 0 \\ 
-             0 & 0 
-           \end{array}\right)
-           \left(\begin{array} {c}
-             u' \\
-             v' 
-           \end{array}\right)\ \ \ \left(u' v'\right)
-           \left(\begin{array} {cc}
-             \frac{-2}{v^{3}} & 0 \\ 
-             0 &  \frac{-2}{v^{3}} 
-           \end{array}\right)
-           \left(\begin{array}{c}
-             u' \\ 
-             v' 
-          
-        \end{array} \right) \right)
-           \ -
-           \left(u' v'\right)
+       \begin{equation*}
+           U''^{T} = \left[ \frac{1}{2}
+             \left( 
+               \begin{array}{c}
+                 U'^{T}I_{u}U' \\
+                 U'^{T}I_{v}U'
+               \end{array}\right)^{T}-U'^{T}\left(I_{u}u'+I_{v}v'\right)\right]I^{-1} $$\\ \\
+           $$\left(u'' v''\right) = \left[ \frac{1}{2}
+             \left(
+               \left(u' v'\right)
+               \left(
+                 \begin{array}{cc}
+                   0 & 0 \\ 
+                   0 & 0 
+                 \end{array}\right)
+               \left(
+                 \begin{array} {c}
+                   u' \\
+                   v' 
+                 \end{array}\right)\ \ \ \left(u' v'\right)
+               \left(
+                 \begin{array} {cc}
+                   \frac{-2}{v^{3}} & 0 \\ 
+                   0 &  \frac{-2}{v^{3}} 
+                 \end{array}\right)
+               \left(
+                 \begin{array}{c}
+                   u' \\ 
+                   v' 
+                 \end{array} \right) \right)
+             \ - \\ \\ \\
+             \left(u' v'\right)
+             \left(
+               \left(
+                 \begin{array}{cc}
+                   0 & 0 \\ 
+                   0 & 0 
+                 \end{array}\right)u'
+               +
+               \left(
+                 \begin{array}{cc}
+                   \frac{-2}{v^{3}} & 0 \\ 
+                   0 & \frac{-2}{v^{3}} 
+                 \end{array}\right)v'\right)\right]
            \left(
-           \left(\begin{array}{cc}
-             0 & 0 \\ 
-             0 & 0 
-           \end{array}\right)u'
-           +
-           \left(\begin{array}{cc}
-             \frac{-2}{v^{3}} & 0 \\ 
-             0 & \frac{-2}{v^{3}} 
-           \end{array}\right)v'\right)\right]
-       \left(\begin{array}{cc} 
-             v^{2} & 0 \\ 
-             0 & v^{2} 
-           \end{array}\right) $$\\ \\
+             \begin{array}{cc} 
+               v^{2} & 0 \\ 
+               0 & v^{2} 
+             \end{array}\right)
+       \end{equation*}
+       
+       
        $$\left(u'' v''\right) =
        \left(\frac{2u'v'}{v}\ \ \frac{v'^2-u'^2}{v}\right)$$\ \
        %Resolviendo este problema con las condiciones iniciales:
@@ -172,7 +183,7 @@ la práctica.
 
        Despejando e integrando, sustituyendo la x por su valor ($u'/v'$) y volviendo a integrar, llegamos a la siguiente ecuación de la geodésica:
        \begin{equation*}
-         (u-a)^2+v^2=(\frac{1}{b})^2
+         (u-a)^2+v^2=\left(\frac{1}{b}\right)^2
        \end{equation*}
        donde $a\in\mathbb{R}$, $b\in\mathbb{R}$ son constantes. Así, y teniendo en cuenta que $v>0$, las geodésicas serán semicírculos centrados en el punto $(a,0)$ y de radio $\frac{1}{b}$.
   \end{itemize}
