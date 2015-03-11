@@ -25,16 +25,17 @@ class DrawPoints:
 
 
     def on_press(self, event):
-        self.points.append([event.xdata, event.ydata])        
+        self.points.append([event.xdata, event.ydata])       
         self.poly = np.array(self.points)
-        
+        print self.poly
         c = Circle((event.xdata, event.ydata), 0.5)
         self.ax.add_patch(c)
         self.fig.canvas.draw() 
 
          
         self.curve=cb(self.poly)   
-        self.ax.add_line(self.curve.plot_bezier())        
+        self.curve.plot_bezier()
+        self.ax.add_line(self.curve.plot_bezier())   
         self.fig.canvas.draw()  
         
         
@@ -70,5 +71,5 @@ if __name__ == '__main__':
     ax.set_ylim(-20,20)
     # geodesica = Geodesica()
     draw_points = DrawPoints(fig, ax)
-
+    plt.show()
 #
