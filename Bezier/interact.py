@@ -25,6 +25,10 @@ class DrawPoints:
 
 
     def on_press(self, event):
+        if event.xdata == None or event.ydata == None:
+            #press out of plot
+            return
+        
         self.points.append([event.xdata, event.ydata])       
         self.poly = np.array(self.points)
         print self.poly
