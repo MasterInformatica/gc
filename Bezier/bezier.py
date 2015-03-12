@@ -16,7 +16,7 @@ class CurvaDeBezier:
         
         self.curve_x = None
         self.curve_y = None
-        
+        self.curve = None
         self._bernstein = np.zeros((self.N + 1, self.num_points))
         self._compute_bernstein()
         self.compute_curve()
@@ -32,9 +32,12 @@ class CurvaDeBezier:
         
     def plot_bezier(self):
         self.curve = Line2D(self.curve_x, self.curve_y)
-        
-        
+         
         return self.curve        
+
+    def update_bezier(self):
+        self.compute_curve()
+        return (self.curve_x,self.curve_y)
         #self.ax.add_line(self.curve)
         #self.fig.canvas.draw()
         

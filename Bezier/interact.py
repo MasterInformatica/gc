@@ -18,7 +18,7 @@ class DrawPoints:
         # se puede cerrando en la x xD)
         self.points = []
         self.poly = None    
-
+        self.last_curve = None
         self.cid_press = fig.canvas.mpl_connect('button_press_event', self.on_press)
 #        self.cid_move = fig.canvas.mpl_connect('motion_notify_event', self.on_move)
 #        self.cid_release_button = fig.canvas.mpl_connect('button_release_event', self.on_release)
@@ -39,7 +39,10 @@ class DrawPoints:
          
         self.curve=cb(self.poly)   
         self.curve.plot_bezier()
-        self.ax.add_line(self.curve.plot_bezier())   
+        if self.last_curve != None:
+            self.last_curve.set_data(self.curve.update_bezier())
+        else:
+            self.last_curve = self.ax.add_line(self.curve.plot_bezier())   
         self.fig.canvas.draw()  
         
         
