@@ -1,0 +1,10 @@
+Prácica 3:
+Dibujar una curva de Bézier utilizando:
+2 métodos:
+i) Polinomios de Berntein
+ii) Algoritmo de De Casteljau????
+
+Input: Polígono de control introducido interactivamente
+Un criterio que se valorará erá el tiempo de ejecución 
+(in contar posibles preprocesamientos) para una curva calculada
+con delta = 10^-2
