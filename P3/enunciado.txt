@@ -6,5 +6,12 @@ ii) Algoritmo de De Casteljau????
 
 Input: Polígono de control introducido interactivamente
 Un criterio que se valorará erá el tiempo de ejecución 
-(in contar posibles preprocesamientos) para una curva calculada
+(in contar posibles preprocesamientos) para una curva calculada	
 con delta = 10^-2
+
+Se deberá calcular el tiempo medio para 1000 polígonos aleatorios 
+(distribución uniforme) de 15 lados con coordenadas en [-20, 20]
+
+
+Práctica 4:
+Intersecar 2 puntas de Bézier y calcular sus puntos de corte.
