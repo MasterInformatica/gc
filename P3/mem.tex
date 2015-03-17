@@ -21,40 +21,40 @@
 \newcommand{\todo}[1]{{\large \color{red} \textbf{TODO: }#1 }}
 
 
-\title{Pr·ctica 3. \\ GeometrÌa computacional} 
+\title{Pr√°ctica 3. \\ Geometr√≠a computacional} 
 
-\author{Luis MarÌa Costero Valero (lcostero@ucm.es)\\ Jes˙s DomÈnech
-  Arellano (jdomenec@ucm.es) \\ Jennifer Hern·ndez BÈcares (jennhern@ucm.es)}
+\author{Luis Mar√≠a Costero Valero (lcostero@ucm.es)\\ Jes√∫s Dom√©nech
+  Arellano (jdomenec@ucm.es) \\ Jennifer Hern√°ndez B√©cares (jennhern@ucm.es)}
 \date{Marzo 2015}
 
 \begin{document}
 \maketitle
 
-\textbf{DemuÈstrese que el m·ximo de dos polinomios de BÈzier $B_{i}^{n}(t)$ con $t\in \left [ 0,1 \right ] $ se alcanza en $t=\frac{i}{n}$.}
+\textbf{Demu√©strese que el m√°ximo de dos polinomios de B√©zier $B_{i}^{n}(t)$ con $t\in \left [ 0,1 \right ] $ se alcanza en $t=\frac{i}{n}$.}
 
-Comenzamos escribiendo la definiciÛn del polinomio de Bernstein i-Èsimo de grado n: \\
+Comenzamos escribiendo la definici√≥n del polinomio de Bernstein i-√©simo de grado n: \\
 \begin{equation*}
 B_{i}^{n}(t) = \binom{n}{i} t^{i}(1-t)^{n-i}
 \end{equation*}
 
-Dicha ecuaciÛn se corresponde con una distribuciÛn binomial, que representa la probabilidad de obtener i caras al lanzar una moneda, siendo la probabilidad de cara igual a $t\in \left [ 0,1\right ] $. \\
+Dicha ecuaci√≥n se corresponde con una distribuci√≥n binomial, que representa la probabilidad de obtener i caras al lanzar una moneda, siendo la probabilidad de cara igual a $t\in \left [ 0,1\right ] $. \\
 
-Para comprobar que el m·ximo se alcanza en $t=\frac{i}{n}$, derivamos el polinomio de Bernstein e igualamos a 0, con el objetivo de encontrar los extremos y posteriormente ver si son m·ximo y alguno de ellos es $\frac{i}{n}$: \\
+Para comprobar que el m√°ximo se alcanza en $t=\frac{i}{n}$, derivamos el polinomio de Bernstein e igualamos a 0, con el objetivo de encontrar los extremos y posteriormente ver si son m√°ximo y alguno de ellos es $\frac{i}{n}$: \\
 \begin{align*}
 \frac{\delta B_i^n (t)}{\delta t} &= \binom{n}{i}(it^{i-1}(1-t)^{n-i}-t^{i}(n-i)(1-t)^{n-i-1}) \\
  &= \binom{n}{i}t^{i-1}(1-t)^{n-i-1}(i(1-t)-t(n-i)) \\
  &= 0
 \end{align*}
 
-De la ecuaciÛn anterior se deduce que se puede tener un m·ximo en los puntos $t=0$, $t=1$ o si $i(1-t)-t(n-i)=0$. Esta ˙ltima igualdad es equivalente a:
+De la ecuaci√≥n anterior se deduce que se puede tener un m√°ximo en los puntos $t=0$, $t=1$ o si $i(1-t)-t(n-i)=0$. Esta √∫ltima igualdad es equivalente a:
 \begin{align*}
 i(1-t)=t(n-i) \Longleftrightarrow i-it=tn-it \Longleftrightarrow t=\frac{i}{n}
 \end{align*}
 
 \begin{enumerate}
-\item Si $t=0$: En este caso, $B_i^n(0)=\binom{n}{i}0^i 1^{n-i}$. Tenemos dos casos dentro de este. Si $i=0$, entonces $B_0^n(0)=1$, que es un m·ximo porque $B_i^n(t)\in \left [ 0,1 \right ]$ para $t\in (0,1)$.Si $i\neq 0$, entonces $B_0^n(0)=0$. Pero si $i=0$, tenemos que $t=\frac{i}{n}=\frac{0}{n}=0$, lo cual es cierto para $t=\frac{i}{n}$ (tercer caso).
-\item Si $t=1$: En este caso, $B_i^n(1)=\binom{n}{i}1^i 0^{n-i}$. Volvemos a tener dos casos. Si $n=i$, se tiene que $B_n^n(1) = \binom{n}{n} 1^n 0^0 = 1$. Se trata de un m·ximo, ya que $B_i^n(t) \in \left [ 0,1 \right ]$ para $t\in (0,1)$. Por otro lado, si $n \neq i$, tenemos que $B_i^n(1) = 0$. Sin embargo, si $n=i$, se cumple que $t=\frac{i}{n}=\frac{n}{n} = 1$, que es cierto para $t = 1$ (tercer caso).
-\item Por ˙ltimo, contemplamos el caso $t=\frac{i}{n}$:
+\item Si $t=0$: En este caso, $B_i^n(0)=\binom{n}{i}0^i 1^{n-i}$. Tenemos dos casos dentro de este. Si $i=0$, entonces $B_0^n(0)=1$, que es un m√°ximo porque $B_i^n(t)\in \left [ 0,1 \right ]$ para $t\in (0,1)$.Si $i\neq 0$, entonces $B_0^n(0)=0$. Pero si $i=0$, tenemos que $t=\frac{i}{n}=\frac{0}{n}=0$, lo cual es cierto para $t=\frac{i}{n}$ (tercer caso).
+\item Si $t=1$: En este caso, $B_i^n(1)=\binom{n}{i}1^i 0^{n-i}$. Volvemos a tener dos casos. Si $n=i$, se tiene que $B_n^n(1) = \binom{n}{n} 1^n 0^0 = 1$. Se trata de un m√°ximo, ya que $B_i^n(t) \in \left [ 0,1 \right ]$ para $t\in (0,1)$. Por otro lado, si $n \neq i$, tenemos que $B_i^n(1) = 0$. Sin embargo, si $n=i$, se cumple que $t=\frac{i}{n}=\frac{n}{n} = 1$, que es cierto para $t = 1$ (tercer caso).
+\item Por √∫ltimo, contemplamos el caso $t=\frac{i}{n}$:
 \end{enumerate}
 
 \end{document}
