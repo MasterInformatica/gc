@@ -53,8 +53,7 @@ class DrawPoints:
                 self.last_curve.set_data(self.curve.update_bezier())
             else:
                 self.last_curve = self.ax.add_line(self.curve.plot_bezier())   
-                self.fig.canvas.draw()  
-        
+            self.fig.canvas.draw()  
 
          
         
