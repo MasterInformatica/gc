@@ -47,7 +47,7 @@ class DrawPoints:
          
         self.curve=cb(self.poly)   
         print 'shape', self.poly.shape[0]
-        if False and self.poly.shape[0] > 1:
+        if self.poly.shape[0] > 1:
             self.curve.plot_bezier()
             if self.last_curve != None:
                 self.last_curve.set_data(self.curve.update_bezier())

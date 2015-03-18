@@ -22,9 +22,9 @@ class CurvaDeBezier:
         self._bernstein = np.zeros((self.N + 1, self.num_points))
         # casteljau = [k,t,i,R2]
         self._casteljau = np.zeros((self.num_points,self.num_points,self.num_points,2)) #FIXME
-        #self._compute_bernstein() # 
+        self._compute_bernstein() # 
         self._compute_casteljau()
-        #self.compute_curve() # for Bernstein
+        self.compute_curve() # for Bernstein
         
         #self.plot_bezier()
         
@@ -35,16 +35,18 @@ class CurvaDeBezier:
     def _compute_casteljau(self):
         self._casteljau[0,:,:self.N+1,:] = self.polygon
         for k in range(0, self.N):
-            for i in range(0,self.N-k):
+            for i in range(0,self.N-k+1):
                 self._casteljau[k+1,:,i, 0]  = (1-self.t)*self._casteljau[k,:,i, 0] + self.t*self._casteljau[k,:,i+1,0]
                 self._casteljau[k+1,:,i, 1]  = (1-self.t)*self._casteljau[k,:,i, 1] + self.t*self._casteljau[k,:,i+1,1]
-            
-        print 'caste: ',self._casteljau
         
     
     def compute_curve(self):
-        self.curve_x = sum(self.polygon[i, 0] * self._bernstein[i, :] for i in range(self.N + 1))
-        self.curve_y = sum(self.polygon[i, 1] * self._bernstein[i, :] for i in range(self.N + 1))
+        if False:
+            self.curve_x = sum(self.polygon[i, 0] * self._bernstein[i, :] for i in range(self.N + 1))
+            self.curve_y = sum(self.polygon[i, 1] * self._bernstein[i, :] for i in range(self.N + 1))
+        else:
+            self.curve_x = self._casteljau[self.N,:,0, 0]
+            self.curve_y = self._casteljau[self.N,:,0, 1]
         
     def plot_bezier(self):
         self.curve = Line2D(self.curve_x, self.curve_y)
