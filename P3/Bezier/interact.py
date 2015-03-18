@@ -4,7 +4,8 @@ from matplotlib.patches import Polygon
 from matplotlib.lines import Line2D
 import numpy as np
 
-from bezier import CurvaDeBezier as cb
+#from bezier import CurvaDeBezier as cb
+from casteljau import CurvaDeBezier as cb
 
 # from geodesicas import Geodesica
 
@@ -39,18 +40,20 @@ class DrawPoints:
                 return
         self.points.append([event.xdata, event.ydata])       
         self.poly = np.array(self.points)
-        print self.poly
+        print 'self.poly', self.poly
         c = Circle((event.xdata, event.ydata), 0.5)
         self.ax.add_patch(c)
         self.fig.canvas.draw() 
          
         self.curve=cb(self.poly)   
-        self.curve.plot_bezier()
-        if self.last_curve != None:
-            self.last_curve.set_data(self.curve.update_bezier())
-        else:
-            self.last_curve = self.ax.add_line(self.curve.plot_bezier())   
-        self.fig.canvas.draw()  
+        print 'shape', self.poly.shape[0]
+        if self.poly.shape[0] > 1:
+            self.curve.plot_bezier()
+            if self.last_curve != None:
+                self.last_curve.set_data(self.curve.update_bezier())
+            else:
+                self.last_curve = self.ax.add_line(self.curve.plot_bezier())   
+                self.fig.canvas.draw()  
         
 
          

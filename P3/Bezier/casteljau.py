@@ -13,7 +13,9 @@ class CurvaDeBezier:
         
         self.num_points = 100
         self.t = np.linspace(0, 1, self.num_points)
-        
+        # quitar esto
+        self.t2 = np.array(self.t)
+
         self.curve_x = None
         self.curve_y = None
         self.curve = None
@@ -30,10 +32,13 @@ class CurvaDeBezier:
             self._bernstein[i, :] = binom(self.N, i) * self.t**i *(1-self.t)**(self.N-i)
 
     def _compute_casteljau(self):
+        print 'self.polygon', self.polygon
         self._casteljau[:, 0] = self.polygon
+        print 'self.castel[:,0]',self._casteljau[:,0]
         for j in range(0, self.N):
             for i in range(0, self.N - j):
-                self._casteljau[i,j+1,:] = (1-self.t)*self._casteljau[i, j,:] + self.t*self._casteljau[i+1, j,:]
+                self._casteljau[i,j+1] = (1-self.t2)*self._casteljau[i, j,:] + self.t2*self._casteljau[i+1, j,:]
+        print self._casteljau
         
     
     def compute_curve(self):
