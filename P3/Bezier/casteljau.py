@@ -7,7 +7,7 @@ from matplotlib.patches import Polygon
 from matplotlib.lines import Line2D
 
 class CurvaDeBezier:
-    def __init__(self, polygon, bernstein):
+    def __init__(self, polygon, bernstein, stuff):
         self.polygon = polygon
         
         # Inicializamos N como el numero de puntos - 1, ya que lo usaremos en los
@@ -29,8 +29,14 @@ class CurvaDeBezier:
         # Estas variables seran las que guarden los valores computados
         #   por cada uno de los algoritmos respectivamente
         if self.compute_bernstein == True:
-            self._bernstein = np.zeros((self.N + 1, self.num_points))
-            self._compute_bernstein() 
+            if __name__ == '__main__' or stuff == None:
+                self._bernstein = np.zeros((self.N + 1, self.num_points))
+                self._compute_bernstein()
+            else:
+                # Si nos llaman desde test_P3, usamos los valores de 
+                # bernstein que ya teniamos precalculados
+                self._bernstein = np.zeros((self.N + 1, self.num_points))
+                self._bernstein = stuff
         else: 
             self._casteljau = np.zeros((self.num_points,self.num_points,self.num_points,2)) 
             self._compute_casteljau()
@@ -42,6 +48,8 @@ class CurvaDeBezier:
     def _compute_bernstein(self):
         for i in range(self.N + 1):
             self._bernstein[i, :] = binom(self.N, i) * self.t**i *(1-self.t)**(self.N-i)
+
+
 
     # Calculos mediante el algoritmo de Casteljau
     def _compute_casteljau(self):
@@ -77,4 +85,10 @@ class CurvaDeBezier:
         self.compute_curve()
         return (self.curve_x,self.curve_y)
         
-        
+# Funcion equivalente a _compute_bernstein, que se usa para llamarla 
+# externamente sin una instancia de CurvaDeBezier.
+# En nuestro caso, se llama desde el main de test_P3        
+def compute_bernstein_precomp(N, t, bernstein):
+    for i in range(N + 1):
+        bernstein[i, :] = binom(N, i) * t**i *(1-t)**(N-i)
+    return bernstein
