@@ -20,7 +20,10 @@ class DrawPoints:
         self.cid_press = fig.canvas.mpl_connect('button_press_event', self.on_press)
         self.cid_move = fig.canvas.mpl_connect('motion_notify_event', self.on_move)
         self.cid_release_button = fig.canvas.mpl_connect('button_release_event', self.on_release)
-
+        #####################
+        # Poner a False este valor si queremos computar por Casteljau
+        self.compute_bernstein = False 
+        #####################
 
     def on_press(self, event):
         if event.xdata == None or event.ydata == None: #press out of plot
@@ -45,7 +48,7 @@ class DrawPoints:
         self.fig.canvas.draw() 
          
         # Calculamos nuestra curva en funcion del poligono que hemos pintado
-        self.curve=cb(self.poly)   
+        self.curve=cb(self.poly, self.compute_bernstein)   
         # Comprobamos que no haya un solo punto. En caso de haberlo, solo se
         # pinta ese punto.
         if self.poly.shape[0] > 1:
@@ -73,8 +76,8 @@ class DrawPoints:
             # Calculos
             self.points[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
             self.poly = np.array(self.points)
-            print self.poly
-            self.curve=cb(self.poly) # Recalculamos la curva
+            
+            self.curve=cb(self.poly, self.compute_bernstein) # Recalculamos la curva
             self.last_curve.set_data(self.curve.update_bezier()) # Actualizamos los valores
 
             # Actualizamos el dibujo con la nueva curva
@@ -92,3 +95,4 @@ if __name__ == '__main__':
     ax.set_ylim(-20,20)
     draw_points = DrawPoints(fig, ax)
     plt.show()
+  

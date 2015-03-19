@@ -7,7 +7,7 @@ from matplotlib.patches import Polygon
 from matplotlib.lines import Line2D
 
 class CurvaDeBezier:
-    def __init__(self, polygon):
+    def __init__(self, polygon, bernstein):
         self.polygon = polygon
         
         # Inicializamos N como el numero de puntos - 1, ya que lo usaremos en los
@@ -23,7 +23,7 @@ class CurvaDeBezier:
 
         # Variable que usamos para saber si usar bernstein o casteljau
         # Si esta variable es True, se usa bernstein. En caso contrario, Casteljau
-        self.compute_bernstein = True ########## CAMBIAR VALOR a False para computar por Casteljau ##########
+        self.compute_bernstein = bernstein 
 
         # Inicializamos _bernstein y _casteljau como arrays de numpy. 
         # Estas variables seran las que guarden los valores computados
