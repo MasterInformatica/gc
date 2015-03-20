@@ -4,11 +4,11 @@ from matplotlib.patches import Polygon
 from matplotlib.lines import Line2D
 import numpy as np
 
-from casteljau import CurvaDeBezier as cb
+from curvasBezier import CurvaDeBezier as Bezier
 
 
 class DrawPoints:
-    def __init__(self, fig, ax): #, geodesica):
+    def __init__(self, fig, ax, bernstein):
         self.fig = fig
         self.ax = ax
         self.exists_touched_circle = False
@@ -20,10 +20,9 @@ class DrawPoints:
         self.cid_press = fig.canvas.mpl_connect('button_press_event', self.on_press)
         self.cid_move = fig.canvas.mpl_connect('motion_notify_event', self.on_move)
         self.cid_release_button = fig.canvas.mpl_connect('button_release_event', self.on_release)
-        #####################
-        # Poner a False este valor si queremos computar por Casteljau
-        self.compute_bernstein = True 
-        #####################
+
+        self.compute_bernstein = bernstein # Bernstein o De Casteljau
+
 
     def on_press(self, event):
         if event.xdata == None or event.ydata == None: #press out of plot
@@ -40,6 +39,7 @@ class DrawPoints:
                 punto = [self.touched_x0, self.touched_y0]
                 self.touched_index = self.points.index(punto)
                 return
+            
         # Anyadimos el nuevo punto que hemos pintado y lo dibujamos
         self.points.append([event.xdata, event.ydata])       
         self.poly = np.array(self.points)
@@ -48,7 +48,7 @@ class DrawPoints:
         self.fig.canvas.draw() 
          
         # Calculamos nuestra curva en funcion del poligono que hemos pintado
-        self.curve=cb(self.poly, self.compute_bernstein, None)   
+        self.curve=Bezier(self.poly, self.compute_bernstein, None)   
         # Comprobamos que no haya un solo punto. En caso de haberlo, solo se
         # pinta ese punto.
         if self.poly.shape[0] > 1:
@@ -77,7 +77,7 @@ class DrawPoints:
             self.points[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
             self.poly = np.array(self.points)
             
-            self.curve=cb(self.poly, self.compute_bernstein, None) # Recalculamos la curva
+            self.curve=Bezier(self.poly, self.compute_bernstein, None) # Recalculamos la curva
             self.last_curve.set_data(self.curve.update_bezier()) # Actualizamos los valores
 
             # Actualizamos el dibujo con la nueva curva
@@ -88,11 +88,19 @@ class DrawPoints:
         self.exists_touched_circle = False
         return
 
+
 if __name__ == '__main__':
+    ######################################
+    # Si True => Bernstein.              #
+    #    False => De Casteljau           #
+    ######################################
+    calcular_bernstein = False
+
+    
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect=1) # aspect=1 no cambia las proporciones
     ax.set_xlim(-20,20) # Limites de los ejes
     ax.set_ylim(-20,20)
-    draw_points = DrawPoints(fig, ax)
+    draw_points = DrawPoints(fig, ax, calcular_bernstein)
     plt.show()
   

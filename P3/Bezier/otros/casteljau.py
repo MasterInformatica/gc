@@ -61,6 +61,7 @@ class CurvaDeBezier:
         
         for k in range(0, self.N):
             self._casteljau[:,0:self.N-k+2, :] = ((1-self.t)*self._casteljau[:,0:self.N-k+2, :].transpose() + (self.t*self._casteljau[:,1:self.N-k+3,:].transpose())).transpose()
+
             
     # Realizamos los calculos de (x,y) de la curva. 
     # Si compute_bernstein es False, asignamos a nuestra curva las soluciones dadas
