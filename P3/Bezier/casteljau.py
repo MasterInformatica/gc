@@ -58,12 +58,10 @@ class CurvaDeBezier:
         
         # Vamos rellenando el array por columnas, ya que cada b_i^k depende de la
         # columna anterior
-        for k in range(0, self.N):
-            for i in range(0,self.N-k+1):
-                self._casteljau[:,i, 0] = (1-self.t)*self._casteljau[:,i, 0] + self.t*self._casteljau[:,i+1,0]
-                self._casteljau[:,i, 1] = (1-self.t)*self._casteljau[:,i, 1] + self.t*self._casteljau[:,i+1,1]
         
-    
+        for k in range(0, self.N):
+            self._casteljau[:,0:self.N-k+2, :] = ((1-self.t)*self._casteljau[:,0:self.N-k+2, :].transpose() + (self.t*self._casteljau[:,1:self.N-k+3,:].transpose())).transpose()
+            
     # Realizamos los calculos de (x,y) de la curva. 
     # Si compute_bernstein es False, asignamos a nuestra curva las soluciones dadas
     # por Casteljau.
