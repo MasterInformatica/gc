@@ -8,7 +8,7 @@ from matplotlib.patches import Polygon
 from matplotlib.lines import Line2D
 
 class CurvaDeBezier:
-    def __init__(self, polygon, bernstein, stuff):
+    def __init__(self, polygon, bernstein):
         self.polygon = polygon
         
         # Inicializamos N como el numero de puntos - 1, ya que lo usaremos en los

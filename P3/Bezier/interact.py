@@ -48,7 +48,7 @@ class DrawPoints:
         self.fig.canvas.draw() 
          
         # Calculamos nuestra curva en funcion del poligono que hemos pintado
-        self.curve=Bezier(self.poly, self.compute_bernstein, None)   
+        self.curve=Bezier(self.poly, self.compute_bernstein)   
         # Comprobamos que no haya un solo punto. En caso de haberlo, solo se
         # pinta ese punto.
         if self.poly.shape[0] > 1:
@@ -77,7 +77,7 @@ class DrawPoints:
             self.points[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
             self.poly = np.array(self.points)
             
-            self.curve=Bezier(self.poly, self.compute_bernstein, None) # Recalculamos la curva
+            self.curve=Bezier(self.poly, self.compute_bernstein) # Recalculamos la curva
             self.last_curve.set_data(self.curve.update_bezier()) # Actualizamos los valores
 
             # Actualizamos el dibujo con la nueva curva
