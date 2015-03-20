@@ -23,14 +23,14 @@ class CurvaDeBezier:
 
         # Variable que usamos para saber si usar bernstein o casteljau
         # Si esta variable es True, se usa bernstein. En caso contrario, Casteljau
-        self.compute_bernstein = bernstein 
+        self.compute_bernstein = not bernstein 
 
         # Inicializamos _bernstein y _casteljau como arrays de numpy. 
         # Estas variables seran las que guarden los valores computados
         #   por cada uno de los algoritmos respectivamente
         if self.compute_bernstein == True:
             if __name__ == '__main__' or stuff == None:
-                self._bernstein = np.zeros((self.N + 1, self.num_points))
+                self._bernstein = np.zeros((self.num_points,self.N + 1 ))
                 self._compute_bernstein()
             else:
                 # Si nos llaman desde test_P3, usamos los valores de 
@@ -38,7 +38,7 @@ class CurvaDeBezier:
                 self._bernstein = np.zeros((self.N + 1, self.num_points))
                 self._bernstein = stuff
         else: 
-            self._casteljau = np.zeros((self.num_points,self.num_points,self.num_points,2)) 
+            self._casteljau = np.zeros((self.num_points,self.num_points,2)) 
             self._compute_casteljau()
         
         # Calculamos la curva de Bezier
@@ -47,21 +47,21 @@ class CurvaDeBezier:
     # Calculos de los polinomios de Bernstein
     def _compute_bernstein(self):
         for i in range(self.N + 1):
-            self._bernstein[i, :] = binom(self.N, i) * self.t**i *(1-self.t)**(self.N-i)
+            self._bernstein[:,i] = binom(self.N, i) * self.t**i *(1-self.t)**(self.N-i)
 
 
 
     # Calculos mediante el algoritmo de Casteljau
     def _compute_casteljau(self):
         # Inicializamos la primera columna con los puntos del polinomio introducido
-        self._casteljau[0,:,:self.N+1,:] = self.polygon
+        self._casteljau[:,:self.N+1,:] = self.polygon
         
         # Vamos rellenando el array por columnas, ya que cada b_i^k depende de la
         # columna anterior
         for k in range(0, self.N):
             for i in range(0,self.N-k+1):
-                self._casteljau[k+1,:,i, 0] = (1-self.t)*self._casteljau[k,:,i, 0] + self.t*self._casteljau[k,:,i+1,0]
-                self._casteljau[k+1,:,i, 1] = (1-self.t)*self._casteljau[k,:,i, 1] + self.t*self._casteljau[k,:,i+1,1]
+                self._casteljau[:,i, 0] = (1-self.t)*self._casteljau[:,i, 0] + self.t*self._casteljau[:,i+1,0]
+                self._casteljau[:,i, 1] = (1-self.t)*self._casteljau[:,i, 1] + self.t*self._casteljau[:,i+1,1]
         
     
     # Realizamos los calculos de (x,y) de la curva. 
@@ -69,11 +69,11 @@ class CurvaDeBezier:
     # por Casteljau.
     def compute_curve(self):
         if self.compute_bernstein == True:
-            self.curve_x = np.sum(np.multiply(self.polygon[:,0],(self._bernstein).transpose()),axis=1)
-            self.curve_y = np.sum(np.multiply(self.polygon[:,1],(self._bernstein).transpose()),axis=1)
+            self.curve_x = np.sum(np.multiply(self.polygon[:,0],(self._bernstein)),axis=1)
+            self.curve_y = np.sum(np.multiply(self.polygon[:,1],(self._bernstein)),axis=1)
         else:
-            self.curve_x = self._casteljau[self.N,:,0, 0]
-            self.curve_y = self._casteljau[self.N,:,0, 1]
+            self.curve_x = self._casteljau[:,0, 0]
+            self.curve_y = self._casteljau[:,0, 1]
         
     
     def plot_bezier(self):
@@ -90,5 +90,5 @@ class CurvaDeBezier:
 # En nuestro caso, se llama desde el main de test_P3        
 def compute_bernstein_precomp(N, t, bernstein):
     for i in range(N + 1):
-        bernstein[i, :] = binom(N, i) * t**i *(1-t)**(N-i)
+        bernstein[:,i] = binom(N, i) * t**i *(1-t)**(N-i)
     return bernstein
