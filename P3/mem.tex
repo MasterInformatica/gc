@@ -64,25 +64,30 @@ equivalente a:
 
 \begin{enumerate}
 \item Si $t=0$: En este caso, $B_i^n(0)=\binom{n}{i}0^i 1^{n-i}$. Tenemos
-  dos casos dentro de este:\\
-  Si $i=0$, entonces $B_0^n(0)=1$, que es un
-  máximo porque $B_i^n(t)\in \left [ 0,1 \right ]$ para $t\in (0,1)$,
-  además se verifica que $t=\frac{i}{n}=\frac{0}{n}=0$, luego verifica el
-  tercer caso (el máximo coincide con $t=\frac{i}{n}$).\\
-  Si $i\neq 0$, entonces $B_0^n(0)=0$, que no es un máximo.
+  dos casos dentro de este:
+  \begin{itemize}
+  \item Si $i=0$, entonces $B_0^n(0)=1$, que es un
+	máximo porque $B_i^n(t)\in \left [ 0,1 \right ]$ para $t\in (0,1)$.
+	Además se verifica que $t=\frac{i}{n}=\frac{0}{n}=0$, luego verifica el
+	tercer caso (el máximo coincide con $t=\frac{i}{n}$).
+  \item Si $i\neq 0$, entonces $B_0^n(0)=0$, que no es un máximo.
+  \end{itemize}
 \item Si $t=1$: En este caso, $B_i^n(1)=\binom{n}{i}1^i 0^{n-i}$. Volvemos
-  a tener dos casos:\\
-  Si $n=i$, se tiene que $B_n^n(1) = \binom{n}{n} 1^n 0^0 = 1$. Se trata de
-  un máximo ya que $B_i^n(t) \in \left [ 0,1 \right ]$ para $t\in
-  (0,1)$, además se verifica que $t=\frac{i}{n}=\frac{n}{n} = 1$, luego
-  verifica que le máximo coincide con $t=\frac{i}{n}$.\\
-  Por otro lado, si $n \neq i$, tenemos que $B_i^n(1) = 0$.
+  a tener dos casos:
+  \begin{itemize}
+  \item Si $n=i$, se tiene que $B_n^n(1) = \binom{n}{n} 1^n 0^0 = 1$. Se trata de
+	un máximo ya que $B_i^n(t) \in \left [ 0,1 \right ]$ para $t\in
+	(0,1)$. Además se verifica que $t=\frac{i}{n}=\frac{n}{n} = 1$, luego
+	verifica que el máximo coincide con $t=\frac{i}{n}$.
+  \item Por otro lado, si $n \neq i$, tenemos que $B_i^n(1) = 0$, que tampoco es máximo.
+  \end{itemize}
 \item Por último, contemplamos el caso $t=\frac{i}{n}$. Sea $i \neq 0, i
   \neq n$, ya que los otros casos corresponden a los apartados
-  anteriores. Así, los polinomios de Berstein verifican que $ B_{i}^{n}(t)
-  > 0\,\, \forall t \in [0,1]$, y $B_{i}^{n}(0) = 0,\,\,\,
-  B_{i}^{n}(1)=0$. Luego es necesario que $t=\frac{i}{n},\,t\neq 0,\,t \neq
-  1$ sea un máximo.
+  anteriores. Los polinomios de Bernstein verifican que $ B_{i}^{n}(t)
+  > 0,\,\forall t \in [0,1]$, y que $B_{i}^{n}(0) = 0,\,
+  B_{i}^{n}(1)=0$. Luego $B$ se anula en los extremos, y no tiene ningún otro punto
+  crítico salvo $t=\frac{i}{n}$, por lo que es necesario que
+  $t=\frac{i}{n},\,t\neq 0,\,t \neq1$ sea un máximo.
 
 \end{enumerate}
 
