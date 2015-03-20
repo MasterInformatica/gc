@@ -6,21 +6,17 @@ from scipy.special import binom
 def eval_bezier(degree, t):
     P = np.random.uniform(-20, 20, (degree + 1, 2))
 
-    # Computamos la curva. Le pasamos True para computar
-    # por Bernstein
+    #producto escalar sobre dos coordenadas
+    curve = np.dot(stuff_Bezier, P);
+    return curve #numpy array of size (num_points, 2)
 
-    #curve_precomp = compute_bernstein_precomp(N, t, stuff_Bezier)
-    #(curve_x, curve_y) = compute_curve_bernstein(degree-1, stuff_Bezier, P)
+def compute_bernstein_precomp(N, t, bernstein):
+    for i in range(N + 1):
+        bernstein[:,i] = binom(N, i) * t**i *(1-t)**(N-i)
+    return bernstein
 
-    curve_x = np.sum(np.multiply(P[:,0],stuff_Bezier),axis=1)
-    curve_y = np.sum(np.multiply(P[:,1],stuff_Bezier),axis=1)
 
-    #curve_x = np.copy(np.sum(np.multiply(P[:,0],stuff_Bezier.transpose()),axis=1))
-    #curve_y = np.copy(np.sum(np.multiply(P[:,1],stuff_Bezier.transpose()),axis=1))
-    
-    #curve = np.array((curve_x, curve_y))
-    return np.array((curve_x, curve_y)) #numpy array of size (num_points, 2)
-    
+
 
 def eval_deCasteljau(degree, t):
     P = np.random.uniform(-20, 20, (degree + 1, 2))
@@ -32,22 +28,13 @@ def eval_deCasteljau(degree, t):
         
     return np.array((stuff_deCasteljau[:,0, 0],stuff_deCasteljau[:,0, 1])) #numpy array of size (num_points, 2)
 
-def compute_curve_bernstein(N, bernstein, polygon):
-    curve_x = np.sum(np.multiply(polygon[:,0],bernstein),axis=1)
-    curve_y = np.sum(np.multiply(polygon[:,1],bernstein),axis=1)
-    #curve_x = sum(polygon[i, 0] * bernstein[i, :] for i in range(N + 1))
-    #curve_y = sum(polygon[i, 1] * bernstein[i, :] for i in range(N + 1))
-    return (curve_x, curve_y)
                                  
 def compute_curve_stuff_deCasteljau(N, stuff_deCasteljau):
     curve_x = stuff_deCasteljau[:,0, 0]
     curve_y = stuff_deCasteljau[:,0, 1]
     return (curve_x, curve_y)
 
-def compute_bernstein_precomp(N, t, bernstein):
-    for i in range(N + 1):
-        bernstein[ :,i] = binom(N, i) * t**i *(1-t)**(N-i)
-    return bernstein
+
     
 def compute_stuff_deCasteljau_precomp(N, t, stuff_deCasteljau, P):
     # Inicializamos la primera columna con los puntos del polinomio introducido
@@ -87,7 +74,7 @@ if __name__ == '__main__':
     stuff_Bezier = np.zeros(( num_points,degree+1))
     N = degree - 1;
     stuff_Bezier = compute_bernstein_precomp(N, t, stuff_Bezier)
-
+    
 
     # Inicialización de array para Casteljau
     stuff_deCasteljau = np.zeros((num_points, num_points, 2))

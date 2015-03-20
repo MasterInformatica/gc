@@ -23,7 +23,7 @@ class CurvaDeBezier:
 
         # Variable que usamos para saber si usar bernstein o casteljau
         # Si esta variable es True, se usa bernstein. En caso contrario, Casteljau
-        self.compute_bernstein = not bernstein 
+        self.compute_bernstein = bernstein
 
         # Inicializamos _bernstein y _casteljau como arrays de numpy. 
         # Estas variables seran las que guarden los valores computados
@@ -67,8 +67,11 @@ class CurvaDeBezier:
     # por Casteljau.
     def compute_curve(self):
         if self.compute_bernstein == True:
-            self.curve_x = np.sum(np.multiply(self.polygon[:,0],(self._bernstein)),axis=1)
-            self.curve_y = np.sum(np.multiply(self.polygon[:,1],(self._bernstein)),axis=1)
+            curve = np.dot(self._bernstein, self.polygon);
+            self.curve_x = curve[:,0]
+            self.curve_y = curve[:,1]
+            #self.curve_x = np.sum(np.multiply(self.polygon[:,0],(self._bernstein)),axis=1)
+            #self.curve_y = np.sum(np.multiply(self.polygon[:,1],(self._bernstein)),axis=1)
         else:
             self.curve_x = self._casteljau[:,0, 0]
             self.curve_y = self._casteljau[:,0, 1]
