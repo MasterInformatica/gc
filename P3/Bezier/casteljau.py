@@ -69,8 +69,8 @@ class CurvaDeBezier:
     # por Casteljau.
     def compute_curve(self):
         if self.compute_bernstein == True:
-            self.curve_x = sum(self.polygon[i, 0] * self._bernstein[i, :] for i in range(self.N + 1))
-            self.curve_y = sum(self.polygon[i, 1] * self._bernstein[i, :] for i in range(self.N + 1))
+            self.curve_x = np.sum(np.multiply(self.polygon[:,0],(self._bernstein).transpose()),axis=1)
+            self.curve_y = np.sum(np.multiply(self.polygon[:,1],(self._bernstein).transpose()),axis=1)
         else:
             self.curve_x = self._casteljau[self.N,:,0, 0]
             self.curve_y = self._casteljau[self.N,:,0, 1]

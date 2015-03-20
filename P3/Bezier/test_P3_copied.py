@@ -26,8 +26,10 @@ def eval_deCasteljau(degree, t, stuff_deCasteljau):
     return curve #numpy array of size (num_points, 2)
 
 def compute_curve_bernstein(N, bernstein, polygon):
-    curve_x = sum(polygon[i, 0] * bernstein[i, :] for i in range(N + 1))
-    curve_y = sum(polygon[i, 1] * bernstein[i, :] for i in range(N + 1))
+    curve_x = np.sum(np.multiply(polygon[:,0],bernstein.transpose()),axis=1)
+    curve_y = np.sum(np.multiply(polygon[:,1],bernstein.transpose()),axis=1)
+    #curve_x = sum(polygon[i, 0] * bernstein[i, :] for i in range(N + 1))
+    #curve_y = sum(polygon[i, 1] * bernstein[i, :] for i in range(N + 1))
     return (curve_x, curve_y)
                                  
 def compute_curve_casteljau(N, casteljau):
