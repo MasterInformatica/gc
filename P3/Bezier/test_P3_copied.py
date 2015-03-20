@@ -25,10 +25,10 @@ def eval_bezier(degree, t):
 def eval_deCasteljau(degree, t):
     P = np.random.uniform(-20, 20, (degree + 1, 2))
     N = degree
-    stuff_deCasteljau[:,:N+1,:] = np.copy(P)
+    stuff_deCasteljau[:,:N+1,:] = P
     
     for k in range(0, N):
-        stuff_deCasteljau[:,0:N-k+2, :] = ((1-t)*stuff_deCasteljau[:,0:N-k+2, :].transpose() + (t*stuff_deCasteljau[:,1:N-k+3,:].transpose())).transpose()
+        stuff_deCasteljau[:,0:N-k+2, :] = np.add(np.multiply((1-t),stuff_deCasteljau[:,0:N-k+2, :].transpose()), np.multiply(t,stuff_deCasteljau[:,1:N-k+3,:].transpose())).transpose()
         
     return np.array((stuff_deCasteljau[:,0, 0],stuff_deCasteljau[:,0, 1])) #numpy array of size (num_points, 2)
 
