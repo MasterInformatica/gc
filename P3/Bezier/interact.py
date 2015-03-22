@@ -11,17 +11,21 @@ class DrawPoints:
     def __init__(self, fig, ax, bernstein):
         self.fig = fig
         self.ax = ax
-        self.exists_touched_circle = False
+        # Variables de la curva
         self.points = []
-        self.poly = None    
-        self.last_curve = None
+        self.poly = None # numpy array con los puntos
+        self.curve_ploted = None # Guarda la curva pintada
+        self.compute_bernstein = bernstein # Bernstein o De Casteljau
+        # Variables para Mover puntos
+        self.exists_touched_circle = False
         self.touched_index = None
         self.touched_x0, self.touched_y0 = None,None
+        # Controlador de Eventos
         self.cid_press = fig.canvas.mpl_connect('button_press_event', self.on_press)
         self.cid_move = fig.canvas.mpl_connect('motion_notify_event', self.on_move)
         self.cid_release_button = fig.canvas.mpl_connect('button_release_event', self.on_release)
 
-        self.compute_bernstein = bernstein # Bernstein o De Casteljau
+
 
 
     def on_press(self, event):
@@ -48,21 +52,18 @@ class DrawPoints:
         self.fig.canvas.draw() 
          
         # Calculamos nuestra curva en funcion del poligono que hemos pintado
-        self.curve=Bezier(self.poly, self.compute_bernstein)   
-        # Comprobamos que no haya un solo punto. En caso de haberlo, solo se
-        # pinta ese punto.
-        if self.poly.shape[0] > 1:
-            self.curve.plot_bezier()
-            if self.last_curve != None:
-                self.last_curve.set_data(self.curve.update_bezier())
-            else:
-                self.last_curve = self.ax.add_line(self.curve.plot_bezier())   
-            self.fig.canvas.draw()  
+        if self.curve_ploted != None:
+            self.curve.set_polygon(self.poly)
+            self.curve_ploted.set_data(self.curve.update_bezier())
+        else: # primera vez
+            self.curve=Bezier(self.poly, self.compute_bernstein)
+            self.curve_ploted = self.ax.add_line(self.curve.plot_bezier())   
+        self.fig.canvas.draw()  
 
          
         
     def on_move(self, event):
-        if event.xdata == None or event.ydata == None: #press out of plot
+        if event.xdata == None or event.ydata == None: #move out of plot
             return
         # Si habiamos pinchado encima de un circulo existente y lo intentamos
         # mover, se actualiza el poligono en consecuencia, se modifican los
@@ -77,8 +78,8 @@ class DrawPoints:
             self.points[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
             self.poly = np.array(self.points)
             
-            self.curve=Bezier(self.poly, self.compute_bernstein) # Recalculamos la curva
-            self.last_curve.set_data(self.curve.update_bezier()) # Actualizamos los valores
+            self.curve.set_polygon(self.poly) # Cambiamos el poligono
+            self.curve_ploted.set_data(self.curve.update_bezier()) # Actualizamos los valores
 
             # Actualizamos el dibujo con la nueva curva
             self.fig.canvas.draw()
@@ -95,8 +96,7 @@ if __name__ == '__main__':
     #    False => De Casteljau           #
     ######################################
     calcular_bernstein = False
-
-    
+ 
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect=1) # aspect=1 no cambia las proporciones
     ax.set_xlim(-20,20) # Limites de los ejes
