@@ -87,7 +87,6 @@ class CurvaDeBezier:
         # bucles, que iran de 0 a N, con N incluida
         self.N = poly.shape[0] - 1
         if N_old <> self.N: 
-            print "precompute"
             # Hay distinto numero de puntos --> hay que precomputar
             self.precompute_curve()
 

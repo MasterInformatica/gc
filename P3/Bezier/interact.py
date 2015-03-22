@@ -95,8 +95,11 @@ if __name__ == '__main__':
     # Si True => Bernstein.              #
     #    False => De Casteljau           #
     ######################################
-    calcular_bernstein = False
- 
+    calcular_bernstein = True
+    if calcular_bernstein:
+        print "Calculando con Berstein..."
+    else:
+        print "Calculando con Casteljau..."
     fig = plt.figure()
     ax = fig.add_subplot(111, aspect=1) # aspect=1 no cambia las proporciones
     ax.set_xlim(-20,20) # Limites de los ejes
