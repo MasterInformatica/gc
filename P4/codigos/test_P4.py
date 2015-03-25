@@ -1,7 +1,7 @@
 import unittest
 import timeit
 import numpy as np
-from intersect_bezier import IntersectBezier
+from intersection_bezier import IntersectionBezier
 
 
  
@@ -16,7 +16,7 @@ if __name__ == '__main__':
     
     N = 15  
     epsilon = 0.1
-    intersect = IntersectBezier()
+    intersect = IntersectionBezier()
     
     intersect(P, Q, epsilon)
 
