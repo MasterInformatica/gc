@@ -37,7 +37,8 @@ class IntersectionBezier:
             return np.array([])
         m = P.shape[0]
         n = Q.shape[0]
-        
+         (m*(m-1)*np.max((P[0:m-2]+P[2:m]).norm()))
+
 
 
     def subdivision(self,P):
