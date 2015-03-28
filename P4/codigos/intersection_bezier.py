@@ -102,7 +102,6 @@ class IntersectionBezier:
         return (C[1]-A[1])*(B[0]-A[0]) > (B[1]-A[1])*(C[0]-A[0])
 
     def _intersect_segment(self,A,B,C,D):
-        print 'hola'
         # segmento A-B y C-D
         #comprobamos que se cortan:
         if ((self._side(A,C,D) and self._side(B,C,D)) 
@@ -166,7 +165,7 @@ class Graphicalica:
         
 if __name__ == '__main__':
     N = 15  
-    epsilon = 0.01
+    epsilon = 0.1
 
     # Instancia de la clase
     intersect = IntersectionBezier()
