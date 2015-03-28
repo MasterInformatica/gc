@@ -49,12 +49,13 @@ class IntersectionBezier:
             ###
             intersec_points1 = self.intersection(P1,Q)
             intersec_points2 = self.intersection(P2,Q)
+
             if(intersec_points1.shape[1] == 0): #array vacio
                 return intersec_points2
             elif(intersec_points2.shape[1] == 0):
                 return intersec_points1
             else:
-                return np.append(intersec_points1, intersec_points2)
+                return np.concatenate((intersec_points1, intersec_points2), axis=0)
 
 
         n = Q.shape[0]-1
@@ -70,7 +71,6 @@ class IntersectionBezier:
             ###
             intersec_points1 = self.intersection(P,Q1)
             intersec_points2 = self.intersection(P,Q2)
-            print intersec_points1.shape[1]
             if(intersec_points1.shape[1] == 0): #array vacio
                 return intersec_points2
             elif(intersec_points2.shape[1] == 0):
@@ -102,6 +102,7 @@ class IntersectionBezier:
         return (C[1]-A[1])*(B[0]-A[0]) > (B[1]-A[1])*(C[0]-A[0])
 
     def _intersect_segment(self,A,B,C,D):
+        print 'hola'
         # segmento A-B y C-D
         #comprobamos que se cortan:
         if ((self._side(A,C,D) and self._side(B,C,D)) 
@@ -109,7 +110,15 @@ class IntersectionBezier:
             return np.array([[]])
 
         # falta calcular el punto de corte!
-        return np.array([[0,0]])
+        line1 = np.cross([A[0],A[1],1], [B[0],B[1],1])
+        line2 = np.cross([C[0],C[1],1], [D[0],D[1],1])
+        print 'l1', line1
+        print 'l2', line2
+
+        intersect_point = np.cross(line1, line2)
+        print 'inters', intersect_point
+        return np.array([[intersect_point[0], intersect_point[1]]])
+        
         
     def _subdivision(self,P):
         N = P.shape[0] - 1
@@ -165,10 +174,13 @@ if __name__ == '__main__':
     # Puntos aleatorios para generar las curvas de Bezier
     P = np.random.uniform(-20, 20, (N + 1, 2))
     Q = np.random.uniform(-20, 20, (N + 1, 2))
-    points = [[0,0],[20,0],[20,20]]
+    points = [[-10,0],[0,10],[10,0]]
+    # points = [[0,0],[20,0],[20,20]]
     P = np.array(points)
-    points = [[0,0],[20,0],[20,20]]
+    # points = [[0,0],[20,0],[20,20]]
+    points = [[0,10],[10,0],[-10,0]]
     Q = np.array(points)
     intersect(P, Q, epsilon) # Llamada al __call__ de la clase
 
     intersect.plot(0)
+
