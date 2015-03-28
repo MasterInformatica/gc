@@ -155,8 +155,9 @@ class Graphicalica:
         self.fig.canvas.draw()
 
     def drawPoints(self,points,colour):
-        for p in points:
-            self.ax.add_patch(Circle((p[0],p[1]),0.3))
+        if points.shape[1] != 0:
+            for p in points:
+                self.ax.add_patch(Circle((p[0],p[1]),0.3))
         self.fig.canvas.draw()
 
     def show(self):
@@ -164,8 +165,8 @@ class Graphicalica:
 
         
 if __name__ == '__main__':
-    N = 15  
-    epsilon = 0.1
+    N = 5  
+    epsilon = 0.001
 
     # Instancia de la clase
     intersect = IntersectionBezier()
