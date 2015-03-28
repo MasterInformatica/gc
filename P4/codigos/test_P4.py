@@ -18,7 +18,7 @@ if __name__ == '__main__':
     epsilon = 0.1
     intersect = IntersectionBezier()
     
-    intersect(P, Q, epsilon)
+   # intersect(P, Q, epsilon)
 
     #unittest.main()
     print(timeit.repeat("eval_intersect(N, epsilon)",

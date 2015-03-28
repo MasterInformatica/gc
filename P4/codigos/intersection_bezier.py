@@ -111,11 +111,11 @@ class IntersectionBezier:
         # falta calcular el punto de corte!
         line1 = np.cross([A[0],A[1],1], [B[0],B[1],1])
         line2 = np.cross([C[0],C[1],1], [D[0],D[1],1])
-        print 'l1', line1
-        print 'l2', line2
+       #  print 'l1', line1
+        # print 'l2', line2
 
         intersect_point = np.cross(line1, line2)
-        print 'inters', intersect_point
+        #print 'inters', intersect_point
         return np.array([[intersect_point[0]/intersect_point[2], intersect_point[1]/intersect_point[2]]])
         
         
