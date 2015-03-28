@@ -137,11 +137,11 @@ class IntersectionBezier:
         
     def _plot(self,P,k,colour):
         if k == 0:
-            self.window.drawLine(Line2D(P[:,0],P[:,1]))
+            self.window.drawLine(Line2D(P[:,0],P[:,1], color=colour))
         else:
-            div1,div2 = self._subdivision(P)
-            self._plot(div1, k-1,colour)
-            self._plot(div2, k-1,colour)
+            div1, div2 = self._subdivision(P)
+            self._plot(div1, k-1, colour)
+            self._plot(div2, k-1, colour)
             
             
 class Graphicalica:
@@ -174,13 +174,14 @@ if __name__ == '__main__':
     # Puntos aleatorios para generar las curvas de Bezier
     P = np.random.uniform(-20, 20, (N + 1, 2))
     Q = np.random.uniform(-20, 20, (N + 1, 2))
-    points = [[-10,0],[0,10],[10,0]]
+#    points = [[-10,0],[0,10],[10,0]]
     # points = [[0,0],[20,0],[20,20]]
+    points=[[-15,-15],[15,-15],[15,15]]
     P = np.array(points)
     # points = [[0,0],[20,0],[20,20]]
-    points = [[0,10],[10,0],[-10,0]]
-    Q = np.array(points)
+#    points = [[0,10],[10,0],[-10,0]]
+#    Q = np.array(points)
     intersect(P, Q, epsilon) # Llamada al __call__ de la clase
 
-    intersect.plot(0)
+    intersect.plot()
 
