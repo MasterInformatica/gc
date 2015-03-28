@@ -76,7 +76,7 @@ class IntersectionBezier:
             elif(intersec_points2.shape[1] == 0):
                 return intersec_points1
             else:
-                return np.append(intersec_points1, intersec_points2)
+                return np.concatenate((intersec_points1, intersec_points2), axis=0)
 
         return self._intersect_segment(P[0],P[m],Q[0],Q[n])
 
@@ -117,7 +117,7 @@ class IntersectionBezier:
 
         intersect_point = np.cross(line1, line2)
         print 'inters', intersect_point
-        return np.array([[intersect_point[0], intersect_point[1]]])
+        return np.array([[intersect_point[0]/intersect_point[2], intersect_point[1]/intersect_point[2]]])
         
         
     def _subdivision(self,P):
@@ -166,7 +166,7 @@ class Graphicalica:
         
 if __name__ == '__main__':
     N = 15  
-    epsilon = 0.1
+    epsilon = 0.01
 
     # Instancia de la clase
     intersect = IntersectionBezier()
@@ -176,8 +176,8 @@ if __name__ == '__main__':
     Q = np.random.uniform(-20, 20, (N + 1, 2))
 #    points = [[-10,0],[0,10],[10,0]]
     # points = [[0,0],[20,0],[20,20]]
-    points=[[-15,-15],[15,-15],[15,15]]
-    P = np.array(points)
+     # points=[[-15,-15],[15,-15],[15,15]]
+    # P = np.array(points)
     # points = [[0,0],[20,0],[20,20]]
 #    points = [[0,10],[10,0],[-10,0]]
 #    Q = np.array(points)
