@@ -25,7 +25,7 @@ class IntersectionBezier:
 
         # Calculamos interseccion
         self.intersection_points = self.intersection(P, Q)
-        print self.intersection_points
+
         # Returns: K puntos de interseccion calculados como un array
         # de numpy de dimensiones (K, 2)
         return self.intersection_points
@@ -34,32 +34,50 @@ class IntersectionBezier:
     def intersection(self, P, Q):
         if not self._boxes_overlap(P,Q):
             return np.array([[]])
-        m = P.shape[0]-1
-        b = P[0:m+1]-2*np.concatenate((P[1:m+1],[[0,0]]),axis=0)+np.concatenate((P[2:m+1],[[0,0],[0,0]]),axis=0)
-        print "-",b
-        B= np.linalg.norm(b,axis=1)# 
-        print "*",B
-        print P
-        print "----"
-        print Q
-        print "----***"
-        if np.random.rand() > 0.99:                  
-        #if ((m*(m-1)*np.amax(B)) > self.epsilon):
-            print "DENTRO"
-            P1,P2 = self._subdivision(P)
-            print "P1-Q"
-            intersec_points = self.intersection(P1,Q)
-            print "P2-Q"
-            return np.concatenate((intersec_points,self.intersection(P2,Q)))
+
+
+        m = P.shape[0]-1 #apunta al ultimo indice accesible
+        #Delta2(b_i) = b_(i+2) - 2 b_(i+1) + b_i     i=0...m-2
+        b =           P[2:m+1] - 2*P[1:m]  + P[0:m-1]
+        B = np.linalg.norm(b, axis=1)
+        if ((m*(m-1)*np.amax(B)) > self.epsilon):
+            P1, P2 = self._subdivision(P)
+            ####
+            # ARREGLAR: Aquí habría que coger solo los que no son duplicados
+            #           y no hacer tantos if, usar el concatenate/append de
+            #           alguna forma inteligente
+            ###
+            intersec_points1 = self.intersection(P1,Q)
+            intersec_points2 = self.intersection(P2,Q)
+            if(intersec_points1.shape[1] == 0): #array vacio
+                return intersec_points2
+            elif(intersec_points2.shape[1] == 0):
+                return intersec_points1
+            else:
+                return np.append(intersec_points1, intersec_points2)
+
+
         n = Q.shape[0]-1
-        if np.random.rand() > 0.99:
-        #if (n*(n-1)*np.amax(np.linalg.norm(Q[0:n-2]+Q[2:n],axis=1))) > self.epsilon:
-            Q1,Q2 = self._subdivision(Q)
-            print "P-Q1"
-            intersec_points = self.intersection(P,Q1)
-            print "P-Q2"
-            return np.concatenate((intersec_points,self.intersection(P,Q2)))
-        print "holi"
+        b = Q[2:n+1] - 2*Q[1:n] + Q[0:n-1]
+        B = np.linalg.norm(b, axis=1)
+        #if np.random.rand() > 0.99:
+        if (n*(n-1)*np.amax(B)) > self.epsilon:
+            Q1, Q2 = self._subdivision(Q)
+            ####
+            # ARREGLAR: Aquí habría que coger solo los que no son duplicados
+            #           y hacerlo de una forma inteligente igual que el caso 
+            #           anterior con P
+            ###
+            intersec_points1 = self.intersection(P,Q1)
+            intersec_points2 = self.intersection(P,Q2)
+            print intersec_points1.shape[1]
+            if(intersec_points1.shape[1] == 0): #array vacio
+                return intersec_points2
+            elif(intersec_points2.shape[1] == 0):
+                return intersec_points1
+            else:
+                return np.append(intersec_points1, intersec_points2)
+
         return self._intersect_segment(P[0],P[m],Q[0],Q[n])
 
 
