@@ -14,6 +14,7 @@ class IntersectionBezier:
         self.epsilon = None
         self.P = None
         self.Q = None
+        self.window = None
 
     def __call__(self, P, Q, epsilon):
         # P.shape = (n, 2)
@@ -194,18 +195,19 @@ class Graphicalica:
         self.buttonReset = Button(resetAxes, 'Reset!')
 
         self.buttonCalculate.on_clicked(self._updatePlot)
+        self.buttonReset.on_clicked(self._clean)
+
 
     def _updateEps(self, val):
-        print val
         self.eps = val
+
     def _updateK(self,val):
-        print val
         self.k = int(val)
 
     def _updatePlot(self, event):
         cuts = np.array([])
         N = 5
-        while (cuts.shape[0] != 3):
+        while (cuts.shape[0] < 3):
             P = np.random.uniform(-20, 20, (N + 1, 2))
             Q = np.random.uniform(-20, 20, (N + 1, 2))
             cuts = self.bezier(P, Q, self.eps) #Llamada al __call__ de la clase
@@ -227,7 +229,10 @@ class Graphicalica:
         plt.show()
 
     def clean(self):
-        pass
+        self.ax.cla()
+
+    def _clean(self, event):
+        self.clean()
         
 if __name__ == '__main__':
     N = 5  
