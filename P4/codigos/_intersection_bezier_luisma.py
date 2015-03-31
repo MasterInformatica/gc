@@ -269,6 +269,7 @@ class Graphicalica:
             c.remove()
         self.inter_circle = []
         self.ax.cla()
+        self.fig.canvas.draw()
 
     def _clean(self, event):
         self.clean()

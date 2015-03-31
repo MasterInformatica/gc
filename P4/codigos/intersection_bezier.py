@@ -161,11 +161,11 @@ class Graphicalica:
         self.fig.canvas.draw()
 
     def show(self):
-        plt.show()
+        plt.show(block=False)
 
         
 if __name__ == '__main__':
-    N = 5  
+    N = 15  
     epsilon = 0.001
 
     # Instancia de la clase
@@ -174,14 +174,15 @@ if __name__ == '__main__':
     # Puntos aleatorios para generar las curvas de Bezier
     P = np.random.uniform(-20, 20, (N + 1, 2))
     Q = np.random.uniform(-20, 20, (N + 1, 2))
-#    points = [[-10,0],[0,10],[10,0]]
+    points = [[-10,-10],[0,10],[10,-10]]
     # points = [[0,0],[20,0],[20,20]]
      # points=[[-15,-15],[15,-15],[15,15]]
-    # P = np.array(points)
+    P = np.array(points)
     # points = [[0,0],[20,0],[20,20]]
-#    points = [[0,10],[10,0],[-10,0]]
-#    Q = np.array(points)
+    points = [[10,10],[0,-10],[-10,10]]
+    Q = np.array(points)
     intersect(P, Q, epsilon) # Llamada al __call__ de la clase
 
     intersect.plot()
+    a = raw_input()
 
