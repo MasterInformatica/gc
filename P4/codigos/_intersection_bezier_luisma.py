@@ -327,8 +327,8 @@ class Graphicalica:
                 self.points_P[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
             else:
                 self.points_Q[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
-            self._updatePlot(event)
-            #self.fig.canvas.draw()
+           # self._updatePlot(event)
+            self.fig.canvas.draw()
         
 if __name__ == '__main__':
     N = 5  
