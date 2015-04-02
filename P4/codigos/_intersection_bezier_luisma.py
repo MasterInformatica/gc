@@ -38,16 +38,11 @@ class IntersectionBezier:
             return np.array([])
 
         m = P.shape[0]-1 #apunta al ultimo indice accesible
-        # Delta2(b_i) = b_(i+2) - 2 b_(i+1) + b_i     i=0...m-2
-        b =           P[2:m+1] - 2*P[1:m]  + P[0:m-1]
-        norm_b = np.linalg.norm(b, axis=1)
+        # || Delta2(b_i) ||= || b_(i+2)  - 2*b_(i+1) + b_i ||          i=0...m-2
+        norm_b = np.linalg.norm(P[2:m+1] - 2*P[1:m]  + P[0:m-1] , axis=1)
         if norm_b.shape[0] != 0 and ((m*(m-1)*np.amax(norm_b)) > self.epsilon):
+
             P1, P2 = self._subdivision(P)
-            ####
-            # ARREGLAR: Aquí habría que coger solo los que no son duplicados
-            #           y no hacer tantos if, usar el concatenate/append de
-            #           alguna forma inteligente
-            ###
             intersec_points1 = self.intersection(P1,Q)
             intersec_points2 = self.intersection(P2,Q)
 
@@ -55,28 +50,32 @@ class IntersectionBezier:
                 return intersec_points2
             elif(intersec_points2.shape[0] == 0):
                 return intersec_points1
-            else:
-                return np.concatenate((intersec_points1, intersec_points2), axis=0)
+            else: # remove duplicated points (distance < self.epsilon)
+                for p in intersec_points2:
+                    if not (np.amin(np.linalg.norm(intersec_points1 - p)) < self.epsilon):
+                        intersec_points1 = np.append(  intersec_points1 ,  [p], axis=0)
+                return intersec_points1
+                #return np.concatenate((intersec_points1, intersec_points2), axis=0)
 
 
-        n = Q.shape[0]-1
-        b = Q[2:n+1] - 2*Q[1:n] + Q[0:n-1]
-        norm_b = np.linalg.norm(b, axis=1)
+        n = Q.shape[0]-1 
+        norm_b = np.linalg.norm( Q[2:n+1] - 2*Q[1:n] + Q[0:n-1] , axis=1)
         if norm_b.shape[0] != 0 and (n*(n-1)*np.amax(norm_b)) > self.epsilon:
+
             Q1, Q2 = self._subdivision(Q)
-            ####
-            # ARREGLAR: Aquí habría que coger solo los que no son duplicados
-            #           y hacerlo de una forma inteligente igual que el caso 
-            #           anterior con P
-            ###
             intersec_points1 = self.intersection(P,Q1)
             intersec_points2 = self.intersection(P,Q2)
-            if(intersec_points1.shape[0] == 0): #array vacio
+
+            # test if intersection is empty
+            if(intersec_points1.shape[0] == 0):
                 return intersec_points2
             elif(intersec_points2.shape[0] == 0):
                 return intersec_points1
-            else:
-                return np.concatenate((intersec_points1, intersec_points2), axis=0)
+            else: # remove duplicated points (distance < self.epsilon)
+                for p in intersec_points2:
+                    if not (np.amin(np.linalg.norm(intersec_points1 - p)) < self.epsilon):
+                        intersec_points1 = np.append(  intersec_points1 ,  [p], axis=0)
+                return intersec_points1
 
         return self._intersect_segment(P[0],P[m],Q[0],Q[n])
 
