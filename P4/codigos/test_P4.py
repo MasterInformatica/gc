@@ -1,7 +1,7 @@
 import unittest
 import timeit
 import numpy as np
-from _intersection_bezier_luisma import IntersectionBezier
+from intersection_bezier import IntersectionBezier
 
 
  
