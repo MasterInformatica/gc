@@ -306,7 +306,7 @@ class Graphics:
         self.ax.lines = []
  
 
-        #Imprimimos los polinomios de control
+        #Imprimimos los polígonos de control
         self.drawPolygon(self.points_P, 'b')
         self.drawPolygon(self.points_Q, 'r')
 
