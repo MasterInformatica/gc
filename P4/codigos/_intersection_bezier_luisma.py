@@ -113,10 +113,10 @@ class IntersectionBezier:
             self.window = Graphics()
         
         self._plot(self.P,k,'b')
-        self.window.drawPolygon(self.P,'b')
+        self.window.drawPolygon(self.P,'mediumblue')
 
         self._plot(self.Q,k,'r')
-        self.window.drawPolygon(self.Q,'r')
+        self.window.drawPolygon(self.Q,'mediumvioletred')
 
         self.window.drawPoints(self.intersection_points,'g')
         self.window.show()
@@ -256,7 +256,7 @@ class Graphics:
         self.eps = 0.1
 
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        self.fig.suptitle('Click izquierdo introduce una curva, click derecho la otra.\n Con el click izquierdo se puede desplazar cualquiera de las dos curvas')
+        self.fig.suptitle('Click izquierdo introduce una curva, click derecho la otra.\n Los vertices de los poligonos se pueden mover con ambos clicks.')
 
         # Sliders
         epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
@@ -308,8 +308,8 @@ class Graphics:
  
 
         #Imprimimos los polígonos de control
-        self.drawPolygon(self.points_P, 'b')
-        self.drawPolygon(self.points_Q, 'r')
+        self.drawPolygon(self.points_P, 'mediumblue')
+        self.drawPolygon(self.points_Q, 'mediumvioletred')
 
 
         cuts = self.bezier(P, Q, self.eps) #Llamada al __call__ de la clase
