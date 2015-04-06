@@ -52,7 +52,7 @@ class CurvaDeBezier:
 
     def subdivision(self,P):
         N = P.shape[0] - 1
-        #                                 k     N     xy
+        #                       k   N  xy
         compuesto =  np.zeros((N+1,N+1,2)) 
         div1 = np.zeros((N+1,2))
         div2 = np.zeros((N+1,2))
@@ -60,7 +60,7 @@ class CurvaDeBezier:
         div1[0,:] = compuesto[0,N]
         for k in range(0, N):
             compuesto[k+1,0:N-k, :] = np.add( np.multiply( 0.5 , compuesto[k,0:N-k, :].transpose()),
-                                                        np.multiply( 0.5 , compuesto[k,1:N-k+1,:].transpose()) ).transpose()
+                                              np.multiply( 0.5 , compuesto[k,1:N-k+1,:].transpose()) ).transpose()
             div1[k+1,:] = compuesto[k+1,N-k-1,:]
         div2[:,:] = compuesto[:,0,:]
         return (div1,div2)
@@ -76,7 +76,7 @@ class CurvaDeBezier:
         # Para cada k, recalculamos la columna con los valores anteriores de la misma  
         for k in range(0, self.N):
             self._casteljau[k+1,:,0:self.N-k+2, :] = np.add( np.multiply( (1-self.t) , self._casteljau[k,:,0:self.N-k+2, :].transpose()),
-                                                  np.multiply(   self.t   , self._casteljau[k,:,1:self.N-k+3,:].transpose()) ).transpose()
+                                                             np.multiply(  self.t   , self._casteljau[k,:,1:self.N-k+3,:].transpose()) ).transpose()
   
             # La linea anterior equivale a:
             # self._casteljau[:,0:self.N-k+2, :] = ((1-self.t)*self._casteljau[:,0:self.N-k+2, :].transpose() 

@@ -226,7 +226,7 @@ class Graphicalica:
         cuts = np.array([])
         N = 5
 
-        while (cuts.shape[0] < 3):
+        while (cuts.shape[0] < 9):
             self.clean()
             P = np.random.uniform(-20, 20, (N + 1, 2))
             Q = np.random.uniform(-20, 20, (N + 1, 2))
