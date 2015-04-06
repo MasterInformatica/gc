@@ -5,8 +5,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 from matplotlib.patches import Circle
+from matplotlib.path import Path
 from matplotlib.widgets import Slider, Button
-
+import matplotlib.patches as patches
 
 
 class IntersectionBezier:
@@ -112,7 +113,11 @@ class IntersectionBezier:
             self.window = Graphics()
         
         self._plot(self.P,k,'b')
+        self.window.drawPolygon(self.P,'b')
+
         self._plot(self.Q,k,'r')
+        self.window.drawPolygon(self.Q,'r')
+
         self.window.drawPoints(self.intersection_points,'g')
         self.window.show()
 
@@ -249,8 +254,9 @@ class Graphics:
         self.k = 3
         self.eps = 0.1
 
-        plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo
+        plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
         plt.title('Click izquierdo introduce una curva, click derecho la otra.\n Con el click izquierdo se puede desplazar cualquiera de las dos curvas')
+
         # Sliders
         epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
         kAxes = plt.axes([0.20, 0.1, 0.4, 0.03])
@@ -299,6 +305,12 @@ class Graphics:
             return
         self.ax.lines = []
  
+
+        #Imprimimos los polinomios de control
+        self.drawPolygon(self.points_P, 'b')
+        self.drawPolygon(self.points_Q, 'r')
+
+
         cuts = self.bezier(P, Q, self.eps) #Llamada al __call__ de la clase
         for c in self.inter_circle: #reset intersection Points
             c.remove()
@@ -332,7 +344,7 @@ class Graphics:
             cuts = self.bezier(P, Q, self.eps) #Llamada al __call__ de la clase
 
         self.bezier.plot(k=self.k)
-
+        
 
     def drawLine(self,line):
         """ 
@@ -342,15 +354,27 @@ class Graphics:
         self.ax.add_line(line)
         self.fig.canvas.draw()
 
+
+    def drawPolygon(self, Pol,colour):
+        """ 
+        Pinta los poligonos de control self.points_P y self.points_Q con los colores b y r
+        """
+        x = [k[0] for k in Pol]
+        y = [k[1] for k in Pol]
+        self.ax.plot(x,y,colour)
+        
+        
     def drawPoints(self,points,colour):
         """
-        Dado un punto y un color, muestra este con ese color en la figura
+        Dado un punto y un color, muestra este con ese color en la figura, y su poligono de control
         """
         if points.shape[0] != 0:
             for p in points:
                 c = Circle((p[0],p[1]),0.3,color='g')
                 self.inter_circle.append(c)
                 self.ax.add_patch(c)
+
+
         self.fig.canvas.draw()
 
         
