@@ -27,7 +27,6 @@ class IntersectionBezier:
 
         # Calculamos interseccion
         self.intersection_points = self.intersection(P, Q)
-
         # Returns: K puntos de interseccion calculados como un array
         # de numpy de dimensiones (K, 2)
         return self.intersection_points
@@ -79,7 +78,6 @@ class IntersectionBezier:
 
         return self._intersect_segment(P[0],P[m],Q[0],Q[n])
 
-
     def plot(self, k=3):
         # Metodo que produce el dibujo de las curvas y las
         # intersecciones.
@@ -114,8 +112,8 @@ class IntersectionBezier:
     def _intersect_segment(self,A,B,C,D):
         # segmento A-B y C-D
         # comprobamos que se cortan:
-        if ((self._side(A,C,D) and self._side(B,C,D)) 
-            or (self._side(A,B,C) and self._side(A,B,D))):
+        if ((self._side(A,C,D) == self._side(B,C,D)) 
+            or (self._side(A,B,C) == self._side(A,B,D))):
             return np.array([])
 
         # calculamos el punto de corte!
@@ -150,11 +148,10 @@ class IntersectionBezier:
             div1, div2 = self._subdivision(P)
             self._plot(div1, k-1, colour)
             self._plot(div2, k-1, colour)
-    def eraseLines(self):
-        self.ax.lines= []
 
-#---------------------------------------------------------------------------
-#---------------------------------------------------------------------------
+
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
    
 class Graphicalica:
     def __init__(self):
@@ -302,12 +299,14 @@ class Graphicalica:
             return
         self.ax.add_patch(c)
         self.fig.canvas.draw()
-        self._updatePlot(event)
 
 
     def on_release(self, event):
+        if not self.ax.contains(event)[0]: #press out of plot
+            return
         # Reseteamos la variable al soltar el boton del raton
         self.exists_touched_circle = False
+        self._updatePlot(event)
         return
 
     def on_move(self, event):
