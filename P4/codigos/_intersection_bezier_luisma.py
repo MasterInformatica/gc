@@ -226,6 +226,7 @@ class Graphics:
     def __init__(self):
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111, aspect=1)
+        self.ax.autoscale(False)
         self.ax.set_xlim(-20,20)
         self.ax.set_ylim(-20,20)
         self.points_P = []
@@ -255,7 +256,7 @@ class Graphics:
         self.eps = 0.1
 
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        plt.title('Click izquierdo introduce una curva, click derecho la otra.\n Con el click izquierdo se puede desplazar cualquiera de las dos curvas')
+        self.fig.suptitle('Click izquierdo introduce una curva, click derecho la otra.\n Con el click izquierdo se puede desplazar cualquiera de las dos curvas')
 
         # Sliders
         epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
@@ -395,7 +396,11 @@ class Graphics:
             c.remove()
         self.inter_circle = []
         self.ax.cla()
+        self.ax.autoscale(False)
+        self.ax.set_xlim(-20,20)
+        self.ax.set_ylim(-20,20)
         self.fig.canvas.draw()
+
 
     def _clean(self, event):
         self.clean()
