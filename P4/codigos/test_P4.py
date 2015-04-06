@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+
+""" 
+Práctica 4 de Geometría Computacional
+Autores:
+* Luis María Costero Valero (lcostero@ucm.es)
+* Jesús Javier Doménech Arellano (jdomenec@ucm.es)
+* Jennifer Hernández Bécares (jennhern@ucm.es)
+"""
+
 import unittest
 import timeit
 import numpy as np
@@ -18,7 +28,7 @@ if __name__ == '__main__':
     epsilon = 0.1
     intersect = IntersectionBezier()
     
-   # intersect(P, Q, epsilon)
+    # intersect(P, Q, epsilon)
 
     #unittest.main()
     print(timeit.repeat("eval_intersect(N, epsilon)",
