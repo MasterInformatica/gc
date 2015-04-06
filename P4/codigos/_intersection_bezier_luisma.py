@@ -47,7 +47,7 @@ class IntersectionBezier:
         Calcula la intersección de dos curvas de Bezier. Llama internamente 
         al método que lo calcula
         
-        P: Polígono de control de la primera curva. P.shape = (n, 2)
+        P: Polígono de control de la primera curva. P.shape = (n,2)
         Q: polígono de control de la segunda curva. Q.shape = (m,2)
         """
 
