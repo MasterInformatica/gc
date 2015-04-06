@@ -8,6 +8,7 @@ from matplotlib.patches import Circle
 from matplotlib.widgets import Slider, Button
 
 
+
 class IntersectionBezier:
     """
     Clase que se encarga de dadas dos curvas, implementa los métodos para
@@ -108,7 +109,7 @@ class IntersectionBezier:
         """
 
         if(self.window == None):
-            self.window = Graphicalica()
+            self.window = Graphics()
         
         self._plot(self.P,k,'b')
         self._plot(self.Q,k,'r')
@@ -122,15 +123,14 @@ class IntersectionBezier:
         y le pasa self, instancia encargada de intersecar curvas y pintarlas mediante
         subdivisiones
         """
-        self.window = Graphicalica()
+        self.window = Graphics()
         self.window.init_interaction(self)
         self.window.show()
 
 
         
-    #-----------------#
-    # PRIVATE METHODS #
-    #-----------------#
+    # ------- Private Methods --------
+
     def _boxes_overlap(self,P,Q):
         """
         Comprueba si las cajas de los poígonos P, Q se intersecan
@@ -210,7 +210,14 @@ class IntersectionBezier:
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
    
-class Graphicalica:
+class Graphics:
+    """
+    Contiene los componentes de la ventana gráfica.
+    Tiene métodos para pintar elementos en la ventana gráfica. 
+    En el método interactivo también se encarga de la gestión de los eventos con el 
+    ratón y los widgets de matplotlib
+    """
+    
     def __init__(self):
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111, aspect=1)
@@ -229,13 +236,21 @@ class Graphicalica:
         self.cid_move = self.fig.canvas.mpl_connect('motion_notify_event', self.on_move)
         self.cid_release_button = self.fig.canvas.mpl_connect('button_release_event', self.on_release)
 
+
     def init_interaction(self, bezier):
+        """
+        Se encarga de inicializar la ventana gráfica para ser interactiva. Añade los sliders y botones.
+
+        bezier: instancia de la clase que se encarga de calcular la curva y la intersección.
+        """
+
+
         self.bezier = bezier
         self.k = 3
         self.eps = 0.1
 
-        plt.subplots_adjust(bottom=0.25)
-
+        plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo
+        plt.title('Click izquierdo introduce una curva, click derecho la otra.\n Con el click izquierdo se puede desplazar cualquiera de las dos curvas')
         # Sliders
         epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
         kAxes = plt.axes([0.20, 0.1, 0.4, 0.03])
@@ -261,12 +276,23 @@ class Graphicalica:
 
 
     def _updateEps(self, val):
+        """
+        Controlador del evento asociado al slider de epsilon
+        """
         self.eps = val
 
     def _updateK(self,val):
+        """
+        Controlador del evento asociado al slider de K
+        """
         self.k = int(val)
 
+
     def _updatePlot(self, event):
+        """
+        Encarga de actualizar los dibujos, llamando a los métodos de bezier correspondientes
+        """
+        
         P = np.array(self.points_P)
         Q = np.array(self.points_Q)
         if P.shape[0] < 1 or Q.shape[0] < 1: # no hay puntos suficientes
@@ -279,7 +305,14 @@ class Graphicalica:
         self.inter_circle = []
         self.bezier.plot(k=self.k)
 
+        
     def _randomPlot(self, event):
+        """
+        Genera dos curvas aleatorias y las dibuja.
+        Para comprobar el resultado nos aseguramos que haya al menos 3 puntos de
+        intersección
+        """
+
         cuts = np.array([])
         N = 5
 
@@ -300,11 +333,19 @@ class Graphicalica:
 
         self.bezier.plot(k=self.k)
 
+
     def drawLine(self,line):
+        """ 
+        Dada una linea por parámetro, la muestra en la figura
+        """
+        
         self.ax.add_line(line)
         self.fig.canvas.draw()
 
     def drawPoints(self,points,colour):
+        """
+        Dado un punto y un color, muestra este con ese color en la figura
+        """
         if points.shape[0] != 0:
             for p in points:
                 c = Circle((p[0],p[1]),0.3,color='g')
@@ -312,10 +353,18 @@ class Graphicalica:
                 self.ax.add_patch(c)
         self.fig.canvas.draw()
 
+        
     def show(self):
+        """
+        realiza el show del plot
+        """
         plt.show()
 
     def clean(self):
+        """
+        Borra todos los elementos de la gráfica. Lineas y circulos
+        """
+
         self.points_P = []
         self.points_Q = []
         for c in self.inter_circle: #reset intersection Points
@@ -328,6 +377,11 @@ class Graphicalica:
         self.clean()
 
     def on_press(self, event):
+        """ 
+        Controlador del evento asociado a pinchar en la gráfica.
+        """
+
+        
         if not self.ax.contains(event)[0]: #press out of plot
             return
         for circle in self.ax.patches:
@@ -385,6 +439,11 @@ class Graphicalica:
            # self._updatePlot(event)
             self.fig.canvas.draw()
         
+
+
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
 if __name__ == '__main__':
     """
     Si iniciamos la aplicación de manera directa, inicilizamos la ventana
