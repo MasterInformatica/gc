@@ -1,33 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
-'''
-def coef(x, y, n): 
-    x.astype(float) 
-    y.astype(float) 
-    n = len(x) 
-    a = [] 
-    for i in range(n): 
-        a.append(y[i])
-        for j in range(1, n):
-            for i in range(n-1, j-1, -1):
-                a[i] = float(a[i]-a[i-1])/float(x[i]-x[i-j])
 
-    return np.array(a) # return an array of coefficient
-
-def Eval(a, x, r):
-    x.astype(float)
-    n = len( a ) - 1
-    temp = a[n]
-    for i in range( n - 1, -1, -1 ):
-        temp = temp * ( r - x[i] ) + a[i]
-    return temp # return the y_value interpolation
-        
-'''
 def newton_polynomial(x, tau, num_points=100, libraries=False):
-#your code here
-    if libraries == False:
-        #your code here    
+    '''
+    Computes de Newton's polynomial interpolating values x at knots Tau
+    x: numpy array of size n; points to interpolate
+    tau: numpy array of size n; knots tau[0] < tau[1] < ... < tau[n-1]
+    num_points: number of points at which the polynomial will be
+                evaluated
+
+    libraries: False means only linear algebra can be used
+               True means every module can be used.
+
+    returns:
+       numpy array of size num_points given by the polynomial 
+       evaluated at np.linspace(tau[0], tau[1], num_points)
+
+    Minimum cost allowed: 5,43 s at lab III computers
+            degree = n - 1 = 9
+            num_points = 100
+    '''
     
+    #your code here
+    if libraries == False:
+        #your code here        
         return polynomial #np.array of size num_points
     else:
         #your code here
@@ -35,13 +31,9 @@ def newton_polynomial(x, tau, num_points=100, libraries=False):
     
 if __name__ == '__main__':
     n = 10  
-    tau = np.arange(n)
+    tau = np.arange(n) # nodos
     x = np.random.randint(-10, 10, size=n)
     num_points = 100
-
-    print 'tau', tau
-    print 'x', x
-
     poly_0 = newton_polynomial(x, tau, num_points, libraries=False)
     poly_1 = newton_polynomial(x, tau, num_points, libraries=True)
     print np.linalg.norm(poly_0 - poly_1)
@@ -60,8 +52,3 @@ if __name__ == '__main__':
     print(timeit.repeat("x = np.random.randint(-10, 10, size=n); newton_polynomial(x, tau, libraries=True)",
                         setup="from __main__ import newton_polynomial, n,  tau, np",
                         number=10000))
-
-    # URLs con info
-
-    # https://gist.github.com/vene/921554
-    # http://stackoverflow.com/questions/14823891/newton-s-interpolating-polynomial-python
