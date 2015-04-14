@@ -19,6 +19,18 @@ def newtdd(x,y):
 	c = v[0,:].copy()			# Read along top of triangle for output coefficients
 	return c
 
+
+    
+def interpolate(x, tau, num_points):
+
+    interpolant = newtdd(tau,x)
+
+    t = np.linspace(tau[0],tau[-1], num_points)
+    y = eval_pol(interpolant, tau, num_points)
+
+    #plt.plot(t,y,'b')
+    #plt.show()
+
 def eval_pol(a, tau, num_points):
     N = a.shape[0]-1; # ultimo indice accesible
 
@@ -37,22 +49,8 @@ x = np.random.randint(-10, 10, size=n)
 
 num_points = 100
 
-print 'tau', tau
-print 'x', x
-
-plt.plot(tau,x, 'ro')
-
-interpolant = newtdd(tau,x)
-print 'interpolant', interpolant
+import timeit
+print(timeit.repeat("interpolate(x,tau,num_points)", setup="from __main__ import interpolate, x, n, tau, num_points,eval_pol, np", number=10000))
 
 
-t = np.linspace(tau[0],tau[-1], num_points)
-print 't',t
-
-y = eval_pol(interpolant, tau, num_points)
-print 'y', y
-
-plt.plot(t,y,'b')
-plt.show()
-
-
+# Codigo tarda: [0.9688677787780762, 0.9725048542022705, 0.9821891784667969]
