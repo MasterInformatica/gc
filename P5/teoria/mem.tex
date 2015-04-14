@@ -1,0 +1,45 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc} \usepackage[T1]{fontenc} \usepackage{graphicx}
+\usepackage{longtable} \usepackage{tabularx} \usepackage{float}
+\usepackage{wrapfig} \usepackage{soul} \usepackage{amssymb}
+\usepackage{hyperref} \usepackage{caption} \usepackage{subcaption}
+\usepackage{pdfpages} \usepackage{sidecap}
+\usepackage{amsmath}
+
+
+\parindent 0in \usepackage[spanish]{babel}
+\setlength{\parskip}{0.5\baselineskip} \usepackage{fullpage}
+\usepackage{multirow} \usepackage{multicol} \usepackage{framed}
+\usepackage{listings} \usepackage{enumerate}
+
+\usepackage{appendix} \usepackage{setspace} \usepackage{amsmath}
+\usepackage{mathtools}
+
+%% DEFINICIONES
+\newcommand{\TODO}[1]{{\huge \color{red} \textbf{TODO: }#1 }}
+\newcommand{\todo}[1]{{\large \color{red} \textbf{TODO: }#1 }}
+
+
+\title{Práctica 5. \\ Geometría computacional} 
+
+\author{Luis María Costero Valero (lcostero@ucm.es)\\ Jesús Doménech
+  Arellano (jdomenec@ucm.es) \\ Jennifer Hernández Bécares (jennhern@ucm.es)}
+\date{Abril 2015}
+
+\begin{document}
+\maketitle
+
+\textbf{Si $f=gh$, demuéstrese la fórmula de Leibniz para las diferencias divididas,}
+\begin{equation*}
+  [\tau_i,...,\tau_{i+k}]f=\sum_{r=i}^{i+k}([\tau_i,...,\tau_r]g)([\tau_r,...,\tau_{i+k}]h).
+\end{equation*}
+
+\todo{aquí irá la demostración}
+
+\textbf{Aplíquese esta fórmula e inducción al caso particular $g(x)=x,$, $h(x)=1/x$ para deducir que}
+\begin{equation*}
+  [\tau_1,...,\tau_n](1/x)=(-1)^{n-1}/(\tau_1...\tau_n).
+\end{equation*}
+
+\end{document}
