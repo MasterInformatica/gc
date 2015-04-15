@@ -28,14 +28,20 @@ def polynomial_curve_fitting(points, knots, method, L=0, libraries=False,
            numpy array of shape (num_points, 2) given by the evaluation of the polynomial
            at the evenly spaced num_points between tau[0] and tau[-1]
     '''
-    return [polynomial_curve_fitting1d(points[:,0], knots, method, L, libraries, num_points),
-            polynomial_curve_fitting1d(points[:,1], knots, method, L, libraries, num_points)]
-
+    if knots == 'chebyshev':
+        knots = chebyshev_knots(0,1,points.shape[0])
+    
+    sol = np.zeros((num_points,2))
+    sol[:,0]=polynomial_curve_fitting1d(points[:,0], knots, method, L, libraries, num_points)
+    sol[:,1]=polynomial_curve_fitting1d(points[:,1], knots, method, L, libraries, num_points)
+    return sol
 
 def polynomial_curve_fitting1d(points, knots, method, L=0, libraries=False,
-                             num_points=100):   
-    degree = 0 # hay que cambiarlo
+                             num_points=100):
+    degree = knots.shape[0] # hay que cambiarlo
     if method == 'newton':
+        if points.shape[0] != degree:
+            raise Exception("M!=N") 
         return newton_polynomial(points,knots,num_points,libraries)
     else:
         return least_squares_fitting(points,knots,degree,num_points,L,libraries)
@@ -77,12 +83,12 @@ def interp_with_library(x, tau, num_points):
     '''
     coeffs = np.linalg.solve(np.vander(tau, increasing=True), x)
     times = np.linspace(tau[0], tau[-1], num_points)
-    return np.polyval(coeffs,times)
+    return np.polyval(np.flipud(coeffs),times)
 
 def newtondd(x,y):
 	n = len(x)
 	v = np.zeros((n,n))
-        v[:,0] = y[:]		# Fill in y column of Newton triangle
+        v[:,0] = y		# Fill in y column of Newton triangle
 	for i in range(1,n):		# For column i,
 		for j in range(n-i):	# 1:n+1-i		# fill in column from top to bottom
 #			print j,i," ",j+1,i-1," ", j,i-1," ",j+i," ",j
@@ -94,7 +100,8 @@ def newtondd(x,y):
 
 def eval_poly(t, coefs, tau=None):    
     N = coefs.shape[0]-1; # ultimo indice accesible
-
+    if tau is None:
+        tau = np.zeros(N)
     sol = coefs[N] * np.ones(t.shape[0])
     for k in range(N-1, -1, -1):
         sol = coefs[k]  + (t-tau[k])*sol
@@ -105,15 +112,19 @@ def eval_poly(t, coefs, tau=None):
 def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True):    
     #I've used np.linalg.lstsq and np.polyval if libraries==True
     if libraries:
-        pass
+        coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), x)
+        times = np.linspace(knots[0], knots[-1], num_points)
+        return np.polyval(np.flipud(coeffs),times)
     else:
-        pass
+        C = np.vander(knots,N=degree, increasing=True)
+        F = np.dot(C.transpose(),C)+L/2.0*np.eye(degree)
+        coeffs = np.linalg.solve(F, np.dot(C.transpose(),points))
+        times = np.linspace(knots[0], knots[-1], num_points)
+        return  eval_poly(times,coeffs)
         
 def chebyshev_knots(a, b, n):
-    pass
-       
-
-
+    j = np.arange(1,n+1) # j = 1, ..., n    
+    return (a+b-((a-b)*np.cos(((2*j-1)*np.pi)/(2.0*n))))/2.0
 
                                  
                 

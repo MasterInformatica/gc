@@ -5,7 +5,7 @@ from polynomial_curve_fitting import polynomial_curve_fitting
 
 
 def test_least_squares_fitting():
-    n = 10  
+    n = 10
     x = np.random.randint(-10, 10, size=(n, 2))
     knots = np.linspace(0, 1, n)
     num_points = 200
@@ -14,14 +14,16 @@ def test_least_squares_fitting():
                                       libraries=False, num_points=num_points)
     poly_1 = polynomial_curve_fitting(x, knots, method='newton',
                                       libraries=True, num_points=num_points)    
-    t = np.linspace(knots[0], knots[-1], num_points) 
 
+    t = np.linspace(knots[0], knots[-1], num_points) 
+    assert np.max(poly_0 - poly_1) < 1e-1, 'least squares fitting\
+                                                 polynomial is not correct'
     plt.plot(poly_0[:, 0], poly_0[:, 1])
     plt.plot(poly_1[:, 0], poly_1[:, 1])
     plt.plot(x[:, 0], x[:, 1], 'o')
     plt.show()
-    assert np.max(poly_0 - poly_1) < 1e-1, 'least squares fitting\
-                                                 polynomial is not correct'
+
+
 
 
 def test_least_squares_fitting_regularized():
@@ -62,7 +64,7 @@ def test_newton_poly_cheb():
     plt.show()  
     
 def test_newton_poly():
-    n = 10  
+    n = 15
     x = np.random.randint(-10, 10, size=(n, 2))
     knots = np.linspace(0, 1, n)
     num_points = 200
@@ -71,6 +73,7 @@ def test_newton_poly():
                                       libraries=False, num_points=num_points)
     poly_1 = polynomial_curve_fitting(x, knots, method='newton',
                                       libraries=True, num_points=num_points)
+
     assert np.linalg.norm(poly_0 - poly_1) < 1e-2, 'wrong newton polynomial'
         
     
@@ -107,8 +110,8 @@ num_points = 200
 
 if __name__ == '__main__':
     
-    #test_least_squares_fitting()
-    #test_least_squares_fitting_regularized()
-    #test_newton_poly_cheb()
-    #test_newton_poly()
-    timing_curve_fitting()
+    test_least_squares_fitting()
+    test_least_squares_fitting_regularized()
+    test_newton_poly_cheb()
+    test_newton_poly()
+    #timing_curve_fitting()
