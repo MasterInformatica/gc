@@ -1,0 +1,17 @@
+* TODO Degree
+  Meter el degree. Ojo en el caso de Newton. Devolver el error.
+  A lo mejor es interesante esperar a que Antonio suba su plantilla al
+  campus corregida
+* TODO Teoría
+  Pues eso, porquería
+* TODO Parte opcional
+  Meter parte interactiva. Aprovechar la clase de la práctica anterior.
+* TODO Comentar
+  Poner el código bonito
+* TODO Buscar el fallo
+  De vez en cuando se produce un fallo feo que no sabemos de donde sale.
+* TODO Comprobación general
+  Comprobar que todo está hecho, y se adapta a los siguientes criterios:
+   1) El enuncaido de la práctica
+   2) Los comentarios que ha puesto en los templates
+* TODO Optimizar las funciones
