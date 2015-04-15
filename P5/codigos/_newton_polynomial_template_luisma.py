@@ -24,10 +24,8 @@ def newton_polynomial(x, tau, num_points=100, libraries=False):
     
     #your code here
     if libraries == False:
-        #your code here        
         return polynomial #np.array of size num_points
     else:
-        #your code here
         return interp_with_library(x,tau,num_points) #np.array of size num_points
     
 
@@ -36,9 +34,16 @@ def interp_with_library(x, tau, num_points):
     Interpola resolviendo el sistema con la matriz de Vandermonde
     '''
 
-    coeffs = np.linalg.solve(np.vander(tau, increasing=True), x)
+    #A = np.fliplr(np.vander(tau))
+#    A = np.vander(tau)
+    coeffs = np.linalg.solve(A, x)
 
-    return eval_pol(coeffs, tau, num_points)
+    #coeffs = np.flipud(coeffs)
+
+    times = np.linspace(tau[0], tau[-1], num_points)
+    return np.polyval(coeffs, times)
+
+
 
 
 def eval_pol(a, tau, num_points):
@@ -49,6 +54,7 @@ def eval_pol(a, tau, num_points):
     sol = a[N] * np.ones(num_points)
     for k in range(N-1, -1, -1):
         sol = a[k]  + (x-tau[k])*sol
+        
 
     return sol
 
@@ -70,11 +76,11 @@ if __name__ == '__main__':
     plt.show()
 
 
-    #############################################################################################################
-    # n = 10                                                                                                    #
-    # tau = np.arange(n)                                                                                        #
-    # x = np.random.randint(-10, 10, size=n)                                                                    #
-    # num_points = 100                                                                                          #
+    
+    n = 10                                                                                                    #
+    tau = np.arange(n)                                                                                        #
+    x = np.random.randint(-10, 10, size=n)                                                                    #
+    num_points = 100                                                                                          #
     # poly_0 = newton_polynomial(x, tau, num_points, libraries=False)                                           #
     # poly_1 = newton_polynomial(x, tau, num_points, libraries=True)                                            #
     # print np.linalg.norm(poly_0 - poly_1)                                                                     #
@@ -83,14 +89,14 @@ if __name__ == '__main__':
     # plt.plot(t, poly_0)                                                                                       #
     # plt.plot(tau, x, 'o')                                                                                     #
     # plt.show()                                                                                                #
-    #                                                                                                           #
-    #                                                                                                           #
-    # import timeit                                                                                             #
+                                                                                                              #
+                                                                                                              #
+    import timeit                                                                                             #
     #                                                                                                           #
     # print(timeit.repeat("x = np.random.randint(-10, 10, size=n); newton_polynomial(x, tau, libraries=False)", #
     #                     setup="from __main__ import newton_polynomial, n,  tau, np",                          #
     #                     number=10000))                                                                        #
-    # print(timeit.repeat("x = np.random.randint(-10, 10, size=n); newton_polynomial(x, tau, libraries=True)",  #
-    #                     setup="from __main__ import newton_polynomial, n,  tau, np",                          #
-    #                     number=10000))                                                                        #
-    #############################################################################################################
+    print(timeit.repeat("x = np.random.randint(-10, 10, size=n); newton_polynomial(x, tau, libraries=True)",  #
+                        setup="from __main__ import newton_polynomial, n,  tau, np",                          #
+                        number=10000))                                                                        #
+    
