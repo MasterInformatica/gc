@@ -12,7 +12,7 @@ def test_least_squares_fitting():
 
     poly_0 = polynomial_curve_fitting(x, knots, method='least_squares',
                                       libraries=False, num_points=num_points)
-    poly_1 = polynomial_curve_fitting(x, knots, method='newton',
+    poly_1 = polynomial_curve_fitting(x, knots, method='least_squeares',
                                       libraries=True, num_points=num_points)    
 
     t = np.linspace(knots[0], knots[-1], num_points) 
@@ -111,7 +111,7 @@ num_points = 200
 if __name__ == '__main__':
     
     test_least_squares_fitting()
-    test_least_squares_fitting_regularized()
-    test_newton_poly_cheb()
-    test_newton_poly()
-    #timing_curve_fitting()
+    #test_least_squares_fitting_regularized()
+    #test_newton_poly_cheb()
+    #test_newton_poly()
+    timing_curve_fitting()

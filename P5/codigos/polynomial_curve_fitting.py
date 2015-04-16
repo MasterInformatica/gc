@@ -1,7 +1,21 @@
+# -*- coding: utf-8 -*-
+
+""" 
+Práctica 5 de Geometría Computacional
+Autores:
+* Luis María Costero Valero (lcostero@ucm.es)
+* Jesús Javier Doménech Arellano (jdomenec@ucm.es)
+* Jennifer Hernández Bécares (jennhern@ucm.es)
+"""
+
 from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
-
+from matplotlib.lines import Line2D
+from matplotlib.patches import Circle
+from matplotlib.path import Path
+from matplotlib.widgets import Slider, Button
+import matplotlib.patches as patches
 
 
 def polynomial_curve_fitting(points, knots, method, L=0, libraries=False,
@@ -127,4 +141,275 @@ def chebyshev_knots(a, b, n):
     return (a+b-((a-b)*np.cos(((2*j-1)*np.pi)/(2.0*n))))/2.0
 
                                  
+#--------------------------------------------------------------------------
+#--------------------------------------------------------------------------
+   
+class Graphics:
+    """
+    Contiene los componentes de la ventana gráfica.
+    Tiene métodos para pintar elementos en la ventana gráfica. 
+    En el método interactivo también se encarga de la gestión de los eventos con el 
+    ratón y los widgets de matplotlib
+    """
+    
+    def __init__(self):
+        self.fig = plt.figure()
+        self.ax = self.fig.add_subplot(111, aspect=1)
+        self.ax.autoscale(False)
+        self.ax.set_xlim(-20,20)
+        self.ax.set_ylim(-20,20)
+        self.points_P = []
+        self.inter_circle = []
+        # Variables para Mover puntos
+        self.exists_touched_circle = False
+        self.touched_P = True
+        self.touched_index = None
+        self.touched_x0, self.touched_y0 = None,None
+        # Controlador de Eventos
+        self.cid_press = self.fig.canvas.mpl_connect('button_press_event', self.on_press)        
+        self.cid_move = self.fig.canvas.mpl_connect('motion_notify_event', self.on_move)
+        self.cid_release_button = self.fig.canvas.mpl_connect('button_release_event', self.on_release)
+
+
+    def init_interaction(self):
+        """
+        Se encarga de inicializar la ventana gráfica para ser interactiva. Añade los sliders y botones.
+        """
+        self.lib = False
+        self.other_method = 'newton'
+        self.method = 'least_squares'
+        self.L = 6
+        plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
+        self.fig.suptitle('Click izquierdo introduce una curva, click derecho la otra.\n Los vertices de los poligonos se pueden mover con ambos clicks.')
+
+        # Sliders
+#        epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
+#        kAxes = plt.axes([0.20, 0.1, 0.4, 0.03])
+
+#        self.epsSlider = Slider(epsAxes, 'eps: ', 0.001, 1.00, valinit=0.1, valfmt=u'%1.3f')
+#        self.kSlider   = Slider(kAxes, 'k: ', 0, 6, valinit=3, valfmt=u'%0.0f')
+
+#        self.epsSlider.on_changed(self._updateEps)        
+#        self.kSlider.on_changed(self._updateK)
+
+        #Buttons
+        calculateAxes = plt.axes([0.7, 0.17, 0.15, 0.03])
+        randomAxes = plt.axes([0.7, 0.11, 0.15, 0.03])
+        resetAxes = plt.axes([0.7, 0.05, 0.15, 0.03])
+        method = plt.axes([0.3, 0.17, 0.15, 0.03])
+        libs = plt.axes([0.3, 0.11, 0.15, 0.03])
+        subL = plt.axes([0.3, 0.05, 0.07, 0.03])
+        addL = plt.axes([0.38, 0.05, 0.07, 0.03])
+
+        self.buttonCalculate = Button(calculateAxes, 'Calculate!')
+        self.buttonReset = Button(resetAxes, 'Reset!')
+        self.buttonRandom = Button(randomAxes, 'Random!')
+        self.buttonMethod = Button(method, 'Change Method')
+        self.buttonLibs = Button(libs, 'Change Libs')
+        self.buttonAddL = Button(addL, 'L+=1')
+        self.buttonSubL = Button(subL, 'L-=1')
+
+        self.buttonCalculate.on_clicked(self._updatePlot)
+        self.buttonReset.on_clicked(self._clean)
+        self.buttonRandom.on_clicked(self._randomPlot)
+        self.buttonMethod.on_clicked(self._changeMethod)
+        self.buttonLibs.on_clicked(self._changeLibs)
+        self.buttonAddL.on_clicked(self._changeAddL)
+        self.buttonSubL.on_clicked(self._changeSubL)
+
+    def _changeMethod(self,event):
+        aux = self.method
+        self.method = self.other_method
+        self.other_method = aux
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+    def _changeLibs(self,event):
+        self.lib = not self.lib
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+    def _changeAddL(self,event): 
+        if(self.L ==10):
+            return       
+        self.L += 1
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+    def _changeSubL(self,event):        
+        if(self.L ==0):
+            return
+        self.L -= 1
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+    def _updatePlot(self, event):
+        """
+        Encarga de actualizar los dibujos, llamando a los métodos correspondientes
+        """
+        
+        P = np.array(self.points_P)
+        if P.shape[0] < 1:# no hay puntos suficientes
+            return
+        self.ax.lines = []
+ 
+
+        #Imprimimos los polígonos de control
+        #self.drawPolygon(self.points_P, 'mediumblue')
+
+        for c in self.inter_circle: #reset intersection Points
+            c.remove()
+        self.inter_circle = []
+        # COMPUTAR
+        knots = np.linspace(0, 1, P.shape[0])
+        colores = ['b','g','r','c','m','y','k','burlywood','orange','chartreuse','mediumgreen','salmon']
+        print "Using: method=%s, num_L=%d, libreries=%s" % (self.method, self.L, self.lib)
+        if self.method == 'newton':
+            curve = polynomial_curve_fitting(P, knots, self.method, 0, self.lib,200)
+            self.drawPolygon(curve,colores[0])
+        else:
+            list_L = [10**k for k in range(-5-self.L, -5)]
+            col = 0
+            for L in list_L:
+                curve = polynomial_curve_fitting(P, knots, self.method, L, self.lib,200)
+                self.drawPolygon(curve,colores[col])
+                col+=1
+
+        
+    def _randomPlot(self, event):
+        """
+        Genera puntos aleatorios y los dibuja.
+        """
+
+        self._clean(event)
+        P = np.random.uniform(-20, 20, (5 + 1, 2))
+
+        # Para poder mover los puntos
+        for p in P:
+            self.points_P.append([p[0],p[1]])       
+            c = Circle((p[0],p[1]), 0.5,color='b')
+            self.ax.add_patch(c)
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+        
+
+    def drawLine(self,line):
+        """ 
+        Dada una linea por parámetro, la muestra en la figura
+        """
+        self.ax.add_line(line)
+        self.fig.canvas.draw()
+
+
+    def drawPolygon(self, Pol,colour=None):
+        """ 
+        Pinta los poligonos de control self.points_P y self.points_Q con los colores b y r
+        """
+        x = [k[0] for k in Pol]
+        y = [k[1] for k in Pol]
+        if colour is None:
+            self.ax.plot(x,y)
+        else:
+            self.ax.plot(x,y,colour)
+        self.fig.canvas.draw()
+        
+    def drawPoints(self,points,colour):
+        """
+        Dado un punto y un color, muestra este con ese color en la figura, y su poligono de control
+        """
+        if points.shape[0] != 0:
+            for p in points:
+                c = Circle((p[0],p[1]),0.3,color='g')
+                self.inter_circle.append(c)
+                self.ax.add_patch(c)
+
+        self.fig.canvas.draw()
+
+        
+    def show(self):
+        """
+        realiza el show del plot
+        """
+        plt.show()
+
+    def clean(self):
+        """
+        Borra todos los elementos de la gráfica. Lineas y circulos
+        """
+        self.points_P = []
+        for c in self.inter_circle: #reset intersection Points
+            c.remove()
+        self.inter_circle = []
+        self.ax.cla()
+        self.ax.autoscale(False)
+        self.ax.set_xlim(-20,20)
+        self.ax.set_ylim(-20,20)
+        self.fig.canvas.draw()
+
+
+    def _clean(self, event):
+        self.clean()
+
+    def on_press(self, event):
+        """ 
+        Controlador del evento asociado a pinchar en la gráfica.
+        """
+        if not self.ax.contains(event)[0]: #press out of plot
+            return
+        for circle in self.ax.patches:
+            contains, attr = circle.contains(event)
+            if contains:
+                self.touched_circle = circle
+                self.exists_touched_circle = True
+                self.pressed_event = event
+                self.touched_x0, self.touched_y0 = circle.center
+                punto = [self.touched_x0, self.touched_y0]
+                if punto in self.points_P:
+                    self.touched_index = self.points_P.index(punto)
+                    self.touched_P = True
+                return
+            
+        if event.button == 1:
+            self.points_P.append([event.xdata, event.ydata])
+            c = Circle((event.xdata, event.ydata), 0.5,color='b')
+        else:
+            return
+        self.ax.add_patch(c)
+        self.fig.canvas.draw()
+
+
+    def on_release(self, event):
+        if not self.ax.contains(event)[0]: #press out of plot
+            return
+        # Reseteamos la variable al soltar el boton del raton
+        self.exists_touched_circle = False
+        self._updatePlot(event)
+        self.fig.canvas.draw()
+        return
+
+    def on_move(self, event):
+        if not self.ax.contains(event)[0]: #press out of plot
+            return
+        # Si habiamos pinchado encima de un circulo existente y lo intentamos
+        # mover, se actualiza el poligono en consecuencia, se modifican los
+        # valores
+        if self.exists_touched_circle:
+            dx = event.xdata - self.pressed_event.xdata
+            dy = event.ydata - self.pressed_event.ydata
+            x0, y0 = self.touched_circle.center
+            self.touched_circle.center = self.touched_x0+dx, self.touched_y0+dy
+            #Actualizar arrays
+            if self.touched_P:
+                self.points_P[self.touched_index] = [self.touched_x0+dx, self.touched_y0+dy]
+            self._updatePlot(event)
+            self.fig.canvas.draw()
+
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    """
+    Si iniciamos la aplicación de manera directa, inicilizamos la ventana
+    gráfica para ser interactiva
+    """
+    window = Graphics()
+    window.init_interaction()
+    window.show()
+
                 
