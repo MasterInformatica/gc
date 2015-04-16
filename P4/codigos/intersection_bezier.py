@@ -80,7 +80,7 @@ class IntersectionBezier:
             else: # remove duplicated points (distance < self.epsilon)
                 for p in intersec_points2:
                     if not (np.amin(np.linalg.norm(intersec_points1 - p)) < self.epsilon):
-                        intersec_points1 = np.append(  intersec_points1 ,  [p], axis=0)
+                        intersec_points1 = np.append(intersec_points1 , [p], axis=0)
                 return intersec_points1
 
 
@@ -102,7 +102,6 @@ class IntersectionBezier:
                     if not (np.amin(np.linalg.norm(intersec_points1 - p)) < self.epsilon):
                         intersec_points1 = np.append(  intersec_points1 ,  [p], axis=0)
                 return intersec_points1
-
 
         return self._intersect_segment(P[0],P[m],Q[0],Q[n])
 
@@ -146,25 +145,24 @@ class IntersectionBezier:
 
     def _boxes_overlap(self,P,Q):
         """
-        Comprueba si las cajas de los poígonos P, Q se intersecan
+        Comprueba si las cajas de los polígonos P, Q se intersecan
         """
         maxs_P,mins_P = np.max(P,axis=0), np.min(P,axis=0)
         maxs_Q,mins_Q = np.amax(Q,axis=0), np.amin(Q,axis=0)
-        return ( (mins_P[0] < maxs_Q[0]) and (maxs_P[0] > mins_Q[0]) and (mins_P[1] < maxs_Q[1]) and (maxs_P[1] > mins_Q[1]) )
+        return ( (mins_P[0] <= maxs_Q[0]) and (maxs_P[0] >= mins_Q[0]) and (mins_P[1] <= maxs_Q[1]) and (maxs_P[1] >= mins_Q[1]) )
     
         
     def _side(self,A,B,C):
         """
-        Devuleve true/false según a que lado esté el punto respecto al segmento
+        Devuelve true/false según a que lado esté el punto respecto al segmento
         """
         # X - Y > 0 ==> X > Y
-        return (C[1]-A[1])*(B[0]-A[0]) > (B[1]-A[1])*(C[0]-A[0])
+        return (C[1]-A[1])*(B[0]-A[0]) >= (B[1]-A[1])*(C[0]-A[0])
 
     def _intersect_segment(self,A,B,C,D):
         """
-        Devuelve el punto de instercción entre el segmento AB y CD. 
+        Devuelve el punto de intersección entre el segmento AB y CD. 
         """
-        
         # comprobamos que se cortan:
         if ((self._side(A,C,D) == self._side(B,C,D)) 
             or (self._side(A,B,C) == self._side(A,B,D))):
@@ -175,7 +173,6 @@ class IntersectionBezier:
         line2 = np.cross([C[0],C[1],1], [D[0],D[1],1])
 
         intersect_point = np.cross(line1, line2)
-
         return np.array([[intersect_point[0]/intersect_point[2], intersect_point[1]/intersect_point[2]]])
         
         
