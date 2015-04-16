@@ -112,7 +112,7 @@ def eval_poly(t, coefs, tau=None):
 def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True):    
     #I've used np.linalg.lstsq and np.polyval if libraries==True
     if libraries:
-        coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), x)
+        coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
         times = np.linspace(knots[0], knots[-1], num_points)
         return np.polyval(np.flipud(coeffs),times)
     else:
