@@ -5,7 +5,7 @@
 \usepackage{wrapfig} \usepackage{soul} \usepackage{amssymb}
 \usepackage{hyperref} \usepackage{caption} \usepackage{subcaption}
 \usepackage{pdfpages} \usepackage{sidecap}
-\usepackage{amsmath}
+\usepackage{amsmath} \usepackage{amsthm}
 
 
 \parindent 0in \usepackage[spanish]{babel}
@@ -25,18 +25,39 @@
 
 \author{Luis María Costero Valero (lcostero@ucm.es)\\ Jesús Doménech
   Arellano (jdomenec@ucm.es) \\ Jennifer Hernández Bécares (jennhern@ucm.es)}
-\date{Abril 2015}
+\date{}
 
 \begin{document}
 \maketitle
 
 \textbf{Si $f=gh$, demuéstrese la fórmula de Leibniz para las diferencias divididas,}
 \begin{equation*}
-  [\tau_i,...,\tau_{i+k}]f=\sum_{r=i}^{i+k}([\tau_i,...,\tau_r]g)([\tau_r,...,\tau_{i+k}]h).
+  [\tau_i,\dots,\tau_{i+k}]f=\sum\limits_{r=i}^{i+k}([\tau_i,\dots,\tau_r]g)([\tau_r,\dots,\tau_{i+k}]h).
 \end{equation*}
 
-\todo{aquí irá la demostración}
-
+Sea P el polinomio interpolador de f en los puntos $\tau_i, ... ,
+\tau_{i+k}$. Entonces se verifica que $$[\tau_{i}, ..., \tau_{i+k}](Pg) =
+[\tau_i, ..., \tau_{i+k}](fg)$$
+Además, el polinomio interpolador de Newton viene dado por:
+$$ P = \sum\limits^{i+k}_{r=i}(x-\tau_i)\dots(x-\tau_{r-1})[\tau_i,\dots,\tau_{i+k}]f$$
+Luego se obtiene que:
+\begin{align*}
+  [\tau_i,\dots,\tau_{i+k}](fg) &= [\tau_i,\dots,\tau_{i+k}](Pg) = (Def.\,polinom.\,Newton)=\\
+                      &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]f
+                        \cdot g\right)
+\end{align*}
+Como se cumple la siguiente propiedad:
+$$[x_0, ..., x_i, y_0, .., y_j]((t-x_0)...(t-x_i)f) = [y_0,...,y_j]f$$\\
+Y operando se obtiene el resultado buscado:
+\begin{align*}
+  [\tau_i,\dots,\tau_{i+k}](fg) &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]f
+                        \cdot g\right)\\
+                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_{r}]f \cdot
+                        [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i,\dots,\tau_{r-1})g\right)=\\
+                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_r]f \cdot [\tau_r,
+                        \dots, \tau_{i+k}]g\\
+\end{align*}
+\newpage{}
 \textbf{Aplíquese esta fórmula e inducción al caso particular $g(x)=x,$, $h(x)=1/x$ para deducir que}
 \begin{equation*}
   [\tau_1,...,\tau_n](1/x)=(-1)^{n-1}/(\tau_1...\tau_n).
