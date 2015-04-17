@@ -29,6 +29,7 @@
 
 \begin{document}
 \maketitle
+\doublespace
 
 \textbf{Si $f=gh$, demuéstrese la fórmula de Leibniz para las diferencias divididas,}
 \begin{equation*}
@@ -56,11 +57,83 @@ Y operando se obtiene el resultado buscado:
                         [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i,\dots,\tau_{r-1})g\right)=\\
                       &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_r]f \cdot [\tau_r,
                         \dots, \tau_{i+k}]g\\
-\end{align*}
-\newpage{}
+\end{align*}\\
+
 \textbf{Aplíquese esta fórmula e inducción al caso particular $g(x)=x,$, $h(x)=1/x$ para deducir que}
 \begin{equation*}
   [\tau_1,...,\tau_n](1/x)=(-1)^{n-1}/(\tau_1...\tau_n).
 \end{equation*}
 
+Consideramos $f(x)=g(x)h(x)$, es decir $f(x)=1$. Vamos a comprobar las
+siguientes propiedades:
+\begin{enumerate}
+\item 
+  \begin{itemize}
+  \item $[\tau_i]f=f(\tau_i)=1$
+  \item $[\tau_i, \tau_{i+1}, \dots, \tau_j]f = 0$. Por inducción sobre el
+    número de elementos.\\
+    \textit{Caso base:} $j=i+1$, se tiene que $[\tau_i,\tau_{i+1}]f =
+    \frac{[\tau_{i+1}]f -[\tau_i]f}{\tau_{i+2}-\tau_{i}} = \frac{1 -
+      1}{\tau_{i+1} - \tau_i} = 0.$\\
+    \textit{Hipótesis de inducción:} Supongamos que se cumple para $j=n-1>i+1$, y
+    demostremos que se verifica para $j=n$.\\
+    $[\tau_i, \tau_{i+1},\dots,\tau_{n}] f =
+    \frac{[\tau_{i+1},\dots,\tau_n]f -
+      [\tau_i,\dots,\tau_{n-1}]f}{\tau_n-\tau_i} \stackrel{H.I.}{=} \frac{0-0}{\tau_n -
+      \tau_i}=0$
+  \end{itemize}
+\item 
+  \begin{itemize}
+  \item $[\tau_i]g=g(\tau_i)=\tau_i$
+  \item $[\tau_i,\tau_{i+1}]g=\frac{[\tau_{i+1}]g-[\tau{i}]g}{\tau_{i+1}-\tau_{i}}=1$
+  \item $[\tau_i, \tau_{i+1}, \tau_{i+2}, \dots, \tau_j]g = 0$. Por inducción sobre el
+    número de elementos.\\
+    \textit{Caso base:} $j=i+2$, se tiene que $[\tau_i,\tau_{i+1},\tau_{i+2}]g =
+    \frac{[\tau_{i+1},\tau_{i+2}]g -[\tau_i,\tau_{i+1}]g}{\tau_{i+2}-\tau_{i}} = \frac{1 -
+      1}{\tau_{i+1} - \tau_i} = 0.$\\
+    \textit{Hipótesis de inducción:} Supongamos que se cumple para $j=n-1>i+2$, y
+    demostremos que se verifica para $j=n$.\\
+    $[\tau_i, \tau_{i+1}, \tau_{i+2},\dots,\tau_{n}] g =
+    \frac{[\tau_{i+1}, \tau_{i+2},\dots,\tau_n]g -
+      [\tau_i,\tau_{i+1},\tau_{i+2},\dots,\tau_{n-1}]g}{\tau_n-\tau_i} \stackrel{H.I.}{=} \frac{0-0}{\tau_n -
+      \tau_i}=0$
+  \end{itemize}
+\end{enumerate}
+
+Vamos a comprobar ahora el resultado del enunciado por inducción sobre el
+número de elementos $\tau$.\\
+\textit{Caso base} $n=1$: Entonces:
+$$ 1 = [\tau_1]f \stackrel{Leibniz}{=} ([\tau_1]g)([\tau_1]h) = \tau_1 \cdot
+([\tau_1]h) \Longrightarrow [\tau_1]h=[\tau_1](1/x) = 1/\tau_1 =
+(-1)^{1-1}/\tau_1$$
+Supongamos cierto para $n=j-1$, y comprobemos para $n=j$
+\begin{align*}
+  0&\stackrel{(1)}{=}[\tau_{1},\dots,\tau_{j}]f\stackrel{Leibniz}{=}\sum\limits^{j}_{r=1}([\tau_1,\dots,\tau_r]g)([\tau_r,\dots,\tau_j]h)=\\
+   &=([\tau_1]g)([\tau_1,\dots,\tau_j]h) +
+     ([\tau_1,\tau_2]g)([\tau_2,\dots,\tau_j]h) +
+     \sum\limits^{j}_{r=3}([\tau_1,\dots,\tau_r]g)(\tau_r,\dots,\tau_j]h)=\\
+   &\stackrel{(2)}{=} \tau_1\cdot[\tau_1,\dots,\tau_j]h + [\tau_2,\dots,\tau_j]h 
+\end{align*}
+Por otro lado se tiene que:\\
+$[\tau_1,\dots,\tau_j]h = \frac{[\tau_2,\dots,\tau_j]h -
+  [\tau_1,\dots,\tau_{j-1}]h}{\tau_j-\tau_1} \Longrightarrow
+[\tau_2,\dots,\tau_j]h = (\tau_j-\tau_1)[\tau_{1},\dots,\tau_{j}]h +
+[\tau_1,\dots,\tau_{j-1}]h$\\
+Y aplicando la hipótesis de inducción sobre $[\tau_1,\dots,\tau_{j-1}]h$ se
+obtiene:\\
+$[\tau_2,\dots,\tau_j]h = (\tau_j-\tau_1)[\tau_1,\dots,\tau_j]h +
+(-1)^{j-2}/(\tau_1\dots\tau_{j-1})$\\
+E introduciendo esta expresión en la expresión anterior, obtenemos lo
+buscado:
+\begin{align*}
+  0 = [\tau_1,\dots,\tau_j]f&=\tau_1\cdot[\tau_1,\dots,\tau_j]h +
+                              [\tau_2,\dots,\tau_j]h=\\
+                            &=\tau_1\cdot[\tau_1,\dots,\tau_j]h + (\tau_j-\tau_1)[\tau_1,\dots,\tau_j]h +
+(-1)^{j-2}/(\tau_1\dots\tau_{j-1}) =\\
+  &=(\tau_1+\tau_j-\tau_1)[\tau_1,\dots,\tau_j]h +
+    (-1)^{j-2}/(\tau_1\dots\tau_{j-1}) \Longrightarrow\\
+[\tau_1,\dots,\tau_j](1/x) &= (-1)^{j-2}/(\tau_1\dots\tau_{j-1}) \cdot
+                             (-1)/\tau_j=\\
+                             &=(-1)^{j-1}/(\tau_1\dots\tau_{j})
+\end{align*}
 \end{document}
