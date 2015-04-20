@@ -19,7 +19,7 @@ import matplotlib.patches as patches
 
 
 def polynomial_curve_fitting(points, knots, method, L=0, libraries=False,
-                             num_points=100):    
+                             num_points=100, degree=None):    
     '''
        Fits planar curve to points at given knots. 
 
@@ -37,6 +37,8 @@ def polynomial_curve_fitting(points, knots, method, L=0, libraries=False,
            libraries -- If False, only numpy linear algebra operations are allowed. 
                If True, any module can be used. In this case, a very short and fast code is expected
            num_points -- number of points to plot between tau[0] and tau[-1]
+           degree -- degree of the polynomial. Needed only if method='least_squares'.
+                     If degree=None, the function will return the interpolating polynomial.
 
        Returns:
            numpy array of shape (num_points, 2) given by the evaluation of the polynomial
@@ -126,7 +128,10 @@ def eval_poly(t, coefs, tau=None):
 def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True):    
     #I've used np.linalg.lstsq and np.polyval if libraries==True
     if libraries:
-        coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
+        C = np.vander(knots,N=degree, increasing=True)
+        F = np.dot(C.transpose(),C)+L/2.0*np.eye(degree)
+        coeffs = np.linalg.lstsq(F, np.dot(C.transpose(),points))[0]
+        #coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
         times = np.linspace(knots[0], knots[-1], num_points)
         return np.polyval(np.flipud(coeffs),times)
     else:
@@ -139,6 +144,9 @@ def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True
 def chebyshev_knots(a, b, n):
     j = np.arange(1,n+1) # j = 1, ..., n    
     return (a+b-((a-b)*np.cos(((2*j-1)*np.pi)/(2.0*n))))/2.0
+
+def calcuteVander(knots,N):
+    pass
 
                                  
 #--------------------------------------------------------------------------
