@@ -48,15 +48,14 @@ def polynomial_curve_fitting(points, knots, method, L=0, libraries=False,
         knots = chebyshev_knots(0,1,points.shape[0])
     
     sol = np.zeros((num_points,2))
-    sol[:,0]=polynomial_curve_fitting1d(points[:,0], knots, method, L, libraries, num_points)
-    sol[:,1]=polynomial_curve_fitting1d(points[:,1], knots, method, L, libraries, num_points)
+    sol[:,0]=polynomial_curve_fitting1d(points[:,0], knots, method, L, libraries, num_points,degree)
+    sol[:,1]=polynomial_curve_fitting1d(points[:,1], knots, method, L, libraries, num_points,degree)
     return sol
 
 def polynomial_curve_fitting1d(points, knots, method, L=0, libraries=False,
-                             num_points=100):
-    degree = knots.shape[0] # hay que cambiarlo
+                             num_points=100,degree=None):
     if method == 'newton':
-        if points.shape[0] != degree:
+        if points.shape[0] != knots.shape[0]:
             raise Exception("M!=N") 
         return newton_polynomial(points,knots,num_points,libraries)
     else:
@@ -127,16 +126,15 @@ def eval_poly(t, coefs, tau=None):
         
 def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True):    
     #I've used np.linalg.lstsq and np.polyval if libraries==True
+    if degree is None:
+        degree = knots.shape[0]
     if libraries:
-        C = np.vander(knots,N=degree, increasing=True)
-        F = np.dot(C.transpose(),C)+L/2.0*np.eye(degree)
-        coeffs = np.linalg.lstsq(F, np.dot(C.transpose(),points))[0]
-        #coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
+        coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
         times = np.linspace(knots[0], knots[-1], num_points)
         return np.polyval(np.flipud(coeffs),times)
     else:
         C = np.vander(knots,N=degree, increasing=True)
-        F = np.dot(C.transpose(),C)+L/2.0*np.eye(degree)
+        F = np.dot(C.transpose(),C)+(L*0.5)*np.eye(degree)
         coeffs = np.linalg.solve(F, np.dot(C.transpose(),points))
         times = np.linspace(knots[0], knots[-1], num_points)
         return  eval_poly(times,coeffs)
@@ -144,10 +142,6 @@ def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True
 def chebyshev_knots(a, b, n):
     j = np.arange(1,n+1) # j = 1, ..., n    
     return (a+b-((a-b)*np.cos(((2*j-1)*np.pi)/(2.0*n))))/2.0
-
-def calcuteVander(knots,N):
-    pass
-
                                  
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
