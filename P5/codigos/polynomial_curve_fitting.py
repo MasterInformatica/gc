@@ -84,12 +84,11 @@ def newton_polynomial(x, tau, num_points=100, libraries=False):
     '''
     
     if libraries:
-        return interp_with_library(x,tau,num_points) #np.array of size num_points
+        return interp_with_library(x,tau,num_points) 
     else:
         interpolant = newtondd(tau,x)
         t = np.linspace(tau[0],tau[-1], num_points)
-        y = eval_poly(t,interpolant, tau)
-        return y #np.array of size num_points
+        return eval_poly(t,interpolant, tau)
     
 
 def interp_with_library(x, tau, num_points):
@@ -104,12 +103,10 @@ def newtondd(x,y):
 	n = len(x)
 	v = np.zeros((n,n))
         v[:,0] = y		# Fill in y column of Newton triangle
-	for i in range(1,n):		# For column i,
-		for j in range(n-i):	# 1:n+1-i		# fill in column from top to bottom
-#			print j,i," ",j+1,i-1," ", j,i-1," ",j+i," ",j
+	for i in range(1,n):		
+		for j in range(n-i):		# fill in column from top to bottom
 			v[j,i] = (v[j+1,i-1]-v[j,i-1])/(x[j+i]-x[j])
-	c = v[0,:].copy()			# Read along top of triangle for output coefficients
-	return c
+	return v[0]
 
 
 
@@ -120,22 +117,21 @@ def eval_poly(t, coefs, tau=None):
     sol = coefs[N] * np.ones(t.shape[0])
     for k in range(N-1, -1, -1):
         sol = coefs[k]  + (t-tau[k])*sol
-
     return sol
 
         
 def least_squares_fitting(points, knots, degree, num_points, L=0, libraries=True):    
     #I've used np.linalg.lstsq and np.polyval if libraries==True
     if degree is None:
-        degree = knots.shape[0]
+        degree = points.shape[0]
     if libraries:
         coeffs = np.linalg.lstsq(np.vander(knots, increasing=True), points)[0]
         times = np.linspace(knots[0], knots[-1], num_points)
         return np.polyval(np.flipud(coeffs),times)
     else:
         C = np.vander(knots,N=degree, increasing=True)
-        F = np.dot(C.transpose(),C)+(L*0.5)*np.eye(degree)
-        coeffs = np.linalg.solve(F, np.dot(C.transpose(),points))
+        H = np.dot(C.transpose(),C)+(L*0.5)*np.eye(degree)
+        coeffs = np.linalg.solve(H, np.dot(C.transpose(),points))
         times = np.linspace(knots[0], knots[-1], num_points)
         return  eval_poly(times,coeffs)
         
@@ -182,17 +178,7 @@ class Graphics:
         self.method = 'least_squares'
         self.L = 6
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        self.fig.suptitle('Click izquierdo introduce una curva, click derecho la otra.\n Los vertices de los poligonos se pueden mover con ambos clicks.')
-
-        # Sliders
-#        epsAxes = plt.axes([0.20, 0.15, 0.4, 0.03])        
-#        kAxes = plt.axes([0.20, 0.1, 0.4, 0.03])
-
-#        self.epsSlider = Slider(epsAxes, 'eps: ', 0.001, 1.00, valinit=0.1, valfmt=u'%1.3f')
-#        self.kSlider   = Slider(kAxes, 'k: ', 0, 6, valinit=3, valfmt=u'%0.0f')
-
-#        self.epsSlider.on_changed(self._updateEps)        
-#        self.kSlider.on_changed(self._updateK)
+        self.fig.suptitle('Click introduce los puntos.\n La consola muestra informacion sobre la ejecucion actual.')
 
         #Buttons
         calculateAxes = plt.axes([0.7, 0.17, 0.15, 0.03])
@@ -236,7 +222,7 @@ class Graphics:
         self._updatePlot(event)
         self.fig.canvas.draw()
     def _changeSubL(self,event):        
-        if(self.L ==0):
+        if(self.L ==1):
             return
         self.L -= 1
         self._updatePlot(event)
@@ -251,11 +237,7 @@ class Graphics:
             return
         self.ax.lines = []
  
-
-        #Imprimimos los polígonos de control
-        #self.drawPolygon(self.points_P, 'mediumblue')
-
-        for c in self.inter_circle: #reset intersection Points
+        for c in self.inter_circle:
             c.remove()
         self.inter_circle = []
         # COMPUTAR
@@ -293,7 +275,7 @@ class Graphics:
 
     def drawLine(self,line):
         """ 
-        Dada una linea por parámetro, la muestra en la figura
+        Dada una 2Dline por parámetro, la muestra en la figura
         """
         self.ax.add_line(line)
         self.fig.canvas.draw()
@@ -301,7 +283,7 @@ class Graphics:
 
     def drawPolygon(self, Pol,colour=None):
         """ 
-        Pinta los poligonos de control self.points_P y self.points_Q con los colores b y r
+        Pinta los poligonos definido en Pol
         """
         x = [k[0] for k in Pol]
         y = [k[1] for k in Pol]
@@ -313,7 +295,7 @@ class Graphics:
         
     def drawPoints(self,points,colour):
         """
-        Dado un punto y un color, muestra este con ese color en la figura, y su poligono de control
+        Dado un punto y un color, muestra este con ese color en la figura
         """
         if points.shape[0] != 0:
             for p in points:
@@ -335,7 +317,7 @@ class Graphics:
         Borra todos los elementos de la gráfica. Lineas y circulos
         """
         self.points_P = []
-        for c in self.inter_circle: #reset intersection Points
+        for c in self.inter_circle:
             c.remove()
         self.inter_circle = []
         self.ax.cla()

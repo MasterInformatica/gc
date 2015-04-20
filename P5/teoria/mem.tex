@@ -31,20 +31,21 @@
 \maketitle
 \onehalfspace
 
+
 \textbf{Si $f=gh$, demuéstrese la fórmula de Leibniz para las diferencias divididas,}
 \begin{equation*}
   [\tau_i,\dots,\tau_{i+k}]f=\sum\limits_{r=i}^{i+k}([\tau_i,\dots,\tau_r]g)([\tau_r,\dots,\tau_{i+k}]h).
 \end{equation*}
 
-Sea P el polinomio interpolador de f en los puntos $\tau_i, ... ,
-\tau_{i+k}$. Entonces se verifica que $$[\tau_{i}, ..., \tau_{i+k}](Pg) =
-[\tau_i, ..., \tau_{i+k}](fg)$$
+Sea G el polinomio interpolador de g en los puntos $\tau_i, ... ,
+\tau_{i+k}$. Entonces se verifica que $$[\tau_{i}, ..., \tau_{i+k}](Gh) =
+[\tau_i, ..., \tau_{i+k}](gh)$$
 Además, el polinomio interpolador de Newton viene dado por:
 $$ G = \sum\limits^{i+k}_{r=i}(x-\tau_i)\dots(x-\tau_{r-1})[\tau_i,\dots,\tau_{r}]g$$
 Luego se obtiene que:
 \begin{align*}
   [\tau_i,\dots,\tau_{i+k}](gh) &= [\tau_i,\dots,\tau_{i+k}](Gh) = (Def.\,polinom.\,Newton)=\\
-                      &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]g
+                      &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})\cdot([\tau_i,...,\tau_r]g)
                         \cdot h\right)
 \end{align*}
 Como se cumple la siguiente propiedad:
@@ -52,10 +53,11 @@ $$[x_0, ..., x_i, y_0, .., y_j]((t-x_0)...(t-x_i)f) = [y_0,...,y_j]f$$
 operando se obtiene el resultado buscado:
 \begin{align*}
   [\tau_i,\dots,\tau_{i+k}](gh) &=
-                                  [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]g
+                                  [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})\cdot([\tau_i,...,\tau_r]g)
                                   \cdot h\right)\\
                       &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_{r}]g \cdot
-                        [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i,\dots,\tau_{r-1})h\right)=\\
+                        [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i)\dots(x-\tau_{r-1})\cdot
+                        h\right)=\\
                       &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_r]g \cdot [\tau_r,
                         \dots, \tau_{i+k}]h\\
 \end{align*}\\
@@ -77,11 +79,11 @@ siguientes propiedades:
     \frac{[\tau_{i+1}]f -[\tau_i]f}{\tau_{i+2}-\tau_{i}} = \frac{1 -
       1}{\tau_{i+1} - \tau_i} = 0.$\\
     \textit{Hipótesis de inducción:} Supongamos que se cumple para $j=n-1>i+1$, y
-    demostremos que se verifica para $j=n$.\\
-    $[\tau_i, \tau_{i+1},\dots,\tau_{n}] f =
+    demostremos que se verifica para $j=n$.
+    $$[\tau_i, \tau_{i+1},\dots,\tau_{n}] f =
     \frac{[\tau_{i+1},\dots,\tau_n]f -
       [\tau_i,\dots,\tau_{n-1}]f}{\tau_n-\tau_i} \stackrel{H.I.}{=} \frac{0-0}{\tau_n -
-      \tau_i}=0$
+      \tau_i}=0$$
   \end{itemize}
 \item 
   \begin{itemize}
@@ -89,22 +91,22 @@ siguientes propiedades:
   \item $[\tau_i,\tau_{i+1}]g=\frac{[\tau_{i+1}]g-[\tau{i}]g}{\tau_{i+1}-\tau_{i}}=1$
   \item $[\tau_i, \tau_{i+1}, \tau_{i+2}, \dots, \tau_j]g = 0$. Por inducción sobre el
     número de elementos.\\
-    \textit{Caso base:} $j=i+2$, se tiene que $[\tau_i,\tau_{i+1},\tau_{i+2}]g =
+    \textit{Caso base:} $j=i+2$, se tiene $[\tau_i,\tau_{i+1},\tau_{i+2}]g =
     \frac{[\tau_{i+1},\tau_{i+2}]g -[\tau_i,\tau_{i+1}]g}{\tau_{i+2}-\tau_{i}} = \frac{1 -
       1}{\tau_{i+1} - \tau_i} = 0.$\\
     \textit{Hipótesis de inducción:} Supongamos que se cumple para $j=n-1>i+2$, y
-    demostremos que se verifica para $j=n$.\\
-    $[\tau_i, \tau_{i+1}, \tau_{i+2},\dots,\tau_{n}] g =
+    demostremos que se verifica para $j=n$.
+    $$[\tau_i, \tau_{i+1}, \tau_{i+2},\dots,\tau_{n}] g =
     \frac{[\tau_{i+1}, \tau_{i+2},\dots,\tau_n]g -
       [\tau_i,\tau_{i+1},\tau_{i+2},\dots,\tau_{n-1}]g}{\tau_n-\tau_i} \stackrel{H.I.}{=} \frac{0-0}{\tau_n -
-      \tau_i}=0$
+      \tau_i}=0$$
   \end{itemize}
 \end{enumerate}
 
 Vamos a comprobar ahora el resultado del enunciado por inducción sobre el
 número de elementos $\tau$.\\
 \textit{Caso base} $n=1$: Entonces:
-$$ 1 = [\tau_1]f \stackrel{Leibniz}{=} ([\tau_1]g)([\tau_1]h) = \tau_1 \cdot
+$$ 1 \stackrel{(1)}{=} [\tau_1]f \stackrel{Leibniz}{=} ([\tau_1]g)([\tau_1]h) = \tau_1 \cdot
 ([\tau_1]h) \Longrightarrow [\tau_1]h=[\tau_1](1/x) = 1/\tau_1 =
 (-1)^{1-1}/\tau_1$$
 Supongamos cierto para $n=j-1$, y comprobemos para $n=j$
