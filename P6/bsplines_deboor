@@ -1,0 +1,12 @@
+ftp://ftp.cs.wisc.edu/Approx/bsplbasic.pdf
+
+
+Más documentación:
+http://www.maths.lth.se/na/courses/FMNN25/media/material/LectureNotes1_1.pdf
+
+Un git que funciona pinchando y usa el alg. de de boor
+http://elbenshira.com/p/curvey/
+git clone git://github.com/elben/curvey.git
+
+Otra implementación en python:
+http://devosaurus.blogspot.com.es/2013/10/exploring-b-splines-in-python.html
