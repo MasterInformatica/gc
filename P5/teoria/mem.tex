@@ -40,23 +40,24 @@ Sea P el polinomio interpolador de f en los puntos $\tau_i, ... ,
 \tau_{i+k}$. Entonces se verifica que $$[\tau_{i}, ..., \tau_{i+k}](Pg) =
 [\tau_i, ..., \tau_{i+k}](fg)$$
 Además, el polinomio interpolador de Newton viene dado por:
-$$ P = \sum\limits^{i+k}_{r=i}(x-\tau_i)\dots(x-\tau_{r-1})[\tau_i,\dots,\tau_{i+k}]f$$
+$$ G = \sum\limits^{i+k}_{r=i}(x-\tau_i)\dots(x-\tau_{r-1})[\tau_i,\dots,\tau_{r}]g$$
 Luego se obtiene que:
 \begin{align*}
-  [\tau_i,\dots,\tau_{i+k}](fg) &= [\tau_i,\dots,\tau_{i+k}](Pg) = (Def.\,polinom.\,Newton)=\\
-                      &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]f
-                        \cdot g\right)
+  [\tau_i,\dots,\tau_{i+k}](gh) &= [\tau_i,\dots,\tau_{i+k}](Gh) = (Def.\,polinom.\,Newton)=\\
+                      &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]g
+                        \cdot h\right)
 \end{align*}
 Como se cumple la siguiente propiedad:
 $$[x_0, ..., x_i, y_0, .., y_j]((t-x_0)...(t-x_i)f) = [y_0,...,y_j]f$$
 operando se obtiene el resultado buscado:
 \begin{align*}
-  [\tau_i,\dots,\tau_{i+k}](fg) &= [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]f
-                        \cdot g\right)\\
-                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_{r}]f \cdot
-                        [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i,\dots,\tau_{r-1})g\right)=\\
-                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_r]f \cdot [\tau_r,
-                        \dots, \tau_{i+k}]g\\
+  [\tau_i,\dots,\tau_{i+k}](gh) &=
+                                  [\tau_i,\dots,\tau_{i+k}]\left(\sum\limits_{r=i}^{i+k}(x-\tau_i)...(x-\tau_{r-1})[\tau_i,...,\tau_r]g
+                                  \cdot h\right)\\
+                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_{r}]g \cdot
+                        [\tau_i,\dots,\tau_{i+k}]\left((x-\tau_i,\dots,\tau_{r-1})h\right)=\\
+                      &=\sum\limits^{i+k}_{r=i}[\tau_i,\dots,\tau_r]g \cdot [\tau_r,
+                        \dots, \tau_{i+k}]h\\
 \end{align*}\\
 
 \textbf{Aplíquese esta fórmula e inducción al caso particular $g(x)=x,$, $h(x)=1/x$ para deducir que}
