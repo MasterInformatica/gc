@@ -1,0 +1,11 @@
+* Algoritmo Malo, pseudocodigo:
+  Pag 15 (del pdf),  Pag6 (del libro), COMPUTATIONAL GEOMETRY
+  
+  Cogemos cada par de puntos, y comprobamos que el resto de puntos estan
+  su derecha. Cuando se tengan todos los segmentos que forman la convex
+  hull, se ordenan.
+
+* Quick Hall. (Iea es eliminar muchos puntos que sabemos que no van a
+  pertencer a la envoltura)
+  Pag 70-71 (del libro) EL OTRO LIBRO DE REFERENCIA
+
