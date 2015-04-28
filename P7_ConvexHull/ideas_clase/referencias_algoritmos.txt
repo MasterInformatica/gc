@@ -9,3 +9,9 @@
   pertencer a la envoltura)
   Pag 70-71 (del libro) EL OTRO LIBRO DE REFERENCIA
 
+  Caso mejor O(n) = n logn
+  Caso peor  O(n) = n*n
+
+
+* Convex Hull. 
+  Pag 17 (del pdf), pag 5 (del libro). Bohor y compañia
