@@ -1,0 +1,51 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc} \usepackage[T1]{fontenc} \usepackage{graphicx}
+\usepackage{longtable} \usepackage{tabularx} \usepackage{float}
+\usepackage{wrapfig} \usepackage{soul} \usepackage{amssymb}
+\usepackage{hyperref} \usepackage{caption} \usepackage{subcaption}
+\usepackage{pdfpages} \usepackage{sidecap}
+\usepackage{amsmath} \usepackage{amsthm}
+
+
+\parindent 0in \usepackage[spanish]{babel}
+\setlength{\parskip}{0.5\baselineskip} \usepackage{fullpage}
+\usepackage{multirow} \usepackage{multicol} \usepackage{framed}
+\usepackage{listings} \usepackage{enumerate}
+
+\usepackage{appendix} \usepackage{setspace} \usepackage{amsmath}
+\usepackage{mathtools}
+
+%% DEFINICIONES
+\newcommand{\TODO}[1]{{\huge \color{red} \textbf{TODO: }#1 }}
+\newcommand{\todo}[1]{{\large \color{red} \textbf{TODO: }#1 }}
+
+
+\title{Práctica 6. \\ Geometría computacional} 
+
+\author{Luis María Costero Valero (lcostero@ucm.es)\\ Jesús Doménech
+  Arellano (jdomenec@ucm.es) \\ Jennifer Hernández Bécares (jennhern@ucm.es)}
+\date{}
+
+\begin{document}
+\maketitle
+\onehalfspace
+
+\begin{center}
+  {\large \textbf{Teoría}}
+\end{center}
+\begin{itemize}
+\item \textbf{Dada la secuencia de nodos $t=\mathbb{Z}$, calcúlense las
+  funciones B-spline $B_{ik}$ correspondientes}.
+\item \textbf{Dada una secuencia de nodos arbitraria t, demuéstrese
+  que si p es un polinomio de grado 1 entonces}
+  \begin{align*}
+    p = \sum_{i}B_{ik}p(t_{i}^{*}),
+  \end{align*}
+  siendo
+  \begin{align*}
+    t_{i}^{*}=(t_{i+1}+...+t_{i+k-1})/(k-1).
+  \end{align*}
+\end{itemize} 
+
+\end{document}
