@@ -65,7 +65,7 @@ def spline1d(a, b, xi, k, nu, A, num_dots):
         for i in range(k*(1+len(nu)+1)-sum(nu)-1):
             if (t[i] <= tau[i_tau] and tau[i_tau] < t[i+1]):
                 acierto = True
-                s[i_tau] += var.get_a(k-1,i)
+                s[i_tau] += var.get_a(k,i)
             elif (acierto):
                 break
                 
@@ -77,11 +77,14 @@ class Vars_spline:
     def __init__(self, a, b, xi, k, nu, A, num_dots):
         self.tau = np.linspace(a, b, num_dots)
         self.w = {}
-        self.t_i = np.zeros( k*(1+len(nu)+1)-sum(nu) )
+        self.t_i = np.zeros( k*(1+len(nu)+1)-sum(nu))
         self.a = {}  #np.empty((A.shape[0],A.shape[0]))
         self.k = k
         #calc variables
         self._calc_t(a,b,xi,k,nu)
+        for i in range(len(A)):
+            self.a[(0,i)] = A[i]
+
 
     def get_w(self,i,k):
         return self._calc_w(i,k)
@@ -99,17 +102,17 @@ class Vars_spline:
         if( (i,k) in self.w):
             return self.w[(i,k)]
         else:
-            if (t_i[i] == t_i[i+k-1]):
+            if (self.t_i[i] == self.t_i[i+k-1]):
                 self.w[(i,k)] = 0
             else:
-                self.w[(i,k)] = ((self.tau - t_i[i])/(t_i[i+k-1]-t_i[i]))
+                self.w[(i,k)] = ((self.tau - self.t_i[i])/(self.t_i[i+k-1]-self.t_i[i]))
             return self.w[(i,k)]
 
     def _calc_a(self,r,i):
         if ((r,i) in self.a):
             return self.a[(r,i)]
         
-        wi = self.get_w(i,k-r-1)
+        wi = self.get_w(i,self.k-r-1)
         ai = self._calc_a(r-1,i)
         ai_1 = self._calc_a(r-1,i-1)
         self.a[(r,i)] = (1-wi)* ai_1+wi*ai
@@ -121,13 +124,12 @@ class Vars_spline:
 
         index=0
         self.t_i[0:k] = a
-
         index = k;
         for i in range(0, l):
-            t_i[index : index+(k-nu[i])] = xi[i] 
+            self.t_i[index : index+(k-nu[i])] = xi[i] 
             index += (k-nu[i])
 
-        t_i[index: index+k] = b
+        self.t_i[index: index+k] = b
 
 
 
