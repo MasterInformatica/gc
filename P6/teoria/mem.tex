@@ -32,37 +32,26 @@
 \onehalfspace
 
 \begin{center}
-  {\large \textbf{Teoría}}
+  {\textbf{Teoría}}
 \end{center}
 \begin{itemize}
-\item Dada la secuencia de nodos $t=\mathbb{Z}$, calcúlense las
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Versión nueva porque soy un poco inútil y estaba mal...
+
+  \item Dada la secuencia de nodos $t=\mathbb{Z}$, calcúlense las
   funciones B-spline $B_{ik}$ correspondientes.
 
-  Tomamos en primer lugar una secuencia no decreciente de nodos
-  $t=(t_i)$. Los B-splines de orden 1 asociados a la secuencia
-  anterior de nodos vienen dados por las funciones características de
-  esta partición, que son continuas por la derecha:
-  
-  \begin{equation}
-    B_{ik}(t)=
-    \left\lbrace
-    \begin{array}{c l}
-      1, & $si $t_i\le t<t_{i+1}\\
-      0, & $caso contrario $ \\
-    \end{array}
-    \right.
-  \end{equation}
-
-  La ecuación anterior cumple que $\sum_{i}B_{i1}(t)=1$ para todo $t$. Además, si los nodos $t_i$ y $t_{i+1}$ coinciden, se tiene que $B_{i1}=0$. \\
-
-  Para obtener los B-splines de órdenes más altos, nos basamos en la siguiente recurrencia:
+  Para calcular las funciones B-spline asociadas a la secuencia de
+  nodos $t=\mathbb{Z}$, partimos de la recurrencia que define $B_{ik}$
+  en el caso general
   \begin{equation}
     B_{ik}=\omega_{ik}B_{i,k-1}+(1-\omega_{i+1,k})B_{i+1,k-1}
   \end{equation}
   donde
-      
   \begin{equation}
-    \omega_{i1}(t)=
+    \omega_{ik}(t)=
     \left\lbrace
     \begin{array}{c l}
       \frac{t-t_i}{t_{i+k-1}-t_i}, & $si $t_i\neq t_{i+k-1}\\
@@ -71,53 +60,61 @@
     \right.
   \end{equation}
 
-  Desarrollando las ecuaciones anteriores, tendríamos que el B-spline
-  de segundo orden viene dado por
+  Veamos cómo se simplifica la recurrencia al tener en cuenta $t$. En primer lugar
+  consideramos que $t_i=i$, ya que $t=\mathbb{Z}$. Además, nunca se va
+  a dar que $t_{i}=t_{i+k-1}$, puesto que tenemos como requisito que
+  $k>1$ y nos encontramos en $\mathbb{Z}$. La fórmula anterior queda
+  de la siguiente forma
+
   \begin{equation}
-    B_{i2}=\omega_{i2}B_{i1}+(1-\omega_{i+1,2})B_{i+1,1}
+    B_{ik}(t)=\frac{t-i}{k-1}B_{i,k-1}(t)+(\frac{k-t+i}{k-1})B_{i+1,k-1}(t)
   \end{equation}
 
-  Seguimos desarrollando para sacar la fórmula general de
-  $B_{ik}$. Para ello, calculamos el B-spline de tercer orden
+  Por otro lado, queremos demostrar que los B-splines de este tipo son
+  traslaciones unos de otros. Esto implica comprobar que
   \begin{equation}
-    \begin{array}{c l}
-    B_{i3} &= \omega_{i3}B_{i2}+(1-\omega_{i+1,3})B_{i+1,2} \\
-    &= \omega_{i3}(\omega_{i2}B_{i1}+(1-\omega_{i+1,2})B_{i+1,1})+(1-\omega_{i+1,3})B_{i+1,2}
-    \end{array}
+    \label{eq:1}
+    B_{ik}(t)=B_{0k}(t-i)
   \end{equation}
+  Calcularemos $B_{0k}$ y después
+  demostraremos que la igualdad se cumple. \\
 
-  Por otro lado tenemos que
-  \begin{equation*}
-     B_{i+1,2}=\omega_{i+1,2}B_{i+1,1}+(1-\omega_{i+2,2})B_{i+2,1}
-  \end{equation*}
-  por lo que, sustituyendo, tenemos lo siguiente
+  Tomando $i=0$ tenemos
+
   \begin{equation}
-    \begin{array}{r l}
-      B_{i3} = &\omega_{i3}(\omega_{i2}B_{i1} + (1-\omega_{i+1,2})B_{i+1,1}) + \\
-      & +(1-\omega_{i+1,3})(\omega_{i+1,2}B_{i+1,1}+(1-\omega_{i+2,2})B_{i+2,1}) \\
-      =&\omega_{i3}\omega_{i2}B_{i1}+(\omega_{i3}(1-\omega_{i+1,2})+(1-\omega_{i+1,3})\omega_{i+1,2})B_{i+1,1} \\
-      & + (1-\omega_{i+1,3})(1-\omega_{i+2,2})B_{i+2,1}
-    \end{array}
+    B_{0k}=\frac{t}{k-1}B_{0,k-1}+\frac{k-t}{k-1}B_{1,k-1}
   \end{equation}
+  
+  Demostramos (\ref{eq:1}) por inducción:
+  \begin{itemize}
+  \item \textbf{k=2:}
+    \begin{equation*}
+      B_{i2}=(t-i)B_{i1}+(2-t+1)B_{i+1,1}=t-i+2-t+i=2
+    \end{equation*}
+    Por otro lado
+    \begin{equation*}
+      B_{02}=(t-i)B_{01}+(2-t+1)B_{1,1}=t+2-t=2
+    \end{equation*}
+    Por tanto, independientemente de dónde evaluemos vemos que
+    coinciden $B_{02}$ y $B_{i2}$.
+  \item Supongamos ahora por hipótesis que es cierto para $k=k-1$, es
+    decir, que $B_{i,k-1}(t)=B_{0,k-1}(t-i)$. En este caso, tendríamos
+    también que $B_{i+1,k-1}(t)=B_{1,k-1}(t-i)$. Usaremos esto para
+    continuar la demostración.
+    
+  \item Comprobamos que se cumple para \textbf{$B_{ik}$}:
+    \begin{equation}
+      \begin{array}{l c l}
+        B_{ik}(t)&=&\frac{t-i}{k-1}B_{i,k-1}(t)+\frac{k-t-i}{k-1}B_{i+1,k-1}(t) \\
+        &\underset{(HI)}{=}&\frac{t-i}{k-1}B_{0,k-1}(t-i)+\frac{k-t-i}{k-1}B_{1,k-1}(t-i) \\
+        &=&B_{0k}(t-i)
+      \end{array}
+    \end{equation}
+    
+  \end{itemize}
 
-  En la ecuación anterior vemos que $B_{i3}$ es función de $B_{i1}$,
-  $B_{i+1,1}$ y $B_{i+2,1}$. Esto se puede generalizar, pues $B_{ik}$
-  siempre va a depender de $B_{i,1},...,B_{i+k-1,1}$. Por otro lado,
-  estas $B_{ik}$ están multiplicadas por ciertos polinomios en $t$ que,
-  basándonos en la definición de $\omega_{i,k}$ (en la cual aparece
-  $t$ en el numerador de la fracción) y sabiendo que vamos
-  a hacer como máximo $k-1$ multiplicaciones, tendrán grado como
-  mucho $k-1$. Por tanto, tenemos que los $B$-splines de orden $k$
-  cumplen lo siguiente
-  \begin{equation}
-    B_{ik}=\sum_{j=i}^{i+k-1}b_{jk}B_{j1}
-  \end{equation}
-  donde hemos llamado $b_{jk}$ al polinomio de grado menor o igual que
-  $k-1$ que multiplica a cada una de las $B_{j1}$. Además, viendo la forma de $B_{i3}$, podemos decir que el
-  polinomio tendrá un grado exactamente igual a $k-1$, ya que al
-  realizar la multiplicación no se va a anular ninguno de los términos
-  y se mantendrá el grado obtenido.
-
+  
+  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \item Dada una secuencia de nodos arbitraria t, demuéstrese
   que si p es un polinomio de grado 1 entonces
