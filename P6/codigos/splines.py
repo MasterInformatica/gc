@@ -62,7 +62,7 @@ def spline1d(a, b, xi, k, nu, A, num_dots,F):
             else:
                 z =  (var.get_a_tau(k-1,index,tau[i_tau]))
             s[i_tau] = z
-        
+        # Caso especial: si es igual al ultimo t_i
         elif (index == n_ts-2 and t[index] <= tau[i_tau] and tau[i_tau] <= t[index+1]):
             if (F):
                 z =  (var.get_a(k-1,index))[i_tau]
