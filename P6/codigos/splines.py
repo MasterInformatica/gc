@@ -102,48 +102,26 @@ class Vars_spline:
     def get_a(self,r,i):
         return self._calc_a(r,i)
 
-    def get_a_tau(self,r,i,tau):
-        return self._calc_a_tau(r,i,tau)
-
     def _calc_w(self,i,k):
-        print "Calc w, las variables valen i:", i, " p:", k
+        print "El la llamada a w, las variables valen: i:", i," k:",k
         if( (i,k) in self.w):
             return self.w[(i,k)]
         else:
             if (self.t_i[i] == self.t_i[i+k-1]):
                 self.w[(i,k)] = np.zeros(self.tau.shape[0])
             else:
-                self.w[(i,k)] = ((self.tau - self.t_i[i])/(self.t_i[i+k-1]-self.t_i[i]))
+                self.w[(i,k)] = ((self.tau - self.t_i[i])*1.0/(self.t_i[i+k-1]-self.t_i[i])*1.0)
             return self.w[(i,k)]
 
     def _calc_a(self,r,i):
         if ((r,i) in self.a):
             return self.a[(r,i)]
-        wi = self._calc_w(i,self.k-r+1)
+        wi = self._calc_w(i,self.k-r)
         ai_1 = self._calc_a(r-1,i-1)
         ai = self._calc_a(r-1,i)
-        self.a[(r,i)] = (1-wi)*ai_1+wi*ai
+        self.a[(r,i)] = (1-wi)*ai_1 + wi*ai
         return self.a[(r,i)]
 
-    def _calc_w_tau(self,i,k,tau):
-        if( (i,k,tau) in self.w):
-            return self.w[(i,k,tau)]
-        else:
-            if (self.t_i[i] == self.t_i[i+k-1]):
-                self.w[(i,k,tau)] = 0
-            else:
-                self.w[(i,k,tau)] = ((tau - self.t_i[i])/(self.t_i[i+k-1]-self.t_i[i]))
-            return self.w[(i,k,tau)]
-
-    def _calc_a_tau(self,r,i,tau):
-        if ((r,i,tau) in self.a):
-            return self.a[(r,i,tau)]
-        
-        wi = self._calc_w_tau(i,self.k-r+1,tau)
-        ai = self._calc_a_tau(r-1,i,tau)
-        ai_1 = self._calc_a_tau(r-1,i-1,tau)
-        self.a[(r,i,tau)] = (1-wi)*ai_1+wi*ai
-        return self.a[(r,i,tau)]
 
     def _calc_t(self,a,b,xi,k,nu):
         l = nu.shape[0]
