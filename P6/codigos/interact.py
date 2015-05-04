@@ -64,14 +64,12 @@ class Vars_spline:
         self.tau = np.linspace(a, b, num_dots)
         self.w = {}
         self.t_i = np.zeros( k*(1+nu.shape[0]+1)-sum(nu)+1)
-        self.a = {}  #np.empty((A.shape[0],A.shape[0]))
+        self.a = {}
         self.k = k
         #calc variables
         self._calc_t(a,b,xi,k,nu)
         self.A = A
         self.num_dots = num_dots
-#        for i in range(A.shape[0]):
-#            self.a[(0,i)] = np.full(num_dots,A[i])
 
     def get_tau(self):
         return self.tau
@@ -104,11 +102,6 @@ class Vars_spline:
         self.a[(r,i)] = aux
         return self.a[(r,i)]
 
-   
-    # Segun la formula para cada t entre tj y tj+1 
-    # usamos una combinacion de puntos aj-k+r+1 hasta aj
-
-
     def _calc_t(self,a,b,xi,k,nu):
         l = nu.shape[0]
         index=0
@@ -119,8 +112,6 @@ class Vars_spline:
             index += (k-nu[i])
         self.t_i[index: index+k] = b
 
-
-                                 
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
    

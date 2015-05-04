@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
 """ 
 Práctica 6 de Geometría Computacional
 Autores:
@@ -59,14 +58,12 @@ class Vars_spline:
         self.tau = np.linspace(a, b, num_dots)
         self.w = {}
         self.t_i = np.zeros( k*(1+nu.shape[0]+1)-sum(nu)+1)
-        self.a = {}  #np.empty((A.shape[0],A.shape[0]))
+        self.a = {}
         self.k = k
         #calc variables
         self._calc_t(a,b,xi,k,nu)
         self.A = A
         self.num_dots = num_dots
-#        for i in range(A.shape[0]):
-#            self.a[(0,i)] = np.full(num_dots,A[i])
 
     def get_tau(self):
         return self.tau
@@ -99,11 +96,6 @@ class Vars_spline:
         self.a[(r,i)] = aux
         return self.a[(r,i)]
 
-   
-    # Segun la formula para cada t entre tj y tj+1 
-    # usamos una combinacion de puntos aj-k+r+1 hasta aj
-
-
     def _calc_t(self,a,b,xi,k,nu):
         l = nu.shape[0]
         index=0
@@ -113,44 +105,3 @@ class Vars_spline:
             self.t_i[index : index+(k-nu[i])] = xi[i] 
             index += (k-nu[i])
         self.t_i[index: index+k] = b
-
-
-
-    
-
-def menu1():
-    A = [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]]
-    s = spline2d(0, 4, [1,2,3], 3, [2,2,2], A, 100)
-    print s[0]
-    print s[1]
-    nA = np.array(A)
-    plt.plot(nA[:,0],nA[:,1],'-o')
-    plt.plot(s[0],s[1])
-    plt.show()
-
-def menu2():
-    A = [[5, -4], [5, -4], [8, -1], [-9, -8], [7, 7], [5, 7], [5, 7]]
-    s = spline2d(0, 4, [1,2,3], 2, [1,1,1], A, 10000)
-    print s[0]
-    print s[1]
-    nA = np.array(A)
-    plt.plot(nA[:,0],nA[:,1],'-o')
-    plt.plot(s[0],s[1])
-    plt.show()
-
-    
-#if __name__=="__main__":
-#    menu1()
-#    menu2()
-    # N = 1000
-    # start = time.time()
-    # for i in range(N):
-    #     spline2d(0, 4, [1,2,3], 3, [2,2,2], [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]], 100,False)
-    # print "Suelto: ", time.time()-start
-    # print "***********************---------------------------------------******************"
-    # start = time.time()
-    # for i in range(N):
-    #     spline2d(0, 4, [1,2,3], 3, [2,2,2], [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]], 100,True)
-    # print "Matriz: ", time.time()-start
-
-    
