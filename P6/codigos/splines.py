@@ -64,7 +64,7 @@ def spline1d(a, b, xi, k, nu, A, num_dots):
         
         # Paso 2: Sumamos a(k-1,index,tau)
         if (t[index] <= tau[i_tau] and tau[i_tau] <= t[index+1]):
-            s[i_tau] =  (var.get_a(k-1,index))[i_tau]
+            s[i_tau] = (var.get_a(k-1,index))[i_tau]
     return s
     
 
@@ -72,7 +72,7 @@ class Vars_spline:
     def __init__(self, a, b, xi, k, nu, A, num_dots):
         self.tau = np.linspace(a, b, num_dots)
         self.w = {}
-        self.t_i = np.zeros( k*(1+nu.shape[0]+1)-sum(nu)+1)
+        self.t_i = np.zeros( (k)*(1+nu.shape[0]+1)-sum(nu))
         self.a = {}  #np.empty((A.shape[0],A.shape[0]))
         self.k = k
         #calc variables
@@ -94,6 +94,7 @@ class Vars_spline:
         return self._calc_a(r,i)
 
     def _calc_w(self,i,k):
+#        print "El la llamada a w, las variables valen: i:", i," k:",k
         if( (i,k) in self.w):
             return self.w[(i,k)]
         else:
@@ -127,25 +128,25 @@ class Vars_spline:
             self.t_i[index : index+(k-nu[i])] = xi[i] 
             index += (k-nu[i])
 
-        self.t_i[index: index+k+1] = b
+        self.t_i[index: index+k] = b
 
 
-
-    
 
 def menu():
     A = [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]]
     s = spline2d(0, 4, [1,2,3], 3, [2,2,2], A, 100)
     print s
     nA = np.array(A)
-    for i in range(nA.shape[0]):
-        plt.plot(nA[i][0],nA[i][1],'bo')
-    plt.plot(nA[:,0],nA[:,1],'-')
+    #for i in range(nA.shape[0]):
+    # plt.plot(nA[i][0], nA[i][1], 'ro')
+
     plt.plot(s[0],s[1])
+    plt.plot(nA[:,0],nA[:,1], 'r-o')
+    plt.axis([-10, 10, -10, 10])
     plt.show()
     
-#if __name__=="__main__":
-#    menu()
+if __name__=="__main__":
+    menu()
     # N = 1000
     # start = time.time()
     # for i in range(N):
