@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-# QUITAR LA F
-
-
 """ 
 Práctica 6 de Geometría Computacional
 Autores:
@@ -14,10 +11,11 @@ Autores:
 
 from __future__ import division
 import numpy as np
+import matplotlib.pyplot as plt
 import time
 
 
-def spline2d(a, b, xi, k, nu, A, num_dots,F):
+def spline2d(a, b, xi, k, nu, A, num_dots):
     '''Computes a plane spline curve of order k
        defined on the interval [a, b] with knots psi,
        multiplicities nu and coefficiets A.
@@ -35,14 +33,14 @@ def spline2d(a, b, xi, k, nu, A, num_dots,F):
        the spline curve as a numpy array of size (2, num_dots) <'''
     A = np.array(A)
     sol = np.zeros((2, num_dots))
-    sol[0] = spline1d(a, b, np.array(xi), k, np.array(nu), A[:,0], num_dots,F)
-    sol[1] = spline1d(a, b, np.array(xi), k, np.array(nu), A[:,1], num_dots,F)
+    sol[0] = spline1d(a, b, np.array(xi), k, np.array(nu), A[:,0], num_dots)
+    sol[1] = spline1d(a, b, np.array(xi), k, np.array(nu), A[:,1], num_dots)
     return sol
 
 
 
 
-def spline1d(a, b, xi, k, nu, A, num_dots,F):
+def spline1d(a, b, xi, k, nu, A, num_dots):
 
     var = Vars_spline(a, b, xi, k, nu, A, num_dots)
     n_ts = k*(1+nu.shape[0]+1)-np.sum(nu)
@@ -50,28 +48,25 @@ def spline1d(a, b, xi, k, nu, A, num_dots,F):
     tau = var.get_tau()
     t = var.get_t()
     index = 0
+    suma = 0
     for i_tau in range(num_dots):
+#        suma = 0
+#        for i in range(t.shape[0]-2):
+#            if( t[i] <= tau[i_tau] and tau[i_tau] <= t[i+1]):
+#                suma +=var.get_a(k-1,i)[i_tau]
+#        if( t[-2] <= tau[i_tau] and tau[i_tau] <= t[-1]):
+#            suma += var.get_a(k-1,t.shape[0]-1)[i_tau]
+#        s[i_tau] = suma
+#    print s
         # Paso 1: Avanzar el indice hasta que se pueda operar
-        while (index < n_ts-2 and t[index+1] <= tau[i_tau]):
+        while (index < n_ts-3 and t[index+1] <= tau[i_tau]):
             index += 1
         
         # Paso 2: Sumamos a(k-1,index,tau)
-        if (t[index] <= tau[i_tau] and tau[i_tau] < t[index+1]):
-            if (F):
-                z =  (var.get_a(k-1,index))[i_tau]
-            else:
-                z =  (var.get_a_tau(k-1,index,tau[i_tau]))
-            s[i_tau] = z
-        # Caso especial: si es igual al ultimo t_i
-        elif (index == n_ts-2 and t[index] <= tau[i_tau] and tau[i_tau] <= t[index+1]):
-            if (F):
-                z =  (var.get_a(k-1,index))[i_tau]
-            else:
-                z =  (var.get_a_tau(k-1,index,tau[i_tau]))
+        if (t[index] <= tau[i_tau] and tau[i_tau] <= t[index+1]):
+            z =  (var.get_a(k-1,index))[i_tau]
             s[i_tau] = z
     return s
-   
-    
     
 
 class Vars_spline:
@@ -86,9 +81,6 @@ class Vars_spline:
         
         for i in range(A.shape[0]):
             self.a[(0,i)] = np.full(num_dots,A[i])
-            
-            for j in range(self.tau.shape[0]):
-                self.a[(0,i,self.tau[j])]=A[i]
 
     def get_w(self,i,k):
         return self._calc_w(i,k)
@@ -103,7 +95,7 @@ class Vars_spline:
         return self._calc_a(r,i)
 
     def _calc_w(self,i,k):
-        print "El la llamada a w, las variables valen: i:", i," k:",k
+#        print "El la llamada a w, las variables valen: i:", i," k:",k
         if( (i,k) in self.w):
             return self.w[(i,k)]
         else:
@@ -116,11 +108,15 @@ class Vars_spline:
     def _calc_a(self,r,i):
         if ((r,i) in self.a):
             return self.a[(r,i)]
-        wi = self._calc_w(i,self.k-r)
+        wi = self._calc_w(i,self.k-r+1)
         ai_1 = self._calc_a(r-1,i-1)
         ai = self._calc_a(r-1,i)
         self.a[(r,i)] = (1-wi)*ai_1 + wi*ai
         return self.a[(r,i)]
+
+   
+    # Segun la formula para cada t entre tj y tj+1 
+    # usamos una combinacion de puntos aj-k+r+1 hasta aj
 
 
     def _calc_t(self,a,b,xi,k,nu):
@@ -139,7 +135,8 @@ class Vars_spline:
 
     
     
-if __name__=="__main__":
+#if __name__=="__main__":
+    # menu()
     # N = 1000
     # start = time.time()
     # for i in range(N):
@@ -150,6 +147,14 @@ if __name__=="__main__":
     # for i in range(N):
     #     spline2d(0, 4, [1,2,3], 3, [2,2,2], [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]], 100,True)
     # print "Matriz: ", time.time()-start
-    print spline2d(0, 4, [1,2,3], 3, [2,2,2], [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]], 100, True)
+def menu():
+    A = [[-3, 3], [-3, 3], [-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0], [-1, 0], [-1, 0]]
+    s = spline2d(0, 4, [1,2,3], 3, [2,2,2], A, 100)
+    print s
+    nA = np.array(A)
+    #for i in range(nA.shape[0]):
+        
 
+    plt.plot(s[0],s[1])
+    plt.show()
     
