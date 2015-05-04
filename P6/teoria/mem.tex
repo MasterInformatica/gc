@@ -23,8 +23,9 @@
 
 \title{Práctica 6. \\ Geometría computacional} 
 
-\author{Luis María Costero Valero (lcostero@ucm.es)\\ Jesús Doménech
-  Arellano (jdomenec@ucm.es) \\ Jennifer Hernández Bécares (jennhern@ucm.es)}
+\author{Luis María Costero Valero (lcostero@ucm.es)\\
+  Jesús Doménech Arellano (jdomenec@ucm.es)\\ 
+  Jennifer Hernández Bécares (jennhern@ucm.es)} 
 \date{}
 
 \begin{document}
@@ -34,15 +35,15 @@
 \begin{center}
   {\textbf{Teoría}}
 \end{center}
+
 \begin{enumerate}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % Versión nueva porque soy un poco inútil y estaba mal...
 
-  \item Dada la secuencia de nodos $t=\mathbb{Z}$, calcúlense las
+\item Dada la secuencia de nodos $t=\mathbb{Z}$, calcúlense las
   funciones B-spline $B_{ik}$ correspondientes.
-
+  
   Para calcular las funciones B-spline asociadas a la secuencia de
   nodos $t=\mathbb{Z}$, partimos de la recurrencia que define $B_{ik}$
   en el caso general
@@ -53,10 +54,10 @@
   \begin{equation}
     \omega_{ik}(t)=
     \left\lbrace
-    \begin{array}{c l}
-      \frac{t-t_i}{t_{i+k-1}-t_i}, & $si $t_i\neq t_{i+k-1}\\
-      0, & $caso contrario $ \\
-    \end{array}
+      \begin{array}{c l}
+        \frac{t-t_i}{t_{i+k-1}-t_i}, & $si $t_i\neq t_{i+k-1}\\
+        0, & $caso contrario $ \\
+      \end{array}
     \right.
   \end{equation}
 
@@ -106,16 +107,14 @@
     \begin{equation}
       \begin{array}{l c l}
         B_{ik}(t)&=&\frac{t-i}{k-1}B_{i,k-1}(t)+\frac{k-t-i}{k-1}B_{i+1,k-1}(t) \\
-        &\underset{(HI)}{=}&\frac{t-i}{k-1}B_{0,k-1}(t-i)+\frac{k-t-i}{k-1}B_{1,k-1}(t-i) \\
-        &=&B_{0k}(t-i)
+                 &\underset{(HI)}{=}&\frac{t-i}{k-1}B_{0,k-1}(t-i)+\frac{k-t-i}{k-1}B_{1,k-1}(t-i) \\
+                 &=&B_{0k}(t-i)
       \end{array}
     \end{equation}
     
   \end{itemize}
-
-  
-  
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \newpage{}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \item Dada una secuencia de nodos arbitraria t, demuéstrese
   que si p es un polinomio de grado 1 entonces
   \begin{align*}
@@ -125,6 +124,29 @@
   \begin{align*}
     t_{i}^{*}=(t_{i+1}+...+t_{i+k-1})/(k-1).
   \end{align*}
-\end{enumerate} 
 
+  Consideramos la identidad de Marsden, dada por:
+  $$(x-t)^{k-1}=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\psi_{i,k}(x),\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \forall x\in\mathbb{R},\,\,\,\, t_k\le t \le t_{n+1}$$
+  $\,\,\,\,\psi_{i,k}(x)=(x-t_{i+1})\dots (x-t_{i+k-1})$
+
+  Si dividimos entre $(k-1)!$ obtenemos:
+  $$\frac{(x-t)^{k-1}}{(k-1)!}=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\frac{\psi_{i,k}(x)}{(k-1)!}$$
+  Derivando una vez respeccto a $x$:
+  $$\frac{(x-t)^{k-2}}{(k-2)!}=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\frac{\psi_{i,k}'(x)}{(k-1)!}$$,
+  y en general derivando $m-1$ veces:
+  $$\frac{(x-t)^{k-m}}{(k-m)!}=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\frac{\psi_{i,k}^{(m-1)}(x)}{(k-1)!}$$
+
+
+  consideremos ahora el caso en el que $m=k-1$, sustituyendo $m$ se tiene
+  que:
+  $$(x-t)=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\left[x-\frac{t_{i+1}+\dots+t_{i+k-1}}{(k-1)}\right]$$
+
+  Lo que implica que para cualquier polinomio de la forma
+  $p(t)=a \cdot t + b$, y siendo
+  $t_{i}^{*}=\frac{t_{i+1}+\dots+t_{i+k-1}}{k-1}$ se tenga lo buscado:
+  $$p(t)=\sum\limits_{i=1}^{n}B_{i,k}(t)p(t_{i}^{*})$$
+
+
+
+\end{enumerate} 
 \end{document}
