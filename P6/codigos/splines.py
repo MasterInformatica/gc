@@ -77,7 +77,7 @@ class Vars_spline:
     def _calc_w(self,i,k):
         if( (i,k) in self.w):
             return self.w[(i,k)]
-        if (self.t_i[i] == self.t_i[i+k-1]):
+        if (i>=self.t_i.shape[0] or i+k-1>= self.t_i.shape[0] or self.t_i[i] == self.t_i[i+k-1]):
             self.w[(i,k)] = np.zeros(self.tau.shape[0])
         else:
             self.w[(i,k)] = ((self.tau - self.t_i[i])*1.0/(self.t_i[i+k-1]-self.t_i[i])*1.0)
