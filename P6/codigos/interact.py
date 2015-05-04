@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """ 
-Práctica 5 de Geometría Computacional
+Práctica 6 de Geometría Computacional
 Autores:
 * Luis María Costero Valero (lcostero@ucm.es)
 * Jesús Javier Doménech Arellano (jdomenec@ucm.es)
@@ -160,7 +160,7 @@ class Graphics:
         self.method = 'least_squares'
         self.L = 6
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        self.fig.suptitle('Click introduce los puntos y puede moverlos.\n La consola muestra informacion sobre la ejecucion actual.')
+        self.fig.suptitle('Click introduce los puntos y puede moverlos.')
 
         #Buttons
         calculateAxes = plt.axes([0.7, 0.17, 0.15, 0.03])
