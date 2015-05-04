@@ -28,6 +28,9 @@
   Jennifer Hernández Bécares (jennhern@ucm.es)} 
 \date{}
 
+
+\newtheorem{observacion}{Observación}
+
 \begin{document}
 \maketitle
 \onehalfspace
@@ -137,7 +140,8 @@
   $$\frac{(x-t)^{k-m}}{(k-m)!}=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\frac{\psi_{i,k}^{(m-1)}(x)}{(k-1)!}$$
 
 
-  consideremos ahora el caso en el que $m=k-1$, sustituyendo $m$ se tiene
+  consideremos ahora el caso en el que $m=k-1$, sustituyendo $m$ y
+  aplicando la observación \ref{observacion:1} se tiene
   que:
   $$(x-t)=\sum\limits_{i=1}^{n}B_{i,k}(t)\cdot\left[x-\frac{t_{i+1}+\dots+t_{i+k-1}}{(k-1)}\right]$$
 
@@ -146,7 +150,19 @@
   $t_{i}^{*}=\frac{t_{i+1}+\dots+t_{i+k-1}}{k-1}$ se tenga lo buscado:
   $$p(t)=\sum\limits_{i=1}^{n}B_{i,k}(t)p(t_{i}^{*})$$
 
+  \vspace{1cm}
 
+  \begin{observacion}
+    \label{observacion:1}
+    Sea $f=(x-t_1)\dots(x-t_{n})$, entonces se verifica
+    que $$f^{(n-1)}=x-\left((n-1)!\cdot(t_1+\dots+t_{n})\right)$$
+  \end{observacion}
+    Operando $f$ se tiene un polinomio de grado $n$ que se puede expresar
+    como\\$f=x^{n}-x^{n-1}(t_1+\cdots+t_{n})+q$\,\,\,\,donde $q$ es un polinomio de
+    grado $n-1$.
+
+    Si se deriva $n-1$ veces, se obtiene el resutlado buscado:
+    $$f^{(n-1)}=x-\left((n-1)!\cdot(t_1+\dots+t_{n})\right)$$
 
 \end{enumerate} 
 \end{document}
