@@ -160,16 +160,14 @@ class Graphics:
         self.method = 'least_squares'
         self.L = 6
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        self.fig.suptitle('Click introduce los puntos.\n La consola muestra informacion sobre la ejecucion actual.')
+        self.fig.suptitle('Click introduce los puntos y puede moverlos.\n La consola muestra informacion sobre la ejecucion actual.')
 
         #Buttons
         calculateAxes = plt.axes([0.7, 0.17, 0.15, 0.03])
-#        randomAxes = plt.axes([0.7, 0.11, 0.15, 0.03])
         resetAxes = plt.axes([0.7, 0.05, 0.15, 0.03])
 
         self.buttonCalculate = Button(calculateAxes, 'Calculate!')
         self.buttonReset = Button(resetAxes, 'Reset!')
-#        self.buttonRandom = Button(randomAxes, 'Random!')
 
         self.buttonCalculate.on_clicked(self._updatePlot)
         self.buttonReset.on_clicked(self._clean)
@@ -186,14 +184,8 @@ class Graphics:
         Encarga de actualizar los dibujos, llamando a los métodos correspondientes
         """
         
-        P = np.array(self.points_P)
-        if P.shape[0] < 2:# no hay puntos suficientes
-            return
         self.ax.lines = []
  
-        for c in self.inter_circle:
-            c.remove()
-        self.inter_circle = []
         # COMPUTAR
         Poin = self.points_P
         nu = []
@@ -201,10 +193,11 @@ class Graphics:
         for i in range(k):
             Poin = [self.points_P[0]]+Poin +[self.points_P[-1]]
             nu += [k-1]
-        xi = np.linspace(0,4,k+2)
+        a = -5
+        b = 4
+        xi = np.linspace(a,b,k+2)
  
-        #curve = spline2d(0, 4,xi , P.shape[0], nu, Poin, 100)
-        curve = spline2d(0, 4, xi[1:-1].tolist(),k , nu, Poin, 200)
+        curve = spline2d(a, b, xi[1:-1].tolist(),k , nu, Poin, 200)
         self.drawPolygon(curve,"-r")
         X = [[],[]]
         X[0] = [k[0] for k in Poin]
