@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
     
@@ -59,7 +59,14 @@ if __name__ == '__main__':
     print final
     for p in points:
         plt.plot(p[0], p[1], 'ro')
-    for p in final:
-        plt.plot(p[0], p[1], 'bo')
+    
+    kk1 = convex_hull + [convex_hull[0]]
+    kk = np.array(kk1)
+    print kk
+    
+    plt.plot(kk[:,0], kk[:,1], 'bo-')
+
+    # for p in final:
+#        plt.plot(p[0], p(1], 'bo')
     plt.show()
     
