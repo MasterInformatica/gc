@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-
+import matplotlib.pyplot as plt
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
     
@@ -40,10 +40,16 @@ def menu(points):
     Llower.pop(0) 
     Llower.pop(-1)
     print 'Llower', Llower
-    list = Lupper + Llower
+    list = Llower + Lupper
     return list
 
 if __name__ == '__main__':
-    points = [(1,2),(3,3),(5,6),(0,10),(3,5),(6,5),(0,9)]
+    
+    points = [[1,2],[3,3],[5,6],[0,10],[3,5],[6,5],[0,9]]
     convex_hull = menu(points)
     print convex_hull
+    for p in points:
+        plt.plot(p[0], p[1], 'ro')
+    for p in convex_hull:
+        plt.plot(p[0], p[1], 'bo')
+    plt.show()
