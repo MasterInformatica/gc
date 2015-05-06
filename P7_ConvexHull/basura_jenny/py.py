@@ -1,6 +1,6 @@
 from __future__ import division
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
     
@@ -14,8 +14,9 @@ def menu(points):
     # Put the points p1 and p2 in a list Lupper, with p1 as the first
     # point
     Lupper = [ordered_points[0], ordered_points[1]]
-    
+    p=ordered_points
     for i in range(2,n):
+        print i, p[i], Lupper
         Lupper.append(ordered_points[i])
         # while Lupper contains more than two points and the last
         # three points in Lupper do not make a right turn: delete the
@@ -27,8 +28,9 @@ def menu(points):
                            # list Llower, with pn as the first point
     print 'Lupper', Lupper
     Llower = [Lupper[-1], Lupper[-2]]
-    for i in range(n-3, -1, -1): # for i<- n-2 downto 1 Append pi to
+    for i in range(n-2, -1, -1): # for i<- n-2 downto 1 Append pi to
                                 # Llower
+        print i, p[i], Llower
         Llower.append(ordered_points[i])
         
         # while Llower contains more than 2 points and the last three
@@ -46,10 +48,18 @@ def menu(points):
 if __name__ == '__main__':
     
     points = [[1,2],[3,3],[5,6],[0,10],[3,5],[6,5],[0,9]]
+    points = [(i/10, i%10) for i in range(100)]
     convex_hull = menu(points)
-    print convex_hull
+
+    final = []
+    for p in points:
+        if p in convex_hull:
+            final.append(p)
+
+    print final
     for p in points:
         plt.plot(p[0], p[1], 'ro')
-    for p in convex_hull:
+    for p in final:
         plt.plot(p[0], p[1], 'bo')
     plt.show()
+    
