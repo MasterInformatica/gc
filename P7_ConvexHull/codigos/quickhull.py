@@ -52,4 +52,4 @@ def quickHull(points):
 
 if __name__ == '__main__':
     
-    quickHull([])
+    quickHull( [[-1, 0], [1, 0], [1, 1], [-1, 0], [1, 0], [1, 1]])
