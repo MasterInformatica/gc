@@ -14,7 +14,17 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
 
 def maxDistancePoint(a,b,points):
-    return points[0]
+    maxP = [0,0]
+    maxVal = -3
+    a = np.array(a)
+    b = np.array(b)
+    for p in points:
+        m = np.linalg.det(np.array([b-a,p-a]))
+        if m > maxVal:
+            maxP = p
+            maxVal = m
+
+    return maxP
 
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
@@ -37,9 +47,9 @@ def _quickHull(a,b,points):
     else:
         c = maxDistancePoint(a,b,points)
         print c
-        A,_ = right_Points(a,c,points)
-        B,_ = right_Points(c,b,points)
-        return _quickHull(a,c,A)+c+_quickHull(c,b,B)
+        A,X = right_Points(a,c,points)
+        B,X = right_Points(c,b,points)
+        return _quickHull(a,c,A)+[c]+_quickHull(c,b,B)
 
 def extremos(points):
     maxp = points[0]
@@ -54,12 +64,7 @@ def extremos(points):
             minp = p
     return (minp,maxp)
     
-def quickHull(points):
+def convex_hull(points):
     m,M =extremos(points)
     A,B = right_Points(m,M,points)
-    print m, M
-    return [m]+_quickHull(m,M,A)+[M]+_quickHull(M,m,B)
-
-if __name__ == '__main__':
-    # print right_Points([0,0],[4,0],[[1,1],[2,1],[1,-1],[2,-1],[2,0]])
-    print quickHull( [[-1, 0], [1, 0], [1, 1], [-1, 0], [1, 0], [1, 1]])
+    return [m]+_quickHull(m,M,A)+[M]+_quickHull(M,m,B)+[m]
