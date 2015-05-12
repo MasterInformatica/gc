@@ -14,17 +14,16 @@ import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
 
 def maxDistancePoint(a,b,points):
-    maxP = [0,0]
-    maxVal = -3
-    a = np.array(a)
-    b = np.array(b)
-    for p in points:
-        m = np.linalg.det(np.array([b-a,p-a]))
-        if m > maxVal:
-            maxP = p
-            maxVal = m
+    return points[np.argmax(distance(a,b,points))]
 
-    return maxP
+def distance(A, B, P):
+    """ segment line AB, point P, where each one is an array([x, y]) """
+
+    if np.arccos(np.dot((P - A) / np.norm(P - A), (B - A) / np.norm(B - A))) > np.pi / 2:
+        return np.norm(P - A)
+    if np.arccos(np.dot((P - B) / np.norm(P - B), (A - B) / np.norm(A - B))) > np.pi / 2:
+        return np.norm(P - B)
+    return np.abs(np.dot(A - B, P[::-1]) + np.det([A, B])) / np.norm(A - B) 
 
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
@@ -68,3 +67,8 @@ def convex_hull(points):
     m,M =extremos(points)
     A,B = right_Points(m,M,points)
     return [m]+_quickHull(m,M,A)+[M]+_quickHull(M,m,B)+[m]
+
+
+if __name__ == "__main__":
+    points  = [[1,0],[-1,0],[1,1],[1,0],[-1,0],[1,1]]
+    print convex_hull( points)
