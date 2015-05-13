@@ -10,20 +10,19 @@ Autores:
 
 from __future__ import division
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
-from matplotlib.patches import Circle
-from matplotlib.path import Path
-from matplotlib.widgets import Slider, Button
-import matplotlib.patches as patches
+# import matplotlib.pyplot as plt
+# from matplotlib.lines import Line2D
+# from matplotlib.patches import Circle
+# from matplotlib.path import Path
+# from matplotlib.widgets import Slider, Button
+# import matplotlib.patches as patches
 # from scipy.spatial.distance import cdist
 
 def maxDistancePoint(a,b,points):
     #if(points.shape[0]<=1):
     b_a = b-a
     p_a = points-a
-    norma = np.linalg.norm(b_a)
-    dist = ((b_a[0]*p_a[:,1])-(p_a[:,0]*b_a[1]))*1.0/norma
+    dist = (b_a[0]*p_a[:,1])-(p_a[:,0]*b_a[1])
     return points[np.argmax(dist)]
 
 
@@ -242,13 +241,13 @@ class Graphics:
 #     # print right_Points([0,0],[4,0],[[1,1],[2,1],[1,-1],[2,-1],[2,0]])
 #     print convex_hull( [[-1, 0], [1, 0], [1, 1], [-1, 0], [1, 0], [1, 1],[-10,-5],[10,5],[-10,0],[-10,-10],[10,0],[10,10]])
 
-if __name__ == '__main__':
-    """
-    Si iniciamos la aplicación de manera directa, inicilizamos la ventana
-    gráfica para ser interactiva
-    """
-    window = Graphics()
-    window.init_interaction()
-    window.show()
+# if __name__ == '__main__':
+#     """
+#     Si iniciamos la aplicación de manera directa, inicilizamos la ventana
+#     gráfica para ser interactiva
+#     """
+#     window = Graphics()
+#     window.init_interaction()
+#     window.show()
 
                 
