@@ -1,0 +1,26 @@
+
+
+            INCREMENTAL CONVEX HULL (S)
+
+                Sort the n belongs to S points by their x-coordinate
+                CH  ←  triangle (p1, p2, p3)
+
+                for (4 ≤ i ≤ n ) do
+                        j ←  Index of the rightmost point of CH
+
+                        // find the upper tangency point
+                        u = j
+                        while (pih4 is not tangent to CH) do
+                                if (u ≠  j) then
+                                        remove h4  from CH
+                                u = u -1
+
+                        // find the lower tangency point
+                        I = j
+                        while (pihl is not tangent to CH) do
+                                if ( I ≠ u) then
+                                        remove hi from CH
+                                I = I + 1
+
+                        INSERT pi in CH between hu and hi
+
