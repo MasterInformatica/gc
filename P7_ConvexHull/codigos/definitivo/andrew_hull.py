@@ -9,10 +9,10 @@ Autores:
 """
 from __future__ import division
 import numpy as np
-import matplotlib.pyplot as plt
+
 def right_turn(a, b, c):
     return (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
-    
+
     
 '''
 Convex hull implementado mediante el andrew hull esta implementado
