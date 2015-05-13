@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+
+""" 
+Práctica 7 de Geometría Computacional
+Autores:
+* Luis María Costero Valero       (lcostero@ucm.es)
+* Jesús Javier Doménech Arellano  (jdomenec@ucm.es)
+* Jennifer Hernández Bécares      (jennhern@ucm.es)
+"""
 from __future__ import division
 import numpy as np
 import matplotlib.pyplot as plt
