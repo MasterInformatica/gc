@@ -25,17 +25,24 @@ class Point:
         self.isL = None
         self.other = None
         self.numLine = -1
-
+        self.corte = False
+        self.nL1 = -1
+        self.nL2 = -1
+        self.pos = -1
     def setOther(self,B):
         self.other = B
         self.isL = (self.point<self.other.point)
         self.other.isL = not self.isL
         self.other.other = self
-
+    def setPos(self,pos):
+        self.pos = pos
     def setNum(self,num):
         self.numLine = num
         self.other.numLine = num
-
+    def setCorte(self,numL1,numL2):
+        self.corte = True
+        self.nL1 = numL1
+        self.nL2 = numL2
     def line(self):
         return self.numLine
     def otherPoint(self):
@@ -44,8 +51,7 @@ class Point:
 def doIntersect(L1,L2):
     '''
     p -------> q = p + r
-    a -------> b = a + s
-    
+    a -------> b = a + s  
     '''
 
     p = L1[0].point
@@ -65,80 +71,150 @@ def doIntersect(L1,L2):
     a_pxr = a_px*ry-a_py*rx
 
     if rxs == 0 and a_pxr == 0:
-        print "colinear"
         return None
     elif rxs == 0:
-        print "paralelas"
         return None
     else:
         t = a_pxs / rxs
         u = a_pxr / rxs
-        print "uyyy", t,u
-        if (t <= 1 and t >= -1 and u <= 1 and u >= -1):
+        if (t <= 1 and t >= 0 and u <= 1 and u >= 0):
             return (p[0]+t*rx,p[1]+t*ry)
     return None
 
+def notEmpty(T):
+    return len(T)<>0
+def insertNoRep(List,E):
+    insert = True
+    for l in List:
+        if abs(l[0]*l[0]+l[1]*l[1] - E[0]*E[0]+E[1]*E[1])< 0.00000001:
+            insert = False
+            break
+    if insert:
+        return List+[E]
+    else:
+        return List
+def insertNoRepP(List,E):
+    insert = True
+    result = []
+    for l in List:
+        if insert:
+            a = l.point
+            b = E.point
+            if abs(a[0]*a[0]+a[1]*a[1] - b[0]*b[0]+b[1]*b[1]) < 0.0000001:
+                insert = False
+            elif b[0] < a[0] or (b[0]==a[0] and b[1]<a[1]):
+                result = result +[E]
+                insert = False
+        result = result + [l]
+    return result
+
+
 def intersection(lines,Points):
-#    Points = sort(P)
     intersec = []
     T = bintrees.AVLTree()
     # add to prevent prev and succ item ever exists
     T.insert((None,None),-1)
     T.insert(('Z','Z'),-1)
-    for i in range(len(lines)):
-        print "line: ",i, "-> (", lines[i][0].point,", ", lines[i][1].point, ")"
 
-    for i in range(0,len(Points)):
+    k = 0
+    while notEmpty(Points):
+        print "casi vuelta",k
+        for p in Points:
+            print p.point
         print T
-        print "vuelta",i, " ", Points[i].point, Points[i].isL
-        lineNum = Points[i].line()
-        key = (Points[i].point[1],lineNum) #coordenada y del punto actual
+        P = Points.pop(0)
+        gen = T.items()
+        fin = True
+        while(fin):
+            try:
+                nxt = gen.next()
+                print "item",repr(T)
+            except Exception:
+                fin = False
+        if P.corte: #intersec
+            print "corte",P.point
+            ## add P a intersec
+            intersec = insertNoRep(intersec,P.point)
+            L1 = lines[P.nL1]
+            L2 = lines[P.nL2]
+            # swap segments
+            aux = L1[0].pos
+            L1[0].pos = L2[0].pos
+            L1[1].pos = L2[1].pos
+            L2[0].pos = aux
+            L2[1].pos = aux
+            aux = L1[0].pos
+            #calculate key of tree
+            key1=(None,None)
+            if(L1[0].isL):
+                key1 = (L1[0].point[1],L1[0].point[0])
+            else:
+                key1 = (L1[1].point[1],L1[1].point[0])
+            key2=(None,None)
+            if(L2[0].isL):
+                key2 = (L2[0].point[1],L2[0].point[0])
+            else:
+                key2 = (L2[1].point[1],L2[1].point[0])
 
-        if (Points[i].isL):
+            T.remove(key1)
+            T.remove(key2)
+            T.insert(key1,P.nL2)
+            T.insert(key2,P.nL1)
+            #check_intersect
+            prev = T.prev_item(key2)
+            if not ( prev[1] < 0 ):
+                corte = doIntersect(lines[P.nL2], lines[prev[1]])
+                if not (corte is None):
+                    NP = Point(corte)
+                    NP.setCorte(P.nL2,prev[1])
+                    Points = insertNoRepP(Points,NP)
+            succ = T.succ_item(key1)
+            if not (succ[1] < 0 or succ[1]==P.nL2):
+                corte = doIntersect(lines[P.nL1], lines[succ[1]])
+                if not (corte is None):
+                    NP = Point(corte)
+                    NP.setCorte(P.nL1,succ[1])
+                    Points = insertNoRepP(Points,NP)
+        elif P.isL: #left
+            print "left",P.point
+            key = (P.point[1],P.point[0])
+            lineNum = P.line()
             T.insert(key,lineNum)
-
+            P.other.setPos(k)
+            P.setPos(k)
+            k+=1
             prev = T.prev_item(key)
             if not ( prev[1] < 0):
                 corte = doIntersect(lines[lineNum], lines[prev[1]])
-               
                 if not (corte is None):
                     NP = Point(corte)
-                    NP.setOther(Points[i].other)
-                    NP.setNum(lineNum)
-                    T.insert((corte[1],lineNum),lineNum)
-                    intersec = intersec+[corte]
+                    NP.setCorte(lineNum,prev[1])
+                    Points = insertNoRepP(Points,NP)
             succ = T.succ_item(key)
             if not (succ[1] < 0):
                 corte = doIntersect(lines[lineNum], lines[succ[1]])
-                if not (corte is None):
+                if not (corte is None): 
                     NP = Point(corte)
-                    NP.setOther(Points[i].other)
-                    NP.setNum(lineNum)
-                    T.insert((corte[1],lineNum),lineNum)
-                    intersec = intersec+[corte]
-
-        else:
-            key = (Points[i].other.point[1],lineNum)
+                    NP.setCorte(lineNum,succ[1])
+                    Points = insertNoRepP(Points,NP)
+        else: #right
+            print "right",P.point
+            key = (P.other.point[1],P.other.point[0])
             succ = T.succ_item(key)
             prev = T.prev_item(key)
-            if (prev[1] < 0):
-                prev = T.prev_item(('Z','Z'))
-            if( succ[0] <0):
-                succ = T.succ_item((None,None))
+            T.remove(key)
             if not (prev[1] < 0 or succ[0] <0):
                 corte = doIntersect(lines[prev[1]], lines[succ[1]])
-                if not (corte is None):
+                if not (corte is None or corte[0] < P.point[0] or (corte[0] == P.point[0] and corte[1] < P.point[1])):
                     NP = Point(corte)
-                    NP.setOther(Points[i].other)
-                    NP.setNum(lineNum)
-                    T.insert((corte[1],lineNum),lineNum)
-                    intersec = intersec+[corte]
-
-            T.remove(key)
+                    NP.setCorte(prev[1],succ[1])
+                    Points = insertNoRepP(Points,NP)
+                    
     print T
     return intersec
 
 def sort(P):
+    print "sort"
     return quicksort(P,0,len(P)-1)
 
 def quicksort(L, first, last):
@@ -176,6 +252,7 @@ def quicksort(L, first, last):
 def makeSegments(points):
     ps = []
     segm = []
+
     for i in range(0,len(points),2):
         P = Point(points[i])
         Q = Point(points[i+1])
@@ -185,6 +262,7 @@ def makeSegments(points):
         #Q.setNum(i//2)
         ps = ps + [P] + [Q]
         segm = segm + [(P,Q)]
+    print "seg",segm,ps
     return segm,ps
 
 
@@ -236,17 +314,12 @@ class Graphics:
         resetAxes = plt.axes([0.7, 0.05, 0.15, 0.03])
 
         self.buttonCalculate = Button(calculateAxes, 'Calculate!')
-        #self.buttonMethod = Button(changeMethod, 'Change Method!')
         self.buttonReset = Button(resetAxes, 'Reset!')
 
         self.buttonCalculate.on_clicked(self._updatePlot)
         self.buttonReset.on_clicked(self._clean)
-        #self.buttonMethod.on_clicked(self._changeMethod)
-
         
 
-        #self.points_P = [[-3, 3], [8, 2], [-4, 8], [0, 8], [-1, 0]]
-        #self.points_P = [[1,2],[3,3],[5,6],[0,10],[3,5],[6,5],[0,9]]
         for p in self.points_P:
             c = Circle((p[0], p[1]), 0.5,color='b')
             self.ax.add_patch(c)
@@ -256,8 +329,6 @@ class Graphics:
         """
         Encarga de actualizar los dibujos, llamando a los métodos correspondientes
         """
-        #self.drawPoints(np.array(self.points_P), 'g')
-        #self.drawPolygon(np.array(self.points_P))
         self.ax.lines = []
 
         if(self.pair and len(self.points_P)>0):
@@ -274,15 +345,6 @@ class Graphics:
                 self.ax.plot(x,y,'b')
             for p in cortes:
                 self.ax.add_patch(Circle((p[0],p[1]), 0.15,color='r'))
-
-
-
- 
-        
-    def _changeMethod(self,event):
-        self.methods = self.methods[1:]+[self.methods[0]]
-        print "Metodo: ",self.methods[0]
-        self._updatePlot(None)
 
     def drawLine(self,line):
         """ 
@@ -416,7 +478,7 @@ def men():
     window.show()
 
 def menu():
-    List_P = [[0,0],[0.1,10],[-1,1],[1,1],[-1,3],[2,3]]
+    List_P = [[-1,1],[1,1],[0,0],[0.1,10]]#,[-1,3],[2,3]]
     lines,points = makeSegments(List_P)
     P = sort(points)
     for p in P:
