@@ -100,12 +100,21 @@ def intersection(lines,Points):
             prev = T.prev_item(key)
             if not ( prev[1] < 0):
                 corte = doIntersect(lines[lineNum], lines[prev[1]])
+               
                 if not (corte is None):
+                    NP = Point(corte)
+                    NP.setOther(Points[i].other)
+                    NP.setNum(lineNum)
+                    T.insert((corte[1],lineNum),lineNum)
                     intersec = intersec+[corte]
             succ = T.succ_item(key)
             if not (succ[1] < 0):
                 corte = doIntersect(lines[lineNum], lines[succ[1]])
                 if not (corte is None):
+                    NP = Point(corte)
+                    NP.setOther(Points[i].other)
+                    NP.setNum(lineNum)
+                    T.insert((corte[1],lineNum),lineNum)
                     intersec = intersec+[corte]
 
         else:
@@ -119,6 +128,10 @@ def intersection(lines,Points):
             if not (prev[1] < 0 or succ[0] <0):
                 corte = doIntersect(lines[prev[1]], lines[succ[1]])
                 if not (corte is None):
+                    NP = Point(corte)
+                    NP.setOther(Points[i].other)
+                    NP.setNum(lineNum)
+                    T.insert((corte[1],lineNum),lineNum)
                     intersec = intersec+[corte]
 
             T.remove(key)
