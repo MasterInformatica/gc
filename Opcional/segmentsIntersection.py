@@ -60,7 +60,7 @@ class Point:
         if self.point[0] < other.point[0]: 
             return True
         elif self.point[0] == other.point[0]:
-            return self.point[1] > other.point[1]
+            return self.point[1] < other.point[1]
         else:
             return False
 
@@ -155,7 +155,8 @@ class Node:
         self.B = B
         self.prev = Node()
         self.succ = Node()
-
+    def __repr__(self):
+        return "Nodo((%s,%s),L=%s,R=%s)"%(self.A,self.B,self.prev,self.succ)
 
     def insert(self,N,L=True,oth=None):
         if oth is None:
@@ -514,7 +515,7 @@ def men():
     window.show()
 
 def menu():
-    List_P = [[-1,1],[1,1],[0,0],[0.1,10]]#,[-1,3],[2,3]]
+    List_P = [[-1,1],[1,1],[0,0],[0.1,10],[-1,3],[2,3]]
     lines,points = makeSegments(List_P)
     P = sorted(points)
     for p in P:
@@ -547,4 +548,4 @@ def menu():
     
 
 if __name__ == '__main__':
-    men()
+    menu()
