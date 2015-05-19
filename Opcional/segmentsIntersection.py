@@ -104,7 +104,7 @@ def notEmpty(T):
 def insertNoRep(List,E):
     insert = True
     for l in List:
-        if abs(l[0]*l[0]+l[1]*l[1] - E[0]*E[0]+E[1]*E[1])< 0.00000001:
+        if abs(l[0]*l[0]+l[1]*l[1] - E[0]*E[0]+E[1]*E[1])< 0.00001:
             insert = False
             break
     if insert:
