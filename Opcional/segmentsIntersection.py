@@ -32,7 +32,6 @@ class Point:
         self.nL2 = -1
         self.pos = -1
     def __getitem__(self,i):
-        print "get", i
         return self.point[i]
     def setOther(self,B):
         self.other = B
@@ -57,6 +56,7 @@ class Point:
     def __eq__(self, other):
         return ((self.point[0], self.point[1]) == (other.point[0], other.point[1]))
     def __lt__(self, other):
+        print "a",other
         if self.point[0] < other.point[0]: 
             return True
         elif self.point[0] == other.point[0]:
@@ -120,9 +120,10 @@ def insertNoRepP(List,E):
         l = List[i]
         a = l.point
         b = E.point
-        if abs(a[0]*a[0]+a[1]*a[1] - b[0]*b[0]+b[1]*b[1]) < 0.0000001:
-            insert = True
-        elif b[0] < a[0] or (b[0]==a[0] and b[1]<a[1]):
+#        if abs(a[0]*a[0]+a[1]*a[1] - b[0]*b[0]+b[1]*b[1]) < 0.0000001:
+#            insert = True
+#        el
+        if b[0] < a[0] or (b[0]==a[0] and b[1]<a[1]):
             result = result +[E]
             insert = True
         result = result + [l]
@@ -134,11 +135,12 @@ def insertNoRepP(List,E):
 
 
 class Node:
-    def __init__(self,P=None):
+    def __init__(self,P=None,indx = -1):
         self.A = None
         self.B = None
         self.prev = None
         self.succ = None
+        self.idx = indx
         if P is None:
             self.vacio = True
             return
@@ -165,12 +167,28 @@ class Node:
                 N.prev = oth
             # self = N
             return N
-        if self._side(self.A,self.B,N.A) > 0:
-            # self.prev.insert(N,True,self)
-            self.prev = self.prev.insert(N,True,self)
-        else:
-            # self.succ.insert(N,False,self)
-            self.succ = self.succ.insert(N,False,self)
+
+        try:
+            if self._side(self.A,self.B,N.A) < 0:
+                if not L:
+                    N.prev = oth
+                    N.succ = self
+                    self.prev = N
+                    return N
+                else:
+                    # self.prev.insert(N,True,self)
+                    self.prev = self.prev.insert(N,True,self)
+            else:
+                if L:
+                    N.succ = oth
+                    N.prev = self
+                    self.succ = N
+                    return N
+                else:
+                    # self.succ.insert(N,False,self)
+                    self.succ = self.succ.insert(N,False,self)
+        except BaseException:
+            print "EXC",self.A,self.B,N.A
         # #nada
         return self
 
@@ -200,13 +218,16 @@ class Node:
     def quitar(self):
         self.prev.succ = self.succ
         self.succ.prev = self.prev
+        self.succ = Node()
+        self.prev = Node()
     
 def intersection(lines,Points):
+    print "START ################################££££££££££££££!!!!!!"
     intersec = []
     T = Node()
     while notEmpty(Points):
         P = Points[0]
-
+        print Points
         if P.corte: #intersec
             print "corte",P.point
             ## add P a intersec
@@ -217,13 +238,13 @@ def intersection(lines,Points):
             L1.swap(L2)
             #check_intersect
             prev = L2.prev
-            if not ( prev.vacio or prev = L2 ):
+            if not ( prev.vacio or prev.idx == L1.idx ):
                 corte = doIntersect(L2, prev)
                 if not (corte is None):
                     corte.setCorte(prev,L2)
                     Points = insertNoRepP(Points,corte)
             succ = L1.succ
-            if not (succ.vacio or succ = L1):
+            if not (succ.vacio or succ.idx == L2.idx):
                 corte = doIntersect(L1, succ)
                 if not (corte is None):
                     corte.setCorte(L1,succ)
@@ -244,6 +265,7 @@ def intersection(lines,Points):
                     Points = insertNoRepP(Points,corte)
             succ = lines[lineNum].succ
             if not (succ.vacio):
+                print "SUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU"
                 corte = doIntersect(lines[lineNum], succ)
                 if not (corte is None): 
                     corte.setCorte(lines[lineNum],succ)
@@ -256,7 +278,7 @@ def intersection(lines,Points):
             lines[lineNum].quitar()
             if not (succ.vacio or prev.vacio):
                 corte = doIntersect(prev, succ)
-                if not (corte is None or corte < P.point):
+                if not (corte is None or corte < P):
 #corte[0] < P.point[0] or (corte[0] == P.point[0] and corte[1] < P.point[1]))
                     corte.setCorte(prev,succ)
                     Points = insertNoRepP(Points,corte)
@@ -267,7 +289,6 @@ def intersection(lines,Points):
 def makeSegments(points):
     ps = []
     segm = []
-
     for i in range(0,len(points),2):
         P = Point(points[i])
         Q = Point(points[i+1])
@@ -276,7 +297,7 @@ def makeSegments(points):
         #Q.setOther(P)
         #Q.setNum(i//2)
         ps = ps + [P] + [Q]
-        segm = segm + [Node([P,Q])]
+        segm = segm + [Node([P,Q],i//2)]
     print "seg",segm,ps
     return segm,ps
 
@@ -406,6 +427,7 @@ class Graphics:
         Borra todos los elementos de la gráfica. Lineas y circulos
         """
         self.points_P = []
+        self.pair = True
         for c in self.inter_circle:
             c.remove()
         self.inter_circle = []
