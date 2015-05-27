@@ -1,0 +1,37 @@
+http://www.csc.uvic.ca/~ruskey/classes/326/slides/Chpt12IncrementalHull.pdf
+
+ea una envolvente convexa H. 
+Se almacena H como dos arboles balanceados, H1 y H2:
+   H1 contendra los puntos de la parte superior de H, y H2 los puntos de la
+   parte inferior. A su vez, cada arbol estara ordenado por la coordenada x
+   de cada punto.
+
+Dado un punto q, el metodo INCREMENTAL inserta el elemento q en el arbol
+correspondiente y lo devuelve. La envolvente convexa resulta de unir los
+dos arboles.
+El metodo LOCATE devuelve la posicion del punto q relativa a los arboles
+H1, H2. Puede devolver los siguientes valore:
+    IN:     q esta en el interior de la envolvente.
+    ON:     q se encuentra en la envolvente.
+    OUT_RG: q se encuentra a la derecha de todos los puntos de la envolvente
+    OUT_LF: q se encuentra a la izquierda de todos los puntos de la
+    	    envolvente
+    OUT_UP: q se encuentra entre los extremos derecho e izquierdo de la
+    	    envolvente, pero por encima de esta
+    OUT_BT: igual que OUT_UP, pero q se encuentra por debajo de la envolvente
+    	    en vez de por encima
+
+
+INCREMENTAL(H1, H2, q):
+  position <- LOCATE(H1, H2, q)
+
+  IF  position=IN  THEN
+    none
+  ELIF  position=ON  THEN
+    none
+  ..
+...
+  ELIF  position=OUT_RG or position=OUT_LF  THEN
+    INSERT(H1,
+
+
