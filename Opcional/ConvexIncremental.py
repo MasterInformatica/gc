@@ -26,24 +26,24 @@ def locate(point, H1, H2):
     minK = H1.min_key()
     if point > maxK:
         #D: point is OUT and right the convex hull
-        H1 = insertR(point, H1, +1, maxK, minK)
-        H2 = insertR(point, H2, -1, maxK, minK)
+        insertR(point, H1, +1, maxK, minK)
+        insertR(point, H2, -1, maxK, minK)
     elif point < minK:
         #D: point is OUT and left the convex hull
-        H1 = insertL(point, H1, +1, maxK, minK)
-        H2 = insertL(point, H2, -1, maxK, minK)
+        insertL(point, H1, +1, maxK, minK)
+        insertL(point, H2, -1, maxK, minK)
     else:
         a = H1.floor_key(point)
         b = H1.ceiling_key(point)
         if side(a,b,point) > 0:
             # B: point is OUT and above the convexhull
-            H1 = insert(point, H1, +1, maxK, minK)
+            insert(point, H1, +1, maxK, minK)
         else:
             a = H2.floor_key(point)
             b = H2.ceiling_key(point)
             if side(a,b,point) < 0:
                 # C: point is OUT and below the convexhull
-                H2 = insert(point, H2, -1, maxK, minK)
+                insert(point, H2, -1, maxK, minK)
             #else:
                 # A: point is IN or ON the convexhull
                 # nothing to do
@@ -58,7 +58,7 @@ def insertR(point,H,orientation,maxK,minK):
         H.remove(maxK)
 
     H.insert(point,0)
-    return H
+    #return H
 
 def insertL(point,H,orientation,maxK,minK):
      y = H.succ_key(minK) # right neighbor of minK
@@ -69,7 +69,7 @@ def insertL(point,H,orientation,maxK,minK):
      if side(minK,y,point)*orientation > 0:
         H.remove(minK)
      H.insert(point,0)
-     return H
+     #return H
 
 
 def insert(point,H,orientation,maxK,minK):
@@ -102,7 +102,7 @@ def insert(point,H,orientation,maxK,minK):
             H.remove(y) # remove y
             y = H.succ_key(w) # new right neighbor of w
         H.insert(point,0)
-    return H
+    #return H
 
 def addpoint(point, H1, H2):
     ''' 
@@ -111,11 +111,11 @@ def addpoint(point, H1, H2):
     if len(H1) < 2:
         H1.insert(point,0)
         H2.insert(point,0)
-        return H1,H2
+        return #H1,H2
     
     locate(point,H1,H2)
 
-    return H1, H2
+    return #H1, H2
 
 
 
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     H1 = bintrees.AVLTree()
     H2 = bintrees.AVLTree()
     for p in points:
-        H1,H2 = addpoint(p,H1,H2)
+        addpoint(p,H1,H2)
         print "->",H1
         print H2
         print "-------------------------------"
