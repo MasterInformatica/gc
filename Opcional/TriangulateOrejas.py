@@ -34,7 +34,7 @@ def nextOreja(P,orient):
         if side(a,b,P[i])*orient > 0:
             oreja = True
             for j in range(n):
-                if not(j == i) and not(j == ((i-1)%n)) and not(j == ((i+1)%n)) and side(a,b,P[j])*orient >= 0:
+                if not(j == i) and not(j == ((i-1)%n)) and not(j == ((i+1)%n)) and side(a,b,P[j])*orient > 0:
                     oreja = False
                     break
     return (a,b),i
