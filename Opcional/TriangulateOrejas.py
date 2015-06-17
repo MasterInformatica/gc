@@ -93,7 +93,7 @@ class Graphics:
         Se encarga de inicializar la ventana gráfica para ser interactiva. Añade los sliders y botones.
         """
         plt.subplots_adjust(bottom=0.25) # Ajustamos la gráfica para poner los controles debajo, texto encima
-        self.fig.suptitle('Click introduce los puntos y puede moverlos.')
+        self.fig.suptitle('Click para introducir el poligono.\n Calculate calcula la triangulacion.')
 
         #Buttons
         calculateAxes = plt.axes([0.7, 0.17, 0.15, 0.03])
